@@ -1,6 +1,6 @@
 package com.stormphoenix.ogit.mvp.view;
 
-import com.stormphoenix.ogit.mvp.ui.fragments.BaseFragment;
+import com.stormphoenix.ogit.mvp.ui.fragments.base.BaseFragment;
 
 import java.util.List;
 

@@ -3,6 +3,6 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="toolbar_depth">6dp</dimen>
-    <dimen name="item_event_card_margin">6dp</dimen>
+    <dimen name="item_event_card_margin">0dp</dimen>
     <dimen name="header_image_size">40dp</dimen>
 </resources>

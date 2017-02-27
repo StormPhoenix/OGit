@@ -10,7 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
-        android:elevation="@dimen/toolbar_depth"
         android:minHeight="?attr/actionBarSize"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
@@ -35,11 +34,9 @@
         app:stl_underlineColor="#ffe5e5e5"
         app:stl_underlineThickness="0dp" />
 
-    <com.stormphoenix.ogit.mvp.ui.component.FragmentViewPager
+    <android.support.v4.view.ViewPager
         android:id="@+id/pager_fragments"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/tab_layout">
-
-    </com.stormphoenix.ogit.mvp.ui.component.FragmentViewPager>
+        android:layout_below="@id/tab_layout"></android.support.v4.view.ViewPager>
 </LinearLayout>

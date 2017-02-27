@@ -1,4 +1,4 @@
-package com.stormphoenix.ogit.mvp.ui.fragments;
+package com.stormphoenix.ogit.mvp.ui.fragments.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,11 +16,13 @@ import butterknife.ButterKnife;
  * StormPhoenix is a intelligent Android developer.
  */
 
-public abstract class BaseFragment extends Fragment implements InjectorInitializer{
+public abstract class BaseFragment extends Fragment implements InjectorInitializer {
+    protected static final String USERNAME = "username";
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View contentView = inflater.inflate(getLayoutId(), container, true);
+        View contentView = inflater.inflate(getLayoutId(), container, false);
         ButterKnife.bind(contentView);
         initializeInjector();
         return contentView;

@@ -16,4 +16,8 @@ public interface EventsView extends BaseView {
      * @param events
      */
     void initEventsListView(List<GitEvent> events);
+
+    void showProgress();
+
+    void showMessage(String message);
 }

@@ -1,5 +1,8 @@
 package com.stormphoenix.httpknife.github;
 
+import com.google.gson.annotations.SerializedName;
+import com.stormphoenix.httpknife.github.payload.GitPayload;
+
 import java.util.Date;
 
 /**
@@ -8,15 +11,21 @@ import java.util.Date;
  */
 
 public class GitEvent {
-    public static final int GIT_EVENT_CREATED = 0x0001;
-    public static final int GIT_EVENT_STARRED = 0x0002;
-    public static final int GIT_EVENT_FORKED = 0x0004;
-    public static final int GIT_EVENT_PUSH = 0x0008;
+    public static final String GIT_WATCH_EVENT = "WatchEvent";
+    public static final String GIT_PUSH_EVENT = "PushEvent";
+    public final static String GIT_FORK_EVENT = "ForkEvent";
+    public final static String GIT_CREATE_EVENT = "CreateEvent";
+    public final static String GIT_PULL_REQUEST_EVENT = "PullRequestEvent";
+    public final static String GIT_MEMBER_EVENT = "MemberEvent";
+    public final static String GIT_ISSUES_EVENT = "IssuesEvent";
+    public final static String GIT_PUBLIC_EVENT = "PublicEvent";
+
 
     private String id;
     private String type;
     private GitUser actor;
     private GitRepository repo;
+    @SerializedName("created_at")
     private Date createdDate;
     private GitPayload payload;
     private GitUser org;

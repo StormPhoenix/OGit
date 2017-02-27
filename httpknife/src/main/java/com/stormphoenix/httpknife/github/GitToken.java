@@ -1,5 +1,7 @@
 package com.stormphoenix.httpknife.github;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 /**
@@ -12,20 +14,65 @@ public class GitToken {
     private String url;
     private List<String> scopes;
     private String token;
-    private String hashed_token;
-    private String token_last_eight;
+    @SerializedName("hashed_token")
+    private String hashedToken;
+    @SerializedName("token_last_eight")
+    private String tokenLastEight;
     private String note;
-    private String note_url;
-    private String created_at;
-    private String updated_at;
+    @SerializedName("note_url")
+    private String noteUrl;
+    @SerializedName("created_at")
+    private String createdAt;
+    @SerializedName("updated_at")
+    private String updatedAt;
     private String fingerprint;
+    @SerializedName("client_secret")
+    private String clientSecret;
     private App app;
-    private static class App{
+
+    public String getNoteUrl() {
+        return noteUrl;
+    }
+
+    public void setNoteUrl(String noteUrl) {
+        this.noteUrl = noteUrl;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getHashedToken() {
+        return hashedToken;
+    }
+
+    public void setHashedToken(String hashedToken) {
+        this.hashedToken = hashedToken;
+    }
+
+    public String getTokenLastEight() {
+        return tokenLastEight;
+    }
+
+    public void setTokenLastEight(String tokenLastEight) {
+        this.tokenLastEight = tokenLastEight;
+    }
+
+    public String getClientSecret() {
+        return clientSecret;
+    }
+
+    public void setClientSecret(String clientSecret) {
+        this.clientSecret = clientSecret;
+    }
+
+    private static class App {
         private String name;
         private String url;
-        private String client_id;
+        @SerializedName("client_id")
+        private String clientId;
 
-        public App(){
+        public App() {
 
         }
 
@@ -45,102 +92,96 @@ public class GitToken {
             this.url = url;
         }
 
-        public String getClient_id() {
-            return client_id;
-        }
-
-        public void setClient_id(String client_id) {
-            this.client_id = client_id;
-        }
-
         @Override
         public String toString() {
             return "app [name=" + name + ", url=" + url + ", client_id="
-                    + client_id + "]";
+                    + clientId + "]";
         }
 
+        public String getClientId() {
+            return clientId;
+        }
+
+        public void setClientId(String clientId) {
+            this.clientId = clientId;
+        }
     }
 
     public int getId() {
         return id;
     }
+
     public void setId(int id) {
         this.id = id;
     }
+
     public String getUrl() {
         return url;
     }
+
     public void setUrl(String url) {
         this.url = url;
     }
+
     public List<String> getScopes() {
         return scopes;
     }
+
     public void setScopes(List<String> scropes) {
         this.scopes = scropes;
     }
+
     public String getToken() {
         return token;
     }
+
     public void setToken(String token) {
         this.token = token;
     }
-    public String getHashed_token() {
-        return hashed_token;
-    }
-    public void setHashed_token(String hashed_token) {
-        this.hashed_token = hashed_token;
-    }
-    public String getToken_last_eight() {
-        return token_last_eight;
-    }
-    public void setToken_last_eight(String token_last_eight) {
-        this.token_last_eight = token_last_eight;
-    }
+
     public String getNote() {
         return note;
     }
+
     public void setNote(String note) {
         this.note = note;
     }
-    public String getNote_url() {
-        return note_url;
+
+    public String getCreatedAtTime() {
+        return createdAt;
     }
-    public void setNote_url(String note_url) {
-        this.note_url = note_url;
+
+    public String getUpdatedAtTime() {
+        return updatedAt;
     }
-    public String getCreated_at() {
-        return created_at;
+
+    public void setUpdatedAt(String updatedAtTime) {
+        this.updatedAt = updatedAtTime;
     }
-    public void setCreated_at(String created_at) {
-        this.created_at = created_at;
-    }
-    public String getUpdated_at() {
-        return updated_at;
-    }
-    public void setUpdated_at(String updated_at) {
-        this.updated_at = updated_at;
-    }
+
     public String getFingerprint() {
         return fingerprint;
     }
+
     public void setFingerprint(String fingerprint) {
         this.fingerprint = fingerprint;
     }
+
     public App getApp() {
         return app;
     }
-    public void setApp(App _app) {
-        this.app = _app;
+
+    public void setApp(App app) {
+        this.app = app;
     }
 
     @Override
     public String toString() {
         return "Token [id=" + id + ", url=" + url + ", scopes=" + scopes
-                + ", token=" + token + ", hashed_token=" + hashed_token
-                + ", token_last_eight=" + token_last_eight + ", note=" + note
-                + ", note_url=" + note_url + ", created_at=" + created_at
-                + ", updated_at=" + updated_at + ", fingerprint=" + fingerprint
+                + ", token=" + token + ", hashed_token=" + hashedToken
+                + ", token_last_eight=" + tokenLastEight + ", note=" + note
+                + ", note_url=" + noteUrl + ", created_at=" + createdAt
+                + ", updated_at=" + updatedAt + ", fingerprint=" + fingerprint
                 + ", app=" + app + "]";
     }
 }

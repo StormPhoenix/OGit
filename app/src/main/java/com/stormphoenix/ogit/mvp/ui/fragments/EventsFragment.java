@@ -1,17 +1,20 @@
 package com.stormphoenix.ogit.mvp.ui.fragments;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.stormphoenix.httpknife.github.GitEvent;
 import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.adapters.GitEventsAdapter;
-import com.stormphoenix.ogit.dagger2.DaggerActivityComponent;
-import com.stormphoenix.httpknife.github.GitEvent;
-import com.stormphoenix.ogit.mvp.presenter.base.EventsPresenter;
+import com.stormphoenix.ogit.dagger2.component.DaggerActivityComponent;
+import com.stormphoenix.ogit.dagger2.module.ContextModule;
+import com.stormphoenix.ogit.mvp.presenter.EventsPresenter;
+import com.stormphoenix.ogit.mvp.ui.fragments.base.BaseFragment;
 import com.stormphoenix.ogit.mvp.view.EventsView;
 
 import java.util.List;
@@ -19,6 +22,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by StormPhoenix on 17-2-25.
@@ -26,10 +30,11 @@ import butterknife.BindView;
  */
 
 public class EventsFragment extends BaseFragment implements EventsView {
-    private static final String USERNAME = "username";
 
     @BindView(R.id.recy_event_list)
     RecyclerView mRecyEventList;
+
+    View rootView;
 
     private GitEventsAdapter mAdapter = null;
 
@@ -51,7 +56,8 @@ public class EventsFragment extends BaseFragment implements EventsView {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        rootView = super.onCreateView(inflater, container, savedInstanceState);
+        ButterKnife.bind(this, rootView);
         mPresenter.onAttachView(this);
         mPresenter.onCreate(savedInstanceState);
         return rootView;
@@ -69,8 +75,18 @@ public class EventsFragment extends BaseFragment implements EventsView {
     }
 
     @Override
+    public void showProgress() {
+    }
+
+    @Override
+    public void showMessage(String message) {
+        Snackbar.make(rootView, message, Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
     public void initializeInjector() {
         DaggerActivityComponent.builder()
+                .contextModule(new ContextModule(getActivity()))
                 .build()
                 .inject(this);
     }
