@@ -8,12 +8,14 @@ import com.stormphoenix.httpknife.http.Base64;
 import com.stormphoenix.ogit.mvp.model.GithubService;
 import com.stormphoenix.ogit.mvp.model.RetrofitUtils;
 import com.stormphoenix.ogit.shares.PreferenceUtils;
+import com.stormphoenix.ogit.shares.RxJavaCustomTransformer;
 
 import java.util.Arrays;
 import java.util.List;
 
 import retrofit2.Response;
 import rx.Observable;
+import rx.functions.Func1;
 
 /**
  * Created by StormPhoenix on 17-2-26.
@@ -53,5 +55,20 @@ public class GitTokenInteractor {
         token.setNote(TOKEN_NOTE);
         token.setScopes(Arrays.asList(SCOPES));
         return githubService.createToken(token, "Basic " + Base64.encode(username + ':' + password));
+    }
+
+    public Observable<Response<GitEmpty>> listAndRemoveToken(final String username, final String password) {
+        return listToken(username, password)
+                .flatMap(new Func1<Response<List<GitToken>>, Observable<Response<GitEmpty>>>() {
+                    @Override
+                    public Observable<Response<GitEmpty>> call(Response<List<GitToken>> listResponse) {
+                        for (GitToken token : listResponse.body()) {
+                            if (token.getNote().equals(TOKEN_NOTE)) {
+                                return removeToken(username, password, String.valueOf(token.getId()));
+                            }
+                        }
+                        return Observable.empty();
+                    }
+                });
     }
 }

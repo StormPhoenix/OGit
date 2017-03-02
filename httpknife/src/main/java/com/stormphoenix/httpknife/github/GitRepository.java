@@ -46,6 +46,8 @@ public class GitRepository {
     private String language;
     private int size;
     private String homepage;
+    @SerializedName("default_branch")
+    private String defaultBranch;
 
     public long getId() {
         return id;
@@ -237,5 +239,13 @@ public class GitRepository {
 
     public void setHomepage(String homepage) {
         this.homepage = homepage;
+    }
+
+    public String getDefaultBranch() {
+        return defaultBranch;
+    }
+
+    public void setDefaultBranch(String defaultBranch) {
+        this.defaultBranch = defaultBranch;
     }
 }

@@ -1,9 +1,11 @@
 package com.stormphoenix.ogit.mvp.model;
 
+import com.stormphoenix.httpknife.github.GitBranch;
 import com.stormphoenix.httpknife.github.GitEmpty;
 import com.stormphoenix.httpknife.github.GitEvent;
 import com.stormphoenix.httpknife.github.GitRepository;
 import com.stormphoenix.httpknife.github.GitToken;
+import com.stormphoenix.httpknife.github.GitUser;
 
 import java.util.List;
 
@@ -37,13 +39,29 @@ public interface GithubService {
     Observable<Response<GitEmpty>> removeToken(@Header("Authorization") String authorization, @Path("id") String id);
 
     @GET("/users/{user}/received_events?per_page=10")
-    Observable<List<GitEvent>> loadGitEvents(@Path("user") String user, @Query("page") String page);
+    Observable<Response<List<GitEvent>>> loadGitEvents(@Path("user") String user, @Query("page") String page);
 
     @GET("/users/{user}/repos?sort=pushed&per_page=10")
     Observable<List<GitRepository>> userRepository(@Path("user") String user, @Query("page") String page);
 
     @GET("/users/{user}/starred?per_page=10")
-    Observable<List<GitRepository>> starredRepository(@Path("user") String user, @Query("page") String page);
+    Observable<Response<List<GitRepository>>> starredRepository(@Path("user") String user, @Query("page") String page);
+
+    @GET("/repos/{owner}/{repo}/stargazers?&per_page=10")
+    Observable<List<GitUser>> stargazers(@Path("owner") String owner, @Path("repo") String repository, @Query("page") String page);
+
+    /**
+     * 获取项目分支
+     *
+     * @param owner
+     * @param repo
+     * @return
+     */
+    @GET("/repos/{owner}/{repo}/branches")
+    Observable<Response<List<GitBranch>>> loadBranches(@Path("owner") String owner, @Path("repo") String repo);
+
+    @GET("/repos/{owner}/{repo}/contributors?&per_page=10")
+    Observable<Response<List<GitUser>>> loadContributors(@Path("owner") String owner, @Path("repo") String repository, @Query("page") String page);
 //    @GET("/user")
 //    Observable<Response<GitUser>> authUser();
 
@@ -78,8 +96,6 @@ public interface GithubService {
 //
 //    //Api about repo
 //
-//    @GET("/repos/{owner}/{repo}/stargazers?&per_page=10")
-//    Call<List<User>> stargazers(@Path("owner") String owner, @Path("repo") String repo,@Query("page") String page);
 //
 //    @GET("/repos/{owner}/{repo}/forks?&per_page=10")
 //    Call<List<User>> forkers(@Path("owner") String owner, @Path("repo") String repo,@Query("page") String page);
@@ -87,8 +103,6 @@ public interface GithubService {
 //    @GET("/repos/{owner}/{repo}/collaborators?&per_page=10")
 //    Call<List<User>> collaborators(@Path("owner") String owner, @Path("repo") String repo,@Query("page") String page);
 //
-//    @GET("/repos/{owner}/{repo}/branches")
-//    Call<List<Branch>> getBranches(@Path("owner") String owner, @Path("repo") String repo);
 //
 //    @GET("/repos/{owner}/{repo}/git/trees/{sha}?&per_page=10")
 //    Call<Tree> getTree(@Path("owner") String owner, @Path("repo") String repo,@Path("sha") String sha);

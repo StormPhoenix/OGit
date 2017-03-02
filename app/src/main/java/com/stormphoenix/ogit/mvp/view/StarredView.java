@@ -10,7 +10,19 @@ import java.util.List;
  */
 
 public interface StarredView extends BaseView {
-    void initGitRepositoryList(List<GitRepository> repositories);
+    void initGitRepositoryList();
 
     void showMessage(String message);
+
+    void initRefreshLayout();
+
+    void loadGitRepositoryList(List<GitRepository> gitRepositories);
+
+    void startRefresh();
+
+    void stopRefresh();
+
+    int getRepositoryCounts();
+
+    void addRepositories(List<GitRepository> gitRepositories);
 }

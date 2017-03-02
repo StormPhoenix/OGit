@@ -9,6 +9,7 @@ import com.stormphoenix.ogit.mvp.model.RetrofitUtils;
 
 import java.util.List;
 
+import retrofit2.Response;
 import rx.Observable;
 
 /**
@@ -25,11 +26,11 @@ public class GitPersonInfoInteractor {
         githubService = RetrofitUtils.getJsonRetrofitInstance(mContext).create(GithubService.class);
     }
 
-    public Observable<List<GitEvent>> loadGitEvents(final String username, final int page) {
+    public Observable<Response<List<GitEvent>>> loadGitEvents(final String username, final int page) {
         return githubService.loadGitEvents(username, String.valueOf(page));
     }
 
-    public Observable<List<GitRepository>> loadStarredRepository(String user, int page) {
+    public Observable<Response<List<GitRepository>>> loadStarredRepository(String user, int page) {
         return githubService.starredRepository(user, String.valueOf(page));
     }
 

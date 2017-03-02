@@ -113,6 +113,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                             mView.onLoginSuccess();
                         } else if (gitTokenResponse.code() == 401) {
                             Log.i(TAG, "Token created fail: username or password is incorrect");
+                            mView.showMessage(gitTokenResponse.toString());
                             mView.showMessage(mContext.getResources().getString(R.string.unknown_error));
                         } else if (gitTokenResponse.code() == 403) {
                             Log.i(TAG, "Token created fail: auth over-try");

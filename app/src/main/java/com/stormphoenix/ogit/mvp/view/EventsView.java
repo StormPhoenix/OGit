@@ -13,11 +13,22 @@ public interface EventsView extends BaseView {
 
     /**
      * 初始化 github 事件数据列表
-     * @param events
      */
-    void initEventsListView(List<GitEvent> events);
+    void initEventsListView();
 
     void showProgress();
 
     void showMessage(String message);
+
+    void initRefreshLayout();
+
+    void loadGitEvents(List<GitEvent> gitEvents);
+
+    void startRefresh();
+
+    void stopRefresh();
+
+    int getGitEventCounts();
+
+    void addGitEvents(List<GitEvent> gitEvents);
 }

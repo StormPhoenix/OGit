@@ -41,6 +41,7 @@ public class GitRepositoryAdapter extends BaseRecyclerAdapter<GitRepository> {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        super.onBindViewHolder(holder, position);
         GitRepositoryHolder viewHolder = (GitRepositoryHolder) holder;
         viewHolder.bind(data.get(position));
     }

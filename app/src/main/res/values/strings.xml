@@ -11,4 +11,5 @@
     <string name="login_failed">登录失败</string>
     <string name="icon_fork">\\uf002</string>
     <string name="icon_repo">\\uf001</string>
+    <string name="load_data_failed_and_login">加载数据失败，请重新登录</string>
 </resources>

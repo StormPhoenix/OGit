@@ -1,44 +1,34 @@
 package com.stormphoenix.ogit.mvp.ui.fragments;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.stormphoenix.httpknife.github.GitRepository;
 import com.stormphoenix.ogit.R;
-import com.stormphoenix.ogit.adapters.GitRepositoryAdapter;
 import com.stormphoenix.ogit.dagger2.component.DaggerActivityComponent;
 import com.stormphoenix.ogit.dagger2.module.ContextModule;
 import com.stormphoenix.ogit.mvp.presenter.StarredPresenter;
-import com.stormphoenix.ogit.mvp.ui.fragments.base.BaseFragment;
-import com.stormphoenix.ogit.mvp.view.StarredView;
-
-import java.util.List;
+import com.stormphoenix.ogit.mvp.presenter.base.ListItemPresenter;
+import com.stormphoenix.ogit.mvp.ui.fragments.base.ListFragment;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Created by StormPhoenix on 17-2-27.
  * StormPhoenix is a intelligent Android developer.
  */
-
-public class StarredFragment extends BaseFragment implements StarredView {
-    View rootView;
+public class StarredFragment extends ListFragment<GitRepository> {
     @BindView(R.id.recy_starred_list)
     RecyclerView mRecyStarredList;
 
-    GitRepositoryAdapter mAdapter;
+    @BindView(R.id.star_refresh_layout)
+    SwipeRefreshLayout mStarRefreshLayout;
 
     @Inject
-    StarredPresenter mPresenter;
+    StarredPresenter mRepositoryPresenter;
 
     public static StarredFragment getInstance(String username) {
         StarredFragment starredFragment = new StarredFragment();
@@ -53,16 +43,6 @@ public class StarredFragment extends BaseFragment implements StarredView {
         return R.layout.fragment_starred;
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        rootView = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.bind(this, rootView);
-        mPresenter.onAttachView(this);
-        mPresenter.onCreate(savedInstanceState);
-        return rootView;
-    }
-
     @Override
     public void initializeInjector() {
         DaggerActivityComponent.builder()
@@ -72,18 +52,23 @@ public class StarredFragment extends BaseFragment implements StarredView {
     }
 
     @Override
-    public void initGitRepositoryList(List<GitRepository> repositories) {
-        if (mAdapter == null) {
-            mAdapter = new GitRepositoryAdapter(getActivity(), repositories);
-        }
-
-        mRecyStarredList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        mRecyStarredList.setHasFixedSize(true);
-        mRecyStarredList.setAdapter(mAdapter);
+    public SwipeRefreshLayout getRefreshLayout() {
+        return mStarRefreshLayout;
     }
 
     @Override
-    public void showMessage(String message) {
-        Snackbar.make(rootView, message, Snackbar.LENGTH_SHORT).show();
+    public RecyclerView getRecyclerView() {
+        return mRecyStarredList;
+    }
+
+    @Override
+    public ListItemPresenter getListItemPresetner() {
+        return mRepositoryPresenter;
+    }
+
+    @Override
+    public void initListItemView() {
+        super.initListItemView();
+        mAdapter.setOnViewClickListener(R.id.repository_card_wrapper, mRepositoryPresenter);
     }
 }

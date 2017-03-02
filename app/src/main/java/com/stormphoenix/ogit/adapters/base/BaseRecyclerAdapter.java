@@ -37,6 +37,12 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
         data = list;
     }
 
+    public void addAll(List<T> models) {
+        this.data.addAll(models);
+        notifyDataSetChanged();
+//        notifyItemRangeChanged();
+    }
+
     public void add(T model) {
         this.data.add(0, model);
         notifyItemInserted(0);

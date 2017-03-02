@@ -1,60 +1,63 @@
 package com.stormphoenix.ogit.mvp.presenter;
 
 import android.content.Context;
-import android.os.Bundle;
+import android.content.Intent;
+import android.view.View;
 
 import com.stormphoenix.httpknife.github.GitRepository;
+import com.stormphoenix.ogit.adapters.base.BaseRecyclerAdapter;
 import com.stormphoenix.ogit.interactor.GitPersonInfoInteractor;
-import com.stormphoenix.ogit.mvp.presenter.base.BasePresenter;
-import com.stormphoenix.ogit.mvp.view.StarredView;
+import com.stormphoenix.ogit.mvp.presenter.base.ListItemPresenter;
+import com.stormphoenix.ogit.mvp.ui.activities.RepositoryActivity;
 import com.stormphoenix.ogit.shares.PreferenceUtils;
-import com.stormphoenix.ogit.shares.RxJavaCustomTransformer;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
-import rx.Subscriber;
+import retrofit2.Response;
+import rx.Observable;
 
 /**
  * Created by StormPhoenix on 17-2-27.
  * StormPhoenix is a intelligent Android developer.
  */
 
-public class StarredPresenter extends BasePresenter<StarredView> {
-
-    private Context mContext;
+public class StarredPresenter extends ListItemPresenter<GitRepository> implements BaseRecyclerAdapter.OnInternalViewClickListener<GitRepository> {
     private GitPersonInfoInteractor mInfoInfoInteractor;
 
     @Inject
     public StarredPresenter(Context context) {
-        mContext = context;
+        super(context);
         mInfoInfoInteractor = new GitPersonInfoInteractor(context);
     }
 
     @Override
-    public void onCreate(Bundle onSavedInstanceState) {
-        super.onCreate(onSavedInstanceState);
-        loadStarredRepository(0);
+    protected Observable<Response<List<GitRepository>>> load(int page) {
+        return mInfoInfoInteractor.loadStarredRepository(PreferenceUtils.getUsername(mContext), page);
     }
 
-    public void loadStarredRepository(int page) {
-        mInfoInfoInteractor.loadStarredRepository(PreferenceUtils.getUsername(mContext), page)
-                .compose(RxJavaCustomTransformer.<List<GitRepository>>defaultSchedulers())
-                .subscribe(new Subscriber<List<GitRepository>>() {
-                    @Override
-                    public void onCompleted() {
-                    }
+    @Override
+    public void onClick(View parentV, View v, Integer position, GitRepository values) {
+        EventBus.getDefault().postSticky(values);
+        startRepositoryActivity();
+    }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        mView.showMessage(e.toString());
-                    }
+    @Override
+    public boolean onLongClick(View parentV, View v, Integer position, GitRepository values) {
+        return false;
+    }
 
-                    @Override
-                    public void onNext(List<GitRepository> gitRepositories) {
-                        mView.initGitRepositoryList(gitRepositories);
-                    }
-                });
+    /**
+     * 启动RepositoryActivity界面。
+     * 讲GitRepository对象传递给此Activity的代码请参见 onItemClick 方法
+     */
+    private void startRepositoryActivity() {
+        Intent intent = RepositoryActivity.getIntent(mContext);
+        mContext.startActivity(intent);
     }
 }

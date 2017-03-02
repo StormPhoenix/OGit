@@ -34,6 +34,10 @@ public class PreferenceUtils {
         return PreferenceManager.getDefaultSharedPreferences(context).getString(USERNAME, null);
     }
 
+    public static String getPassword(Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context).getString(PASSWORD, null);
+    }
+
     public static void putString(Context context, String key, String value) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         preferences.edit().putString(key, value).commit();
