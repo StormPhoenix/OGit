@@ -4,8 +4,9 @@ import android.content.Context;
 
 import com.stormphoenix.httpknife.github.GitRepository;
 import com.stormphoenix.httpknife.github.GitUser;
-import com.stormphoenix.ogit.interactor.GitRepoInteractor;
+import com.stormphoenix.ogit.mvp.model.interactor.GitRepoInteractor;
 import com.stormphoenix.ogit.mvp.presenter.base.ListItemPresenter;
+import com.stormphoenix.ogit.mvp.view.base.ListItemView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -22,7 +23,7 @@ import rx.Observable;
  * Created by StormPhoenix on 17-3-1.
  * StormPhoenix is a intelligent Android developer.
  */
-public class ContributorsPresenter extends ListItemPresenter<GitUser> {
+public class ContributorsPresenter extends ListItemPresenter<GitUser, ListItemView<GitUser>> {
     private GitRepoInteractor mInteractor;
     private GitRepository mRepository;
 

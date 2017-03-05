@@ -1,6 +1,7 @@
 package com.stormphoenix.ogit.mvp.view;
 
 import com.stormphoenix.httpknife.github.GitRepository;
+import com.stormphoenix.ogit.mvp.view.base.BaseView;
 
 import java.util.List;
 

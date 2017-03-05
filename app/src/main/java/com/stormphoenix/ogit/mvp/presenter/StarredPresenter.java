@@ -6,14 +6,13 @@ import android.view.View;
 
 import com.stormphoenix.httpknife.github.GitRepository;
 import com.stormphoenix.ogit.adapters.base.BaseRecyclerAdapter;
-import com.stormphoenix.ogit.interactor.GitPersonInfoInteractor;
+import com.stormphoenix.ogit.mvp.model.interactor.GitPersonInfoInteractor;
 import com.stormphoenix.ogit.mvp.presenter.base.ListItemPresenter;
 import com.stormphoenix.ogit.mvp.ui.activities.RepositoryActivity;
+import com.stormphoenix.ogit.mvp.view.base.ListItemView;
 import com.stormphoenix.ogit.shares.PreferenceUtils;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -27,7 +26,7 @@ import rx.Observable;
  * StormPhoenix is a intelligent Android developer.
  */
 
-public class StarredPresenter extends ListItemPresenter<GitRepository> implements BaseRecyclerAdapter.OnInternalViewClickListener<GitRepository> {
+public class StarredPresenter extends ListItemPresenter<GitRepository, ListItemView<GitRepository>> implements BaseRecyclerAdapter.OnInternalViewClickListener<GitRepository> {
     private GitPersonInfoInteractor mInfoInfoInteractor;
 
     @Inject

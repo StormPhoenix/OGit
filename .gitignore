@@ -7,3 +7,12 @@
 /build
 /captures
 .externalNativeBuild
+.gitignore
+blank.html
+changelog.html
+creole.js
+diff.html
+markdown.js
+octicons.ttf
+textile.js
+wiki.html

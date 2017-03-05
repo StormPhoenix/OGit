@@ -4,8 +4,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.stormphoenix.ogit.mvp.view.ListItemView;
-import com.stormphoenix.ogit.shares.RxJavaCustomTransformer;
+import com.stormphoenix.ogit.mvp.view.base.ListItemView;
+import com.stormphoenix.ogit.shares.rx.RxJavaCustomTransformer;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ import rx.Subscriber;
  * StormPhoenix is a intelligent Android developer.
  */
 
-public abstract class ListItemPresenter<T> extends BasePresenter<ListItemView<T>> {
+public abstract class ListItemPresenter<T, V extends ListItemView<T>> extends BasePresenter<V> {
     public static String TAG = ListItemPresenter.class.getClass().getName();
 
     protected Context mContext = null;

@@ -1,5 +1,6 @@
 package com.stormphoenix.ogit.shares;
 
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewCompat;
 import android.view.View;
 
@@ -21,5 +22,9 @@ public class OGitViewUtils {
         v.setPivotY(v.getMeasuredHeight() / 2);
         ViewCompat.setPivotX(v, v.getMeasuredWidth() / 2);
         ViewCompat.animate(v).setInterpolator(null);
+    }
+
+    public static void showMessage(View view, String message) {
+        Snackbar.make(view, message, Snackbar.LENGTH_LONG).show();
     }
 }

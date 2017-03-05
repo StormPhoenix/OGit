@@ -1,5 +1,7 @@
 package com.stormphoenix.ogit.mvp.view;
 
+import com.stormphoenix.ogit.mvp.view.base.BaseView;
+
 /**
  * Created by StormPhoenix on 17-2-26.
  * StormPhoenix is a intelligent Android developer.

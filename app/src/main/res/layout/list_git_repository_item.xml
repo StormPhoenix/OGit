@@ -41,10 +41,8 @@
                     style="@style/Title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
                     android:layout_marginBottom="3dip"
                     android:singleLine="true"
-                    android:textStyle="bold"
                     tools:text="RepoName" />
 
                 <LinearLayout
@@ -54,8 +52,8 @@
 
                     <ImageView
                         android:id="@+id/iconStar"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="@dimen/repo_icon_size"
+                        android:layout_height="@dimen/repo_icon_size"
                         android:layout_marginRight="5dip"
                         android:src="@drawable/ic_starred_event_black_24dp" />
 
@@ -63,19 +61,22 @@
                         android:id="@+id/starSum"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:layout_marginRight="15dip" />
 
                     <ImageView
                         android:id="@+id/iconFork"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="@dimen/repo_icon_size"
+                        android:layout_height="@dimen/repo_icon_size"
                         android:layout_marginRight="5dip"
                         android:src="@drawable/ic_forked_event_black_24dp" />
 
                     <TextView
                         android:id="@+id/forkSum"
+
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical" />
 
                 </LinearLayout>
 
@@ -94,6 +95,6 @@
             android:id="@+id/description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="3dip" />
+            android:layout_marginTop="6dip" />
     </LinearLayout>
 </android.support.v7.widget.CardView>

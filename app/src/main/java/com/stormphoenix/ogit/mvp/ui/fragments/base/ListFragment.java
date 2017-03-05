@@ -10,22 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.stormphoenix.httpknife.github.GitEvent;
-import com.stormphoenix.httpknife.github.GitRepository;
-import com.stormphoenix.httpknife.github.GitUser;
 import com.stormphoenix.ogit.R;
-import com.stormphoenix.ogit.adapters.GitEventsAdapter;
-import com.stormphoenix.ogit.adapters.GitRepositoryAdapter;
-import com.stormphoenix.ogit.adapters.GitUserAdapter;
 import com.stormphoenix.ogit.adapters.base.BaseRecyclerAdapter;
 import com.stormphoenix.ogit.mvp.presenter.base.ListItemPresenter;
 import com.stormphoenix.ogit.mvp.ui.activities.LoginActivity;
-import com.stormphoenix.ogit.mvp.ui.fragments.ContributorsFragment;
-import com.stormphoenix.ogit.mvp.ui.fragments.EventsFragment;
-import com.stormphoenix.ogit.mvp.ui.fragments.StarredFragment;
-import com.stormphoenix.ogit.mvp.view.ListItemView;
+import com.stormphoenix.ogit.mvp.view.base.ListItemView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -36,7 +26,6 @@ import butterknife.ButterKnife;
  */
 
 public abstract class ListFragment<T> extends BaseFragment implements ListItemView<T> {
-
     protected LinearLayoutManager mLayoutManager;
     protected BaseRecyclerAdapter mAdapter;
 
@@ -52,6 +41,8 @@ public abstract class ListFragment<T> extends BaseFragment implements ListItemVi
         getRefreshLayout().setRefreshing(true);
     }
 
+    public abstract BaseRecyclerAdapter<T> getAdapter();
+
     public abstract SwipeRefreshLayout getRefreshLayout();
 
     public abstract RecyclerView getRecyclerView();
@@ -66,13 +57,7 @@ public abstract class ListFragment<T> extends BaseFragment implements ListItemVi
     @Override
     public void initListItemView() {
         if (mAdapter == null) {
-            if (this instanceof EventsFragment) {
-                mAdapter = new GitEventsAdapter(getActivity(), new ArrayList<GitEvent>());
-            } else if (this instanceof StarredFragment) {
-                mAdapter = new GitRepositoryAdapter(getActivity(), new ArrayList<GitRepository>());
-            } else if (this instanceof ContributorsFragment) {
-                mAdapter = new GitUserAdapter(getActivity(), new ArrayList<GitUser>());
-            }
+            mAdapter = getAdapter();
         }
 
         mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
@@ -88,6 +73,10 @@ public abstract class ListFragment<T> extends BaseFragment implements ListItemVi
         return mAdapter.getItemCount();
     }
 
+    /**
+     * 加载最新数据列表
+     * @param listItems
+     */
     @Override
     public void loadNewlyListItem(List<T> listItems) {
         mAdapter.setData(listItems);

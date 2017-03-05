@@ -9,11 +9,12 @@ import android.view.View;
 import com.stormphoenix.httpknife.github.GitBranch;
 import com.stormphoenix.httpknife.github.GitRepository;
 import com.stormphoenix.ogit.R;
-import com.stormphoenix.ogit.interactor.GitRepoInteractor;
+import com.stormphoenix.ogit.mvp.model.interactor.GitRepoInteractor;
 import com.stormphoenix.ogit.mvp.presenter.base.BasePresenter;
+import com.stormphoenix.ogit.mvp.ui.activities.BreadcrumbTreeActivity;
 import com.stormphoenix.ogit.mvp.ui.activities.WrapperActivity;
 import com.stormphoenix.ogit.mvp.view.RepositoryView;
-import com.stormphoenix.ogit.shares.RxJavaCustomTransformer;
+import com.stormphoenix.ogit.shares.rx.RxJavaCustomTransformer;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -115,15 +116,26 @@ public class RepositoryPresenter extends BasePresenter<RepositoryView> {
                 startContributorActivity();
                 break;
             case R.id.code_wrapper:
-//                startCodeActivity();
+                startCodeActivity();
                 break;
             default:
                 break;
         }
     }
 
+    private void startCodeActivity() {
+        EventBus.getDefault().postSticky(mRepository);
+        Bundle bundle = new Bundle();
+        bundle.putInt(BreadcrumbTreeActivity.TYPE, BreadcrumbTreeActivity.TYPE_FOLD_LIST);
+        bundle.putString(BreadcrumbTreeActivity.TITLE, mRepository.getName());
+        bundle.putString(BreadcrumbTreeActivity.SUB_TITLE, mRepository.getDefaultBranch());
+        mContext.startActivity(BreadcrumbTreeActivity.getIntent(mContext, bundle));
+    }
+
     private void startContributorActivity() {
         EventBus.getDefault().postSticky(mRepository);
-        mContext.startActivity(WrapperActivity.getIntent(mContext, WrapperActivity.TYPE_CONTRIBUTOR));
+        Bundle bundle = new Bundle();
+        bundle.putInt(WrapperActivity.TYPE, WrapperActivity.TYPE_CONTRIBUTOR);
+        mContext.startActivity(WrapperActivity.getIntent(mContext, bundle));
     }
 }

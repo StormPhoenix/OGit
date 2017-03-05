@@ -1,5 +1,6 @@
 package com.stormphoenix.ogit.mvp.ui.activities.base;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +8,8 @@ import android.transition.Slide;
 import android.view.Gravity;
 import android.view.animation.DecelerateInterpolator;
 
+import com.readystatesoftware.systembartint.SystemBarTintManager;
+import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.dagger2.InjectorInitializer;
 
 import butterknife.ButterKnife;
@@ -24,7 +27,17 @@ public abstract class BaseActivity extends AppCompatActivity implements Injector
         initializeInjector();
         ButterKnife.bind(this);
 
-//        setUpEnterTransitionAnim();
+        setStatusBar();
+        setUpEnterTransitionAnim();
+    }
+
+    /**
+     * 设置系统状态栏的样式
+     */
+    private void setStatusBar() {
+        SystemBarTintManager tintManager = new SystemBarTintManager(this);
+        tintManager.setStatusBarTintResource(R.color.colorPrimaryDark);
+        tintManager.setStatusBarTintEnabled(true);
     }
 
     private void setUpEnterTransitionAnim() {

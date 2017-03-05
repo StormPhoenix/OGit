@@ -7,14 +7,9 @@ import java.io.Serializable;
 /**
  * Created by Quinn on 10/4/15.
  */
-public class GitIssuePayload extends GitPayload implements Serializable {
-
-    private static final long serialVersionUID = 937264027542849342L;
+public class GitIssuePayload extends GitPayload{
     private String action;
     private GitIssue issue;
-
-    public GitIssuePayload() {
-    }
 
     public String getAction() {
         return this.action;

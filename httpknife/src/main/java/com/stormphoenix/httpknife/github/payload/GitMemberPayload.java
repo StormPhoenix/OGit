@@ -7,13 +7,7 @@ import java.io.Serializable;
 /**
  * Created by Quinn on 15/10/2.
  */
-public class GitMemberPayload extends GitPayload implements Serializable {
-    private static final long serialVersionUID = 2391000837281994462L;
-
-    public GitMemberPayload() {
-
-    }
-
+public class GitMemberPayload extends GitPayload {
     private GitUser member;
     private String action;
 

@@ -6,12 +6,14 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
     <!-- Base application theme. -->
+        <!--<item name="android:statusBarColor">@android:color/transparent</item>-->
     <style name="AppTheme" parent="AppTheme.Base">
-        <item name="android:statusBarColor">@android:color/transparent</item>
-
+        <item name="android:fitsSystemWindows">true</item>
         <item name="android:windowContentTransitions">true</item>
         <item name="android:windowAllowEnterTransitionOverlap">false</item>
         <item name="android:windowAllowReturnTransitionOverlap">false</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
     </style>
 
     <style name="Widget.RepositoryOptionsCardStyle" parent="android:Widget">

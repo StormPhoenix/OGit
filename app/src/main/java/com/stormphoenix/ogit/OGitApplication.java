@@ -2,6 +2,7 @@ package com.stormphoenix.ogit;
 
 import android.app.Application;
 import android.content.Context;
+import android.support.multidex.MultiDex;
 
 import com.stormphoenix.ogit.shares.OGitImageLoader;
 
@@ -19,6 +20,12 @@ public class OGitApplication extends Application {
         instance = this;
 
         initImageLoader();
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 
     private void initImageLoader() {

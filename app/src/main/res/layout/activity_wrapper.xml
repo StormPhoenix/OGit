@@ -7,16 +7,10 @@
     android:layout_height="match_parent"
     tools:context="com.stormphoenix.ogit.mvp.ui.activities.WrapperActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+    <include
+        layout="@layout/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:title="@string/app_name"
-        app:titleTextColor="@color/colorTitle" ></android.support.v7.widget.Toolbar>
+        android:layout_height="wrap_content" />
 
     <FrameLayout
         android:id="@+id/fragment_wrapper"

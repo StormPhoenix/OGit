@@ -3,7 +3,7 @@ package com.stormphoenix.ogit.mvp.presenter.base;
 import android.os.Bundle;
 import android.support.annotation.IntDef;
 
-import com.stormphoenix.ogit.mvp.view.BaseView;
+import com.stormphoenix.ogit.mvp.view.base.BaseView;
 
 
 /**

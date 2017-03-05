@@ -24,8 +24,8 @@ public class RepositoryActivity extends BaseActivity implements RepositoryView {
     @Inject
     public RepositoryPresenter mPresenter;
 
-    @BindView(R.id.toolbar_repo_aty)
-    Toolbar mToolbarRepoAty;
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
     @BindView(R.id.text_description)
     TextView mTextDescription;
     @BindView(R.id.text_num_star)
@@ -53,6 +53,8 @@ public class RepositoryActivity extends BaseActivity implements RepositoryView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mPresenter.onAttachView(this);
         mPresenter.onCreate(savedInstanceState);
     }
@@ -92,10 +94,8 @@ public class RepositoryActivity extends BaseActivity implements RepositoryView {
 
     @Override
     public void setToolbarStatus(String repositoryName, String ownerName) {
-        mToolbarRepoAty.setTitle(repositoryName);
-        mToolbarRepoAty.setSubtitle(ownerName);
-        setSupportActionBar(mToolbarRepoAty);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mToolbar.setTitle(repositoryName);
+        mToolbar.setSubtitle(ownerName);
     }
 
     @Override

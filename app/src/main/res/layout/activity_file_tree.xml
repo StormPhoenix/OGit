@@ -8,20 +8,19 @@
     android:orientation="vertical"
     tools:context="com.stormphoenix.ogit.mvp.ui.activities.BreadcrumbTreeActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+    <include
+        layout="@layout/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:title="@string/app_name"
-        app:titleTextColor="@color/colorTitle" />
+        android:layout_height="wrap_content" />
 
     <com.stormphoenix.ogit.mvp.ui.component.BreadcrumbView
         android:id="@+id/file_bread_crumb"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?colorPrimary" />
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></FrameLayout>
 </LinearLayout>

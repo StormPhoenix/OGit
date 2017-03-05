@@ -9,12 +9,16 @@ import android.view.ViewGroup;
 
 import com.stormphoenix.httpknife.github.GitUser;
 import com.stormphoenix.ogit.R;
+import com.stormphoenix.ogit.adapters.GitUserAdapter;
+import com.stormphoenix.ogit.adapters.base.BaseRecyclerAdapter;
 import com.stormphoenix.ogit.dagger2.component.DaggerActivityComponent;
 import com.stormphoenix.ogit.dagger2.module.ContextModule;
 import com.stormphoenix.ogit.mvp.presenter.ContributorsPresenter;
 import com.stormphoenix.ogit.mvp.presenter.base.ListItemPresenter;
 import com.stormphoenix.ogit.mvp.ui.fragments.base.BaseFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.base.ListFragment;
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -37,6 +41,11 @@ public class ContributorsFragment extends ListFragment<GitUser> {
 
     public static BaseFragment getInstance() {
         return new ContributorsFragment();
+    }
+
+    @Override
+    public BaseRecyclerAdapter<GitUser> getAdapter() {
+        return new GitUserAdapter(getActivity(), new ArrayList<>());
     }
 
     @Override

@@ -27,6 +27,7 @@ public class GitEvent {
     private GitRepository repo;
     @SerializedName("created_at")
     private Date createdDate;
+    // payload需要根据type的类型进行转型
     private GitPayload payload;
     private GitUser org;
 

@@ -8,11 +8,11 @@ import android.util.Log;
 import com.stormphoenix.httpknife.github.GitEmpty;
 import com.stormphoenix.httpknife.github.GitToken;
 import com.stormphoenix.ogit.R;
-import com.stormphoenix.ogit.interactor.GitTokenInteractor;
+import com.stormphoenix.ogit.mvp.model.interactor.GitTokenInteractor;
 import com.stormphoenix.ogit.mvp.presenter.base.BasePresenter;
 import com.stormphoenix.ogit.mvp.view.LoginView;
 import com.stormphoenix.ogit.shares.PreferenceUtils;
-import com.stormphoenix.ogit.shares.RxJavaCustomTransformer;
+import com.stormphoenix.ogit.shares.rx.RxJavaCustomTransformer;
 
 import java.util.List;
 

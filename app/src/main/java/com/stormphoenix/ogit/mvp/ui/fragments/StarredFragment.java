@@ -6,11 +6,15 @@ import android.support.v7.widget.RecyclerView;
 
 import com.stormphoenix.httpknife.github.GitRepository;
 import com.stormphoenix.ogit.R;
+import com.stormphoenix.ogit.adapters.GitRepositoryAdapter;
+import com.stormphoenix.ogit.adapters.base.BaseRecyclerAdapter;
 import com.stormphoenix.ogit.dagger2.component.DaggerActivityComponent;
 import com.stormphoenix.ogit.dagger2.module.ContextModule;
 import com.stormphoenix.ogit.mvp.presenter.StarredPresenter;
 import com.stormphoenix.ogit.mvp.presenter.base.ListItemPresenter;
 import com.stormphoenix.ogit.mvp.ui.fragments.base.ListFragment;
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -49,6 +53,11 @@ public class StarredFragment extends ListFragment<GitRepository> {
                 .contextModule(new ContextModule(this.getActivity()))
                 .build()
                 .inject(this);
+    }
+
+    @Override
+    public BaseRecyclerAdapter<GitRepository> getAdapter() {
+        return new GitRepositoryAdapter(getActivity(), new ArrayList<>());
     }
 
     @Override
