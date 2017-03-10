@@ -5,6 +5,8 @@ package com.stormphoenix.ogit.shares;
  * StormPhoenix is a intelligent Android developer.
  */
 
-public class Constants {
-    public final static String BASE_URL = "https://api.github.com/";
+public interface Constants {
+    long MAX_MEMORY = Runtime.getRuntime().maxMemory();
+
+    String BASE_URL = "https://api.github.com/";
 }

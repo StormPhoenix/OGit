@@ -4,14 +4,16 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.stormphoenix.ogit.R;
+import com.stormphoenix.ogit.mvp.view.base.BaseUIView;
 import com.stormphoenix.ogit.mvp.view.base.ListItemView;
 import com.stormphoenix.ogit.shares.rx.RxJavaCustomTransformer;
+import com.stormphoenix.ogit.shares.rx.subscribers.DefaultUiSubscriber;
 
 import java.util.List;
 
 import retrofit2.Response;
 import rx.Observable;
-import rx.Subscriber;
 
 /**
  * Created by StormPhoenix on 17-2-28.
@@ -36,19 +38,9 @@ public abstract class ListItemPresenter<T, V extends ListItemView<T>> extends Ba
     }
 
     public void loadNewlyListItem() {
-        mView.startRefresh();
+        mView.hideProgress();
         load(0).compose(RxJavaCustomTransformer.<Response<List<T>>>defaultSchedulers())
-                .subscribe(new Subscriber<Response<List<T>>>() {
-                    @Override
-                    public void onCompleted() {
-                        mView.stopRefresh();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        mView.stopRefresh();
-                    }
-
+                .subscribe(new DefaultUiSubscriber<Response<List<T>>, BaseUIView>(mView, mContext.getString(R.string.network_error)) {
                     @Override
                     public void onNext(Response<List<T>> listResponse) {
                         if (listResponse.isSuccessful()) {
@@ -59,33 +51,20 @@ public abstract class ListItemPresenter<T, V extends ListItemView<T>> extends Ba
                             Log.e(TAG, "onNext: " + listResponse.code() + " " + listResponse.message());
                             mView.showMessage(listResponse.message());
                         }
-                        mView.stopRefresh();
+                        mView.hideProgress();
                     }
                 });
     }
 
     public void loadMoreListItem() {
-        mView.startRefresh();
+        mView.showProgress();
         load(mView.getListItemCounts() / 10 + 1)
                 .compose(RxJavaCustomTransformer.<Response<List<T>>>defaultSchedulers())
-                .subscribe(new Subscriber<Response<List<T>>>() {
+                .subscribe(new DefaultUiSubscriber<Response<List<T>>, BaseUIView>(mView, mContext.getString(R.string.network_error)) {
                     @Override
-                    public void onCompleted() {
-                        mView.stopRefresh();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                        Log.e(TAG, "onError: " + e.getMessage());
-                        mView.stopRefresh();
-                        mView.showMessage(e.toString());
-                    }
-
-                    @Override
-                    public void onNext(Response<List<T>> itemList) {
-                        mView.loadMoreListItem(itemList.body());
-                        mView.stopRefresh();
+                    public void onNext(Response<List<T>> response) {
+                        mView.loadMoreListItem(response.body());
+                        mView.hideProgress();
                     }
                 });
     }

@@ -35,6 +35,12 @@ public class EventsFragment extends ListFragment<GitEvent> {
     @Inject
     public EventsPresenter mEventPresenter;
 
+    @Override
+    public void initListItemView() {
+        super.initListItemView();
+        mAdapter.setOnViewClickListener(R.id.header_image, mEventPresenter);
+    }
+
     public static EventsFragment getInstance(String username) {
         EventsFragment eventsFragment = new EventsFragment();
         Bundle bundle = new Bundle();

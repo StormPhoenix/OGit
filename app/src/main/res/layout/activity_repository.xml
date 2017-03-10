@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,8 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -19,14 +19,14 @@
             android:id="@+id/activity_repository"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/white"
             android:orientation="vertical"
-            tools:context="com.stormphoenix.ogit.mvp.ui.activities.RepositoryActivity">
+            tools:context=".mvp.ui.activities.RepositoryActivity">
 
             <android.support.v7.widget.CardView
                 android:id="@+id/descriptionWrap"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground">
 
@@ -53,248 +53,262 @@
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
-                android:id="@+id/starWrap"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:foreground="?android:attr/selectableItemBackground">
+                android:layout_height="match_parent"
+                android:layout_margin="10dp">
 
-                <RelativeLayout
-                    style="@style/Widget.RepositoryOptionsCardStyle"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-                    <ImageView
-                        android:id="@+id/img_icon_star"
-                        android:layout_width="wrap_content"
+                    <android.support.v7.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="72dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:weightSum="3">
+
+                            <com.stormphoenix.ogit.widget.KeyValueLabel
+                                android:id="@+id/label_star"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                app:key_text="@string/star"
+                                app:value_text="10">
+
+                            </com.stormphoenix.ogit.widget.KeyValueLabel>
+
+                            <com.stormphoenix.ogit.widget.KeyValueLabel
+                                android:id="@+id/label_fork"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                app:key_text="@string/fork"
+                                app:value_text="10">
+
+                            </com.stormphoenix.ogit.widget.KeyValueLabel>
+
+                            <com.stormphoenix.ogit.widget.KeyValueLabel
+                                android:id="@+id/label_watcher"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                app:key_text="@string/watcher"
+                                app:value_text="10">
+
+                            </com.stormphoenix.ogit.widget.KeyValueLabel>
+                        </LinearLayout>
+                    </android.support.v7.widget.CardView>
+
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/branch_wrapper"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_starred_event_black_24dp"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+                        android:layout_marginTop="10dp"
+                        android:clickable="true"
+                        android:foreground="?android:attr/selectableItemBackground">
 
-                    <TextView
-                        style="@style/RepositoryOptionsTitle"
-                        android:layout_width="wrap_content"
+                        <RelativeLayout
+                            style="@style/Widget.RepositoryOptionsCardStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/img_icon_branch"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_branch_event_black_24dp"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+                            <TextView
+                                style="@style/RepositoryOptionsTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="16dp"
+                                android:layout_toLeftOf="@id/img_icon_branch"
+                                android:layout_toRightOf="@id/img_icon_branch"
+                                android:text="Branch"
+                                android:textSize="16sp" />
+
+                            <TextView
+                                android:id="@+id/text_branch"
+                                style="@style/RepositoryOptionsNumber"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:textColor="@color/colorPrimaryDark"
+                                tools:text="master" />
+                        </RelativeLayout>
+                    </android.support.v7.widget.CardView>
+
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/code_wrapper"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="16dp"
-                        android:layout_toLeftOf="@id/img_icon_star"
-                        android:layout_toRightOf="@id/img_icon_star"
-                        android:text="Star"
-                        android:textSize="16sp" />
+                        android:clickable="true"
+                        android:foreground="?android:attr/selectableItemBackground">
 
-                    <TextView
-                        android:id="@+id/text_num_star"
-                        style="@style/RepositoryOptionsNumber"
-                        android:layout_width="wrap_content"
+                        <RelativeLayout
+                            style="@style/Widget.RepositoryOptionsCardStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/img_icon_code"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_code_event_black_24dp"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+                            <TextView
+                                style="@style/RepositoryOptionsTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="16dp"
+                                android:layout_toRightOf="@id/img_icon_code"
+                                android:text="Code"
+                                android:textSize="16sp" />
+                        </RelativeLayout>
+                    </android.support.v7.widget.CardView>
+
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/commit_wrapper"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        tools:text="10" />
-                </RelativeLayout>
-            </android.support.v7.widget.CardView>
+                        android:clickable="true"
+                        android:foreground="?android:attr/selectableItemBackground">
 
-            <android.support.v7.widget.CardView
-                android:id="@+id/forkWrapper"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:foreground="?android:attr/selectableItemBackground">
+                        <RelativeLayout
+                            style="@style/Widget.RepositoryOptionsCardStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
 
-                <RelativeLayout
-                    style="@style/Widget.RepositoryOptionsCardStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                            <ImageView
+                                android:id="@+id/img_icon_commit"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_commits_event_black_24dp"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
-                    <ImageView
-                        android:id="@+id/img_icon_fork"
-                        android:layout_width="wrap_content"
+                            <TextView
+                                style="@style/RepositoryOptionsTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="16dp"
+                                android:layout_toRightOf="@id/img_icon_commit"
+                                android:text="Commit"
+                                android:textSize="16sp" />
+
+                            <TextView
+                                android:id="@+id/text_num_commit"
+                                style="@style/RepositoryOptionsNumber"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                tools:text="20" />
+                        </RelativeLayout>
+                    </android.support.v7.widget.CardView>
+
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/contributor_wrapper"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_forked_event_black_24dp"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+                        android:clickable="true"
+                        android:elevation="0dp"
+                        android:foreground="?android:attr/selectableItemBackground">
 
-                    <TextView
-                        style="@style/RepositoryOptionsTitle"
-                        android:layout_width="wrap_content"
+                        <RelativeLayout
+                            style="@style/Widget.RepositoryOptionsCardStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/img_icon_contributor"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_contibutors_event_black_24dp"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+                            <TextView
+                                android:id="@+id/text_num_contributor"
+                                style="@style/RepositoryOptionsNumber"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                tools:text="10" />
+
+                            <TextView
+                                style="@style/RepositoryOptionsTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="16dp"
+                                android:layout_toLeftOf="@id/text_num_contributor"
+                                android:layout_toRightOf="@id/img_icon_contributor"
+                                android:text="Contributor" />
+                        </RelativeLayout>
+                    </android.support.v7.widget.CardView>
+
+                    <android.support.v7.widget.CardView
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="16dp"
-                        android:layout_toLeftOf="@id/img_icon_fork"
-                        android:layout_toRightOf="@id/img_icon_fork"
-                        android:text="Fork"
-                        android:textSize="16sp" />
+                        android:layout_marginTop="10dp">
 
-                    <TextView
-                        android:id="@+id/text_num_fork"
-                        style="@style/RepositoryOptionsNumber"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        tools:text="10" />
-                </RelativeLayout>
-            </android.support.v7.widget.CardView>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
 
-            <android.support.v7.widget.CardView
-                android:id="@+id/branch_wrapper"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:foreground="?android:attr/selectableItemBackground">
+                            <RelativeLayout
+                                style="@style/Widget.RepositoryOptionsCardStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
 
-                <RelativeLayout
-                    style="@style/Widget.RepositoryOptionsCardStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                                <ImageView
+                                    android:id="@+id/img_icon_readme"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/ic_readme_black_24dp"
+                                    android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
-                    <ImageView
-                        android:id="@+id/img_icon_branch"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_branch_event_black_24dp"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+                                <TextView
+                                    style="@style/RepositoryOptionsTitle"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="16dp"
+                                    android:layout_toRightOf="@id/img_icon_readme"
+                                    android:text="@string/readme" />
+                            </RelativeLayout>
 
-                    <TextView
-                        style="@style/RepositoryOptionsTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="16dp"
-                        android:layout_toLeftOf="@id/img_icon_branch"
-                        android:layout_toRightOf="@id/img_icon_branch"
-                        android:text="Branch"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/text_branch"
-                        style="@style/RepositoryOptionsNumber"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        tools:text="master" />
-                </RelativeLayout>
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/code_wrapper"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:foreground="?android:attr/selectableItemBackground">
-
-                <RelativeLayout
-                    style="@style/Widget.RepositoryOptionsCardStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/img_icon_code"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_code_event_black_24dp"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
-
-                    <TextView
-                        style="@style/RepositoryOptionsTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="16dp"
-                        android:layout_toLeftOf="@id/img_icon_code"
-                        android:layout_toRightOf="@id/img_icon_code"
-                        android:text="Code"
-                        android:textSize="16sp" />
-                </RelativeLayout>
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/commit_wrapper"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:foreground="?android:attr/selectableItemBackground">
-
-                <RelativeLayout
-                    style="@style/Widget.RepositoryOptionsCardStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/img_icon_commit"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_commits_event_black_24dp"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
-
-                    <TextView
-                        style="@style/RepositoryOptionsTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="16dp"
-                        android:layout_toLeftOf="@id/img_icon_commit"
-                        android:layout_toRightOf="@id/img_icon_commit"
-                        android:text="Commit"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/text_num_commit"
-                        style="@style/RepositoryOptionsNumber"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        tools:text="20" />
-                </RelativeLayout>
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/contributor_wrapper"
-                android:layout_width="match_parent"
-                android:elevation="0dp"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:foreground="?android:attr/selectableItemBackground">
-
-                <RelativeLayout
-                    style="@style/Widget.RepositoryOptionsCardStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/img_icon_contributor"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_contibutors_event_black_24dp"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
-
-                    <TextView
-                        style="@style/RepositoryOptionsTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="16dp"
-                        android:layout_toLeftOf="@id/img_icon_contributor"
-                        android:layout_toRightOf="@id/img_icon_contributor"
-                        android:text="Contributor"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/text_num_contributor"
-                        style="@style/RepositoryOptionsNumber"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        tools:text="10" />
-                </RelativeLayout>
+                            <android.support.v7.widget.AppCompatTextView
+                                android:id="@+id/text_readme"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="?attr/selectableItemBackground"
+                                android:clickable="true"
+                                android:padding="12dp"
+                                tools:text="@string/loading" />
+                        </LinearLayout>
+                    </android.support.v7.widget.CardView>
+                </LinearLayout>
             </android.support.v7.widget.CardView>
         </LinearLayout>
     </ScrollView>

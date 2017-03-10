@@ -48,7 +48,7 @@ public class GitFoldersAdapter extends BaseRecyclerAdapter<GitTreeItem> {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View viewItem = LayoutInflater.from(mContext).inflate(R.layout.list_git_file_item, parent, false);
+        View viewItem = LayoutInflater.from(mContext).inflate(R.layout.item_recyclerview_git_file, parent, false);
         return new GitTreeItemViewHolder(viewItem);
     }
 
@@ -71,7 +71,6 @@ public class GitFoldersAdapter extends BaseRecyclerAdapter<GitTreeItem> {
 
         public void bind(GitTreeItem model) {
             mFileText.setText(model.getPath());
-
             switch (model.getMode()) {
                 case GitTreeItem.MODE_BLOB:
                 case GitTreeItem.MODE_EXECUTABLE:

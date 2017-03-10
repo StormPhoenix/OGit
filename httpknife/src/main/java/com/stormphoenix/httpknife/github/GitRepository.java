@@ -46,6 +46,7 @@ public class GitRepository {
     private String language;
     private int size;
     private String homepage;
+    private int watchers;
     @SerializedName("default_branch")
     private String defaultBranch;
 
@@ -247,5 +248,13 @@ public class GitRepository {
 
     public void setDefaultBranch(String defaultBranch) {
         this.defaultBranch = defaultBranch;
+    }
+
+    public int getWatchers() {
+        return watchers;
+    }
+
+    public void setWatchers(int watchers) {
+        this.watchers = watchers;
     }
 }

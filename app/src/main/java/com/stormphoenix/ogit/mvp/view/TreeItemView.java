@@ -1,6 +1,7 @@
 package com.stormphoenix.ogit.mvp.view;
 
-import com.stormphoenix.ogit.mvp.ui.component.BreadcrumbView;
+import com.stormphoenix.ogit.mvp.ui.activities.BreadcrumbTreeActivity;
+import com.stormphoenix.ogit.widget.BreadcrumbView;
 import com.stormphoenix.ogit.mvp.view.base.ListItemView;
 
 /**
@@ -9,7 +10,7 @@ import com.stormphoenix.ogit.mvp.view.base.ListItemView;
  */
 
 public interface TreeItemView<T> extends ListItemView<T> {
-    void addBreadcrumb(BreadcrumbView.Breadcrumb crumb);
+    void addBreadcrumb(BreadcrumbTreeActivity.Breadcrumb crumb);
 
     String getAbsolutPath();
 }

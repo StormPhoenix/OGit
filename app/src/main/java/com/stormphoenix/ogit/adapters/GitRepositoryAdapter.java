@@ -35,7 +35,7 @@ public class GitRepositoryAdapter extends BaseRecyclerAdapter<GitRepository> {
 
     @Override
     public GitRepositoryHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(mContext).inflate(R.layout.list_git_repository_item, parent, false);
+        View itemView = LayoutInflater.from(mContext).inflate(R.layout.item_recyclerview_git_repository, parent, false);
         return new GitRepositoryHolder(itemView);
     }
 

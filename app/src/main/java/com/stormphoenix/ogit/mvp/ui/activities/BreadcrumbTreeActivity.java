@@ -6,47 +6,21 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.stormphoenix.httpknife.github.GitTreeItem;
 import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.mvp.ui.activities.base.BaseActivity;
-import com.stormphoenix.ogit.mvp.ui.component.BreadcrumbView;
 import com.stormphoenix.ogit.mvp.ui.fragments.FoldsFragment;
-import com.stormphoenix.ogit.mvp.ui.fragments.base.BaseFragment;
+import com.stormphoenix.ogit.widget.BreadcrumbView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class BreadcrumbTreeActivity extends BaseActivity {
-    /**
-     * BreadcrumbTreeController 用于对BreadcrumbView的行为进行控制
-     */
-    public static interface BreadcrumbTreeController {
-        /**
-         * 从下标 index 处删除之后（包括index处）的所有的Breadcrumb内容
-         * @param index
-         */
-        void removeFrom(int index);
 
-        /**
-         * 在尾部添加一个BreadcrumbView
-         * @param breadcrumb
-         */
-        void addBreadcrumb(BreadcrumbView.Breadcrumb breadcrumb);
-
-        /**
-         * 获取Breadcrumb所保存的数据
-         * example: 如果BreadcrumbView保存的是 [app,src,main,java] 的数组
-         *          则返回 app/src/main/java
-         * @return 返回数据构成一条路径
-         */
-        String getAbsolutePath();
-    }
-
-    public static final String TYPE = "type";
     public static final String TITLE = "title";
     public static final String SUB_TITLE = "subtitle";
-    public static final int TYPE_FOLD_LIST = 0;
 
     // 启动该Activity时传输给本Activity的数据集
     private Bundle dataBundle;
@@ -60,12 +34,12 @@ public class BreadcrumbTreeActivity extends BaseActivity {
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
     @BindView(R.id.file_bread_crumb)
-    BreadcrumbView<GitTreeItem> mFileBreadCrumb;
+    BreadcrumbView<GitTreeItem> mBreadcrumbView;
 
     // BreadcurumbActivity 的fragment内容
-    private BaseFragment currentFragment;
+    private FoldsFragment foldsFragment;
 
-    public static Intent getIntent(Context context, Bundle bundle) {
+    public static Intent newIntent(Context context, Bundle bundle) {
         Intent intent = new Intent(context, BreadcrumbTreeActivity.class);
         intent.putExtras(bundle);
         return intent;
@@ -77,17 +51,36 @@ public class BreadcrumbTreeActivity extends BaseActivity {
         ButterKnife.bind(this);
         parseIntent();
 
-        switch (type) {
-            case TYPE_FOLD_LIST:
-                currentFragment = FoldsFragment.getInstance(mFileBreadCrumb);
-                break;
-            default:
-                break;
-        }
         setUpToolbar();
         // 设置fragment内容
+        initFragment();
+
+        mBreadcrumbView.setOnBreadSelectListener(new BreadcrumbView.OnCrumbSelectListener() {
+            @Override
+            public void onItemSelect(View view, Breadcrumb crumb) {
+                int index = (int) view.getTag();
+                mBreadcrumbView.removeFrom(index + 1);
+                foldsFragment.onBreadcrumbSelect(crumb.getAttachedInfo());
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        int length = mBreadcrumbView.getBreadcrumbLength();
+        if (length == 1) {
+            super.onBackPressed();
+        } else {
+            mBreadcrumbView.removeFrom(length - 1);
+            Breadcrumb breadcrumb = mBreadcrumbView.getBreadcrumb(length - 2);
+            foldsFragment.onBreadcrumbSelect(breadcrumb.getAttachedInfo());
+        }
+    }
+
+    private void initFragment() {
+        foldsFragment = FoldsFragment.getInstance(mBreadcrumbView);
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, currentFragment)
+                .replace(R.id.fragment_container, foldsFragment)
                 .commit();
     }
 
@@ -125,7 +118,6 @@ public class BreadcrumbTreeActivity extends BaseActivity {
      */
     private void parseIntent() {
         dataBundle = getIntent().getExtras();
-        type = dataBundle.getInt(TYPE);
     }
 
     @Override
@@ -135,5 +127,58 @@ public class BreadcrumbTreeActivity extends BaseActivity {
 
     @Override
     public void initializeInjector() {
+    }
+
+    /**
+     * BreadcrumbTreeController 用于对BreadcrumbView的行为进行控制
+     */
+    public static interface BreadcrumbTreeController {
+        /**
+         * 从下标 index 处删除之后（包括index处）的所有的Breadcrumb内容
+         *
+         * @param index
+         */
+        void removeFrom(int index);
+
+        /**
+         * 在尾部添加一个BreadcrumbView
+         *
+         * @param breadcrumb
+         */
+        void addBreadcrumb(Breadcrumb breadcrumb);
+
+        /**
+         * 获取Breadcrumb所保存的数据
+         * example: 如果BreadcrumbView保存的是 [app,src,main,java] 的数组
+         * 则返回 app/src/main/java
+         *
+         * @return 返回数据构成一条路径
+         */
+        String getAbsolutePath();
+
+        int getBreadcrumbLength();
+
+        Breadcrumb getBreadcrumb(int index);
+    }
+
+    public static class Breadcrumb<T> {
+        private String name;
+        private T attachedInfo;
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public T getAttachedInfo() {
+            return attachedInfo;
+        }
+
+        public void setAttachedInfo(T attachedInfo) {
+            this.attachedInfo = attachedInfo;
+        }
     }
 }

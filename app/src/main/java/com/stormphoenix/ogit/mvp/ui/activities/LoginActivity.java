@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,7 +16,9 @@ import com.stormphoenix.ogit.dagger2.component.DaggerActivityComponent;
 import com.stormphoenix.ogit.dagger2.module.ContextModule;
 import com.stormphoenix.ogit.mvp.presenter.LoginPresenter;
 import com.stormphoenix.ogit.mvp.ui.activities.base.BaseActivity;
+import com.stormphoenix.ogit.mvp.ui.dialog.ProgressDialogGenerator;
 import com.stormphoenix.ogit.mvp.view.LoginView;
+import com.stormphoenix.ogit.utils.ActivityUtils;
 
 import javax.inject.Inject;
 
@@ -28,8 +31,10 @@ import butterknife.OnClick;
  */
 
 public class LoginActivity extends BaseActivity implements LoginView {
+    private static final String TAG = LoginActivity.class.getSimpleName();
     @Inject
     public LoginPresenter mPresenter = null;
+
     @BindView(R.id.edit_username)
     EditText mEditUsername;
     @BindView(R.id.edit_password)
@@ -39,7 +44,9 @@ public class LoginActivity extends BaseActivity implements LoginView {
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
 
-    public static Intent getInstance(Context context) {
+    private ProgressDialogGenerator generator;
+
+    public static Intent newIntent(Context context) {
         return new Intent(context, LoginActivity.class);
     }
 
@@ -51,6 +58,7 @@ public class LoginActivity extends BaseActivity implements LoginView {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        buildProgressDialog();
         mPresenter.onAttachView(this);
         mPresenter.onCreate(savedInstanceState);
     }
@@ -74,18 +82,17 @@ public class LoginActivity extends BaseActivity implements LoginView {
         Snackbar.make(mBtnLogin, string, Snackbar.LENGTH_SHORT).show();
     }
 
-    @Override
     public String getUsernameText() {
         return mEditUsername.getText().toString().trim();
     }
 
-    @Override
     public String getPasswordText() {
         return mEditPassword.getText().toString().trim();
     }
 
     @Override
     public void onLoginSuccess() {
+        generator.cancel();
         startMainActivity();
         finishView();
     }
@@ -97,12 +104,36 @@ public class LoginActivity extends BaseActivity implements LoginView {
 
     @Override
     public void startMainActivity() {
-        Intent intent = MainActivity.newIntent(this);
-        startActivity(intent);
+        ActivityUtils.startActivity(this, MainActivity.newIntent(this));
+    }
+
+    @Override
+    public void showProgress() {
+        generator.show();
+    }
+
+    @Override
+    public void hideProgress() {
+        generator.cancel();
+    }
+
+    private void buildProgressDialog() {
+        generator = new ProgressDialogGenerator(this);
+        generator.cancelable(false);
+        generator.circularProgress();
+        generator.content(getResources().getString(R.string.logining));
+        generator.title(getResources().getString(R.string.login));
     }
 
     @OnClick(R.id.btn_login)
     public void onClick(View view) {
-        mPresenter.onClick(view.getId());
+        switch (view.getId()) {
+            case R.id.btn_login:
+                mPresenter.login(getUsernameText(), getPasswordText());
+                break;
+            default:
+                Log.e(TAG, "onClick: unknown click");
+                break;
+        }
     }
 }

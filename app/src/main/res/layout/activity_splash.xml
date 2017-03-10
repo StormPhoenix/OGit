@@ -8,7 +8,7 @@
     android:fitsSystemWindows="true"
     android:clipToPadding="true"
     android:background="@android:color/white"
-    tools:context="com.stormphoenix.ogit.mvp.ui.activities.SplashActivity">
+    tools:context=".mvp.ui.activities.SplashActivity">
 
     <ImageView
         android:id="@+id/img_logo"

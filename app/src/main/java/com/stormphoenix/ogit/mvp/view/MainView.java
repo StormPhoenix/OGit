@@ -16,4 +16,8 @@ public interface MainView extends BaseView {
     void initDrawerView();
 
     void initMainPagerFragments(String[] titles, List<BaseFragment> fragments);
+
+    void setHeaderImage(String url);
+
+    void setUsername(String username);
 }

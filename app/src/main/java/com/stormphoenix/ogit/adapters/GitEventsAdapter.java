@@ -15,10 +15,11 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.stormphoenix.httpknife.github.GitEvent;
 import com.stormphoenix.httpknife.github.payload.GitIssuePayload;
 import com.stormphoenix.httpknife.github.payload.GitMemberPayload;
+import com.stormphoenix.httpknife.github.payload.GitPushPayload;
 import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.adapters.base.BaseRecyclerAdapter;
-import com.stormphoenix.ogit.shares.OGitImageLoader;
-import com.stormphoenix.ogit.shares.TimeUtils;
+import com.stormphoenix.ogit.utils.ImageUtils;
+import com.stormphoenix.ogit.utils.TimeUtils;
 
 import java.util.List;
 
@@ -43,12 +44,13 @@ public class GitEventsAdapter extends BaseRecyclerAdapter<GitEvent> {
 
     @Override
     public GitEventViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(mContext).inflate(R.layout.list_git_event_item, parent, false);
+        View itemView = LayoutInflater.from(mContext).inflate(R.layout.item_recyclerview_git_event, parent, false);
         return new GitEventViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        super.onBindViewHolder(holder, position);
         GitEventViewHolder viewHolder = (GitEventViewHolder) holder;
         viewHolder.bind(data.get(position));
     }
@@ -89,7 +91,7 @@ public class GitEventsAdapter extends BaseRecyclerAdapter<GitEvent> {
         public void bind(GitEvent model) {
             String eventType = model.getType();
             if (eventType.equals(GitEvent.GIT_WATCH_EVENT)) {
-                mTextEventInfo.setText(Html.fromHtml(model.getActor().getLogin() + " <b>starred</b> " + model.getRepo().getName()));
+                mTextEventInfo.setText(Html.fromHtml(model.getActor().getLogin() + " <b>stared</b> " + model.getRepo().getName()));
                 mEventImage.setImageResource(R.drawable.ic_starred_event_black_24dp);
 //                BitmapUtils.setIconFont(context, img, OctIcon.STAR, R.color.theme_color);
             } else if (eventType.equals(GitEvent.GIT_FORK_EVENT)) {
@@ -118,6 +120,12 @@ public class GitEventsAdapter extends BaseRecyclerAdapter<GitEvent> {
             } else if (eventType.equals(GitEvent.GIT_PUBLIC_EVENT)) {
                 mTextEventInfo.setText(Html.fromHtml(model.getActor().getLogin() + "<strong> made </strong>" + model.getRepo().getName() + " <strong> public </strong>"));
 //                BitmapUtils.setIconFont(context, img, OctIcon.REPO, R.color.theme_color);
+            } else if (eventType.equals(GitEvent.GIT_PUSH_EVENT)) {
+                GitPushPayload pushPayload = (GitPushPayload) model.getPayload();
+                mEventImage.setImageResource(R.drawable.ic_push_event_black_24dp);
+                int index = pushPayload.getRef().lastIndexOf('/') + 1;
+                String branch = pushPayload.getRef().substring(index);
+                mTextEventInfo.setText(Html.fromHtml(model.getActor().getLogin() + "<b> push </b>to " + branch + " at " + model.getRepo().getName()));
             } else {
                 mTextEventInfo.setText("Unknown event type");   // I will add more eventtype later
             }
@@ -131,7 +139,7 @@ public class GitEventsAdapter extends BaseRecyclerAdapter<GitEvent> {
             options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true)
                     .considerExifParams(true).build();
             mHeaderImage.setTag(model.getActor().getAvatarUrl());
-            OGitImageLoader.getInstance().displayImage(model.getActor().getAvatarUrl(), mHeaderImage, options);
+            ImageUtils.getInstance().displayImage(model.getActor().getAvatarUrl(), mHeaderImage, options);
         }
     }
 }

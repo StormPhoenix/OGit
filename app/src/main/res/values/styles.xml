@@ -5,15 +5,12 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-    <!-- Base application theme. -->
-        <!--<item name="android:statusBarColor">@android:color/transparent</item>-->
+
     <style name="AppTheme" parent="AppTheme.Base">
-        <item name="android:fitsSystemWindows">true</item>
         <item name="android:windowContentTransitions">true</item>
         <item name="android:windowAllowEnterTransitionOverlap">false</item>
         <item name="android:windowAllowReturnTransitionOverlap">false</item>
-        <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="Widget.RepositoryOptionsCardStyle" parent="android:Widget">
@@ -40,4 +37,8 @@
         <item name="android:singleLine">true</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Title</item>
     </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

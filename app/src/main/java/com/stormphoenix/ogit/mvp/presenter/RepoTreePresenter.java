@@ -4,18 +4,19 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.view.View;
 
 import com.stormphoenix.httpknife.github.GitRepository;
 import com.stormphoenix.httpknife.github.GitTree;
 import com.stormphoenix.httpknife.github.GitTreeItem;
-import com.stormphoenix.ogit.adapters.base.BaseRecyclerAdapter;
-import com.stormphoenix.ogit.mvp.model.interactor.GitRepoInteractor;
+import com.stormphoenix.ogit.R;
+import com.stormphoenix.ogit.mvp.model.interactor.RepoInteractor;
 import com.stormphoenix.ogit.mvp.presenter.base.ListItemPresenter;
-import com.stormphoenix.ogit.mvp.ui.activities.WrapperActivity;
-import com.stormphoenix.ogit.mvp.ui.component.BreadcrumbView;
+import com.stormphoenix.ogit.mvp.ui.activities.BreadcrumbTreeActivity;
+import com.stormphoenix.ogit.mvp.ui.activities.ToolbarActivity;
 import com.stormphoenix.ogit.mvp.view.TreeItemView;
+import com.stormphoenix.ogit.mvp.view.base.BaseUIView;
 import com.stormphoenix.ogit.shares.rx.RxJavaCustomTransformer;
+import com.stormphoenix.ogit.shares.rx.subscribers.DefaultUiSubscriber;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -28,62 +29,48 @@ import javax.inject.Inject;
 
 import retrofit2.Response;
 import rx.Observable;
-import rx.Subscriber;
 
 /**
  * Created by StormPhoenix on 17-3-2.
  * StormPhoenix is a intelligent Android developer.
  */
 
-public class RepoTreePresenter extends ListItemPresenter<GitTreeItem, TreeItemView<GitTreeItem>> implements BaseRecyclerAdapter.OnInternalViewClickListener<GitTreeItem> {
+public class RepoTreePresenter extends ListItemPresenter<GitTreeItem, TreeItemView<GitTreeItem>> {
     public static final String TAG = RepoTreePresenter.class.getSimpleName();
-    private GitRepoInteractor mInteractor;
+    private RepoInteractor mInteractor;
     private GitRepository mRepository;
     private String sha;
 
     @Inject
     public RepoTreePresenter(Context context) {
         super(context);
-        mInteractor = new GitRepoInteractor(mContext);
+        mInteractor = new RepoInteractor(mContext);
         EventBus.getDefault().register(this);
     }
 
     @Override
     public void loadMoreListItem() {
-        mView.stopRefresh();
+        mView.showProgress();
     }
 
     @Override
     public void loadNewlyListItem() {
-        mView.startRefresh();
         mInteractor.loadRepoTrees(mRepository.getOwner().getLogin(), mRepository.getName(), sha)
                 .compose(RxJavaCustomTransformer.defaultSchedulers())
-                .subscribe(new Subscriber<Response<GitTree>>() {
+                .subscribe(new DefaultUiSubscriber<Response<GitTree>, BaseUIView>(mView, mContext.getString(R.string.network_error)) {
                     @Override
-                    public void onCompleted() {
-                        mView.stopRefresh();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e(TAG, "onError: " + e.toString());
-                        mView.showMessage(e.getMessage());
-                        mView.stopRefresh();
-                    }
-
-                    @Override
-                    public void onNext(Response<GitTree> gitTreeResponse) {
-                        if (gitTreeResponse.isSuccessful()) {
-                            List<GitTreeItem> treeItems = gitTreeResponse.body().getTree();
+                    public void onNext(Response<GitTree> response) {
+                        if (response.isSuccessful()) {
+                            List<GitTreeItem> treeItems = response.body().getTree();
                             Collections.reverse(treeItems);
                             mView.loadNewlyListItem(treeItems);
-                        } else if (gitTreeResponse.code() == 401) {
+                        } else if (response.code() == 401) {
                             mView.reLogin();
                         } else {
-                            Log.e(TAG, "onNext: " + gitTreeResponse.code() + " " + gitTreeResponse.message());
-                            mView.showMessage(gitTreeResponse.message());
+                            Log.e(TAG, "onNext: " + response.code() + " " + response.message());
+                            mView.showMessage(response.message());
                         }
-                        mView.stopRefresh();
+                        mView.hideProgress();
                     }
                 });
     }
@@ -101,8 +88,8 @@ public class RepoTreePresenter extends ListItemPresenter<GitTreeItem, TreeItemVi
     }
 
     @NonNull
-    private BreadcrumbView.Breadcrumb<GitTreeItem> createBreadcrubm(GitTreeItem values) {
-        BreadcrumbView.Breadcrumb<GitTreeItem> crumb = new BreadcrumbView.Breadcrumb();
+    public BreadcrumbTreeActivity.Breadcrumb<GitTreeItem> createBreadcrubm(GitTreeItem values) {
+        BreadcrumbTreeActivity.Breadcrumb<GitTreeItem> crumb = new BreadcrumbTreeActivity.Breadcrumb();
         crumb.setName(values.getPath());
         crumb.setAttachedInfo(values);
         return crumb;
@@ -111,49 +98,25 @@ public class RepoTreePresenter extends ListItemPresenter<GitTreeItem, TreeItemVi
     @Override
     public void onCreate(Bundle onSavedInstanceState) {
         super.onCreate(onSavedInstanceState);
-        BreadcrumbView.Breadcrumb crumb = new BreadcrumbView.Breadcrumb();
+        BreadcrumbTreeActivity.Breadcrumb crumb = new BreadcrumbTreeActivity.Breadcrumb();
         crumb.setName("ROOT");
-        crumb.setAttachedInfo(null);
+        GitTreeItem item = new GitTreeItem();
+        item.setSha(mRepository.getDefaultBranch());
+        crumb.setAttachedInfo(item);
         mView.addBreadcrumb(crumb);
     }
 
-    @Override
-    public void onClick(View parentV, View v, Integer position, GitTreeItem values) {
-        sha = values.getSha();
-        // 判断 GitTreeItem 类型，确定应该进行何种操作
-        Log.d(TAG, "onClick: " + values.getType());
-        switch (values.getType()) {
-            case GitTreeItem.TYPE_BLOB:
-                /** 如果点击的文件是文本（Blob）类型 **/
-                Log.e(TAG, "onClick: " + mView.getAbsolutPath() + " " + values.getPath());
-                startCodeActivity(values);
-                break;
-            case GitTreeItem.TYPE_TREE:
-                /** 如果点击的文件是文件（Tree）类型，则进入下一个文件夹 **/
-                // 创建新的 BreadcrumbView，并添加给TreeItemView
-                BreadcrumbView.Breadcrumb<GitTreeItem> crumb = createBreadcrubm(values);
-                mView.addBreadcrumb(crumb);
-                // 设置该文件的sha值，并更新界面
-                sha = values.getSha();
-                loadNewlyListItem();
-                break;
-            case GitTreeItem.TYPE_COMMIT:
-                break;
-        }
+    public void setSha(String sha) {
+        this.sha = sha;
     }
 
-    private void startCodeActivity(GitTreeItem values) {
+    public void startCodeActivity(GitTreeItem values) {
         Bundle bundle = new Bundle();
-        bundle.putInt(WrapperActivity.TYPE, WrapperActivity.TYPE_CODE);
-        bundle.putString(WrapperActivity.OWNER, mRepository.getOwner().getLogin());
-        bundle.putString(WrapperActivity.REPO, mRepository.getName());
-        bundle.putString(WrapperActivity.BRANCH, mRepository.getDefaultBranch());
-        bundle.putString(WrapperActivity.PATH, mView.getAbsolutPath() + values.getPath());
-        mContext.startActivity(WrapperActivity.getIntent(mContext, bundle));
-    }
-
-    @Override
-    public boolean onLongClick(View parentV, View v, Integer position, GitTreeItem values) {
-        return false;
+        bundle.putInt(ToolbarActivity.TYPE, ToolbarActivity.TYPE_CODE);
+        bundle.putString(ToolbarActivity.OWNER, mRepository.getOwner().getLogin());
+        bundle.putString(ToolbarActivity.REPO, mRepository.getName());
+        bundle.putString(ToolbarActivity.BRANCH, mRepository.getDefaultBranch());
+        bundle.putString(ToolbarActivity.PATH, mView.getAbsolutPath() + values.getPath());
+        mContext.startActivity(ToolbarActivity.newIntent(mContext, bundle));
     }
 }

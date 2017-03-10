@@ -7,12 +7,15 @@ import android.util.Log;
 
 import com.stormphoenix.httpknife.github.GitEmpty;
 import com.stormphoenix.httpknife.github.GitToken;
+import com.stormphoenix.httpknife.github.GitUser;
 import com.stormphoenix.ogit.R;
-import com.stormphoenix.ogit.mvp.model.interactor.GitTokenInteractor;
+import com.stormphoenix.ogit.mvp.model.interactor.TokenInteractor;
 import com.stormphoenix.ogit.mvp.presenter.base.BasePresenter;
 import com.stormphoenix.ogit.mvp.view.LoginView;
-import com.stormphoenix.ogit.shares.PreferenceUtils;
+import com.stormphoenix.ogit.mvp.view.base.BaseUIView;
 import com.stormphoenix.ogit.shares.rx.RxJavaCustomTransformer;
+import com.stormphoenix.ogit.shares.rx.subscribers.DefaultUiSubscriber;
+import com.stormphoenix.ogit.utils.PreferenceUtils;
 
 import java.util.List;
 
@@ -20,7 +23,6 @@ import javax.inject.Inject;
 
 import retrofit2.Response;
 import rx.Observable;
-import rx.Subscriber;
 import rx.functions.Func1;
 
 /**
@@ -31,16 +33,14 @@ import rx.functions.Func1;
 public class LoginPresenter extends BasePresenter<LoginView> {
     public static final String TAG = "LoginPresenter";
 
-    private Context mContext;
-    private GitTokenInteractor mTokenInteractor;
+    private TokenInteractor mTokenInteractor;
 
-    private String username;
-    private String password;
+    private Context mContext;
 
     @Inject
     public LoginPresenter(Context context) {
         mContext = context;
-        mTokenInteractor = new GitTokenInteractor(mContext);
+        mTokenInteractor = new TokenInteractor(mContext);
     }
 
     @Override
@@ -59,25 +59,17 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                     @Override
                     public Observable<Response<GitEmpty>> call(Response<List<GitToken>> listResponse) {
                         for (GitToken token : listResponse.body()) {
-                            if (GitTokenInteractor.TOKEN_NOTE.equals(token.getNote())) {
+                            if (TokenInteractor.TOKEN_NOTE.equals(token.getNote())) {
                                 return mTokenInteractor.removeToken(username, password, String.valueOf(token.getId()));
                             }
                         }
                         return Observable.empty();
                     }
                 }).compose(RxJavaCustomTransformer.<Response<GitEmpty>>defaultSchedulers())
-                .subscribe(new Subscriber<Response<GitEmpty>>() {
+                .subscribe(new DefaultUiSubscriber<Response<GitEmpty>, BaseUIView>(mView, mContext.getString(R.string.network_error)) {
                     @Override
-                    public void onCompleted() {
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                    }
-
-                    @Override
-                    public void onNext(Response<GitEmpty> gitEmptyResponse) {
-                        if (gitEmptyResponse.code() == 204) {
+                    public void onNext(Response<GitEmpty> response) {
+                        if (response.code() == 204) {
                             login(username, password);
                         } else {
                             mView.showMessage(mContext.getString(R.string.login_failed));
@@ -93,69 +85,81 @@ public class LoginPresenter extends BasePresenter<LoginView> {
      * @param password 密码
      */
     public void login(final String username, final String password) {
-        mTokenInteractor.createGitToken(username, password)
+        // 判断输入信息是否有为空
+        if (!checkValue(username, password)) {
+            mView.showMessage(mContext.getString(R.string.username_or_password_is_empty));
+            return;
+        }
+
+        mView.showProgress();
+        mTokenInteractor.createToken(username, password)
                 .compose(RxJavaCustomTransformer.<Response<GitToken>>defaultSchedulers())
-                .subscribe(new Subscriber<Response<GitToken>>() {
+                .subscribe(new DefaultUiSubscriber<Response<GitToken>, BaseUIView>(mView, mContext.getResources().getString(R.string.network_error)) {
                     @Override
-                    public void onCompleted() {
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        mView.showMessage(mContext.getResources().getString(R.string.network_error));
-                    }
-
-                    @Override
-                    public void onNext(Response<GitToken> gitTokenResponse) {
-                        if (gitTokenResponse.isSuccessful()) {
-                            saveUserConfig(gitTokenResponse);
-                            PreferenceUtils.putBoolean(mContext, PreferenceUtils.IS_LOGIN, true);
-                            mView.onLoginSuccess();
-                        } else if (gitTokenResponse.code() == 401) {
+                    public void onNext(Response<GitToken> response) {
+                        if (response.isSuccessful()) {
+                            saveToken(username, password, response.body());
+                            loadUser();
+                        } else if (response.code() == 401) {
                             Log.i(TAG, "Token created fail: username or password is incorrect");
-                            mView.showMessage(gitTokenResponse.toString());
-                            mView.showMessage(mContext.getResources().getString(R.string.unknown_error));
-                        } else if (gitTokenResponse.code() == 403) {
+                            Log.i(TAG, response.toString());
+                            mView.hideProgress();
+                            mView.showMessage(mContext.getResources().getString(R.string.username_or_password_incorrect));
+                        } else if (response.code() == 403) {
+                            mView.hideProgress();
                             Log.i(TAG, "Token created fail: auth over-try");
                             mView.showMessage(mContext.getResources().getString(R.string.unknown_error));
-                        } else if (gitTokenResponse.code() == 422) {
+                        } else if (response.code() == 422) {
                             Log.i(TAG, "Token created fail: try to delete existing token");
                             listToken(username, password);
                         } else {
-                            Log.e(TAG, "onNext: " + gitTokenResponse.code());
+                            Log.e(TAG, "onNext: " + response.code() + " " + response.message());
                             mView.showMessage(mContext.getResources().getString(R.string.unknown_error));
                         }
                     }
                 });
     }
 
-    private void saveUserConfig(Response<GitToken> gitTokenResponse) {
-        String token = gitTokenResponse.body().getToken();
+    /**
+     * 若登录成功，则加载用户信息
+     */
+    public void loadUser() {
+        mTokenInteractor.loadUser(PreferenceUtils.getUsername(mContext))
+                .compose(RxJavaCustomTransformer.defaultSchedulers())
+                .subscribe(new DefaultUiSubscriber<Response<GitUser>, BaseUIView>(mView, mContext.getResources().getString(R.string.network_error)) {
+                    @Override
+                    public void onNext(Response<GitUser> response) {
+                        mView.hideProgress();
+                        if (response.isSuccessful()) {
+                            saveUser(response.body());
+                            mView.onLoginSuccess();
+                        } else {
+                            mView.showMessage(response.message());
+                            mView.hideProgress();
+                        }
+                    }
+                });
+    }
+
+    private void saveUser(GitUser user) {
+        PreferenceUtils.putString(mContext, PreferenceUtils.AVATAR_URL, user.getAvatarUrl());
+    }
+
+    /**
+     * 如果登录成功，则保存当前用户的信息和Token
+     *
+     * @param token 需要保存的token值
+     */
+    private void saveToken(String username, String password, GitToken token) {
         PreferenceUtils.putString(mContext, PreferenceUtils.USERNAME, username);
         PreferenceUtils.putString(mContext, PreferenceUtils.PASSWORD, password);
-        PreferenceUtils.putString(mContext, PreferenceUtils.TOKEN, token);
+        PreferenceUtils.putString(mContext, PreferenceUtils.TOKEN, token.getToken());
+        PreferenceUtils.putBoolean(mContext, PreferenceUtils.IS_LOGIN, true);
         Log.e(TAG, "PreferenceUtils: Username : " + username + '\n'
                 + "Password : " + password + '\n' + "Token : " + token);
     }
 
-    public void onClick(int resId) {
-        switch (resId) {
-            case R.id.btn_login:
-                username = mView.getUsernameText();
-                password = mView.getPasswordText();
-                if (checkValue()) {
-                    login(username, password);
-                } else {
-                    mView.showMessage(mContext.getString(R.string.username_or_password_is_empty));
-                }
-                break;
-            default:
-                mView.showMessage(mContext.getString(R.string.unknown_error));
-                break;
-        }
-    }
-
-    private boolean checkValue() {
+    private boolean checkValue(String username, String password) {
         return !TextUtils.isEmpty(username) && !TextUtils.isEmpty(password);
     }
 }

@@ -25,12 +25,17 @@
         <activity android:name=".mvp.ui.activities.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".mvp.ui.activities.WrapperActivity" />
+        <activity android:name=".mvp.ui.activities.ToolbarActivity" />
         <activity android:name=".mvp.ui.activities.RepositoryActivity" />
-        <activity android:name=".mvp.ui.activities.BreadcrumbTreeActivity"></activity>
+        <activity android:name=".mvp.ui.activities.BreadcrumbTreeActivity" />
+        <activity
+            android:name=".mvp.ui.activities.UserDetailsActivity"
+            android:label="@string/title_activity_user_details"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

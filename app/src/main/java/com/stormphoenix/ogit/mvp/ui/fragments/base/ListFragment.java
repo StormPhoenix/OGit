@@ -15,6 +15,7 @@ import com.stormphoenix.ogit.adapters.base.BaseRecyclerAdapter;
 import com.stormphoenix.ogit.mvp.presenter.base.ListItemPresenter;
 import com.stormphoenix.ogit.mvp.ui.activities.LoginActivity;
 import com.stormphoenix.ogit.mvp.view.base.ListItemView;
+import com.stormphoenix.ogit.utils.ActivityUtils;
 
 import java.util.List;
 
@@ -37,7 +38,7 @@ public abstract class ListFragment<T> extends BaseFragment implements ListItemVi
     }
 
     @Override
-    public void startRefresh() {
+    public void showProgress() {
         getRefreshLayout().setRefreshing(true);
     }
 
@@ -50,7 +51,7 @@ public abstract class ListFragment<T> extends BaseFragment implements ListItemVi
     public abstract ListItemPresenter getListItemPresetner();
 
     @Override
-    public void stopRefresh() {
+    public void hideProgress() {
         getRefreshLayout().setRefreshing(false);
     }
 
@@ -75,6 +76,7 @@ public abstract class ListFragment<T> extends BaseFragment implements ListItemVi
 
     /**
      * 加载最新数据列表
+     *
      * @param listItems
      */
     @Override
@@ -131,7 +133,7 @@ public abstract class ListFragment<T> extends BaseFragment implements ListItemVi
 
     @Override
     public void reLogin() {
-        getActivity().startActivity(LoginActivity.getInstance(getActivity()));
+        ActivityUtils.startActivity(getActivity(), LoginActivity.newIntent(getActivity()));
         getActivity().finish();
     }
 }

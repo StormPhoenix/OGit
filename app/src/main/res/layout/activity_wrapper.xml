@@ -5,7 +5,7 @@
     android:id="@+id/activity_wrapper"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.stormphoenix.ogit.mvp.ui.activities.WrapperActivity">
+    tools:context=".mvp.ui.activities.ToolbarActivity">
 
     <include
         layout="@layout/toolbar"

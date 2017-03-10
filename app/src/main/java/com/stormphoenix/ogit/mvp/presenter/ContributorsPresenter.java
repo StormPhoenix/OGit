@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.stormphoenix.httpknife.github.GitRepository;
 import com.stormphoenix.httpknife.github.GitUser;
-import com.stormphoenix.ogit.mvp.model.interactor.GitRepoInteractor;
+import com.stormphoenix.ogit.mvp.model.interactor.RepoInteractor;
 import com.stormphoenix.ogit.mvp.presenter.base.ListItemPresenter;
 import com.stormphoenix.ogit.mvp.view.base.ListItemView;
 
@@ -24,13 +24,13 @@ import rx.Observable;
  * StormPhoenix is a intelligent Android developer.
  */
 public class ContributorsPresenter extends ListItemPresenter<GitUser, ListItemView<GitUser>> {
-    private GitRepoInteractor mInteractor;
+    private RepoInteractor mInteractor;
     private GitRepository mRepository;
 
     @Inject
     public ContributorsPresenter(Context context) {
         super(context);
-        mInteractor = new GitRepoInteractor(context);
+        mInteractor = new RepoInteractor(context);
         EventBus.getDefault().register(this);
     }
 

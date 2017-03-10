@@ -48,6 +48,8 @@ public class GitEventParser implements JsonDeserializer<GitEvent> {
                 payloadClass = GitMemberPayload.class;
             } else if (event.getType().equals(GitEvent.GIT_ISSUES_EVENT)) {
                 payloadClass = GitIssuePayload.class;
+            } else if (event.getType().equals(GitEvent.GIT_PUSH_EVENT)) {
+                payloadClass = GitPushPayload.class;
             } else {
                 payloadClass = GitPayload.class;
             }

@@ -13,7 +13,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.stormphoenix.httpknife.github.GitUser;
 import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.adapters.base.BaseRecyclerAdapter;
-import com.stormphoenix.ogit.shares.OGitImageLoader;
+import com.stormphoenix.ogit.utils.ImageUtils;
 
 import java.util.List;
 
@@ -51,7 +51,7 @@ public class GitUserAdapter extends BaseRecyclerAdapter<GitUser> {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View viewItem = LayoutInflater.from(mContext).inflate(R.layout.list_git_user_item, parent, false);
+        View viewItem = LayoutInflater.from(mContext).inflate(R.layout.item_recyclerview_git_user, parent, false);
         return new GitUserViewHolder(viewItem);
     }
 
@@ -77,7 +77,7 @@ public class GitUserAdapter extends BaseRecyclerAdapter<GitUser> {
             DisplayImageOptions options = null;
             options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true)
                     .considerExifParams(true).build();
-            OGitImageLoader.getInstance().displayImage(model.getAvatarUrl(), mHeaderImage, options);
+            ImageUtils.getInstance().displayImage(model.getAvatarUrl(), mHeaderImage, options);
             mTextUserName.setText(model.getLogin());
         }
     }

@@ -9,7 +9,8 @@ import android.widget.ImageView;
 
 import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.mvp.ui.activities.base.BaseActivity;
-import com.stormphoenix.ogit.shares.PreferenceUtils;
+import com.stormphoenix.ogit.utils.ActivityUtils;
+import com.stormphoenix.ogit.utils.PreferenceUtils;
 import com.stormphoenix.ogit.shares.rx.RxJavaCustomTransformer;
 
 import java.util.concurrent.TimeUnit;
@@ -52,9 +53,10 @@ public class SplashActivity extends BaseActivity {
                         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(SplashActivity.this, null);
 
                         if (PreferenceUtils.isLogin(SplashActivity.this)) {
-                            startActivity(MainActivity.newIntent(SplashActivity.this), options.toBundle());
+                            ActivityUtils.startActivity(SplashActivity.this, MainActivity.newIntent(SplashActivity.this));
                         } else {
-                            startActivity(LoginActivity.getInstance(SplashActivity.this), options.toBundle());
+                            startActivity(LoginActivity.newIntent(SplashActivity.this));
+//                            ActivityUtils.startActivity(SplashActivity.this, LoginActivity.newIntent(SplashActivity.this));
                         }
                         finish();
                     }

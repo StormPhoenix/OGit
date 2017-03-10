@@ -4,7 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
 
-import com.stormphoenix.ogit.shares.OGitImageLoader;
+import com.stormphoenix.ogit.utils.ImageUtils;
 
 /**
  * Created by StormPhoenix on 17-2-25.
@@ -29,6 +29,6 @@ public class OGitApplication extends Application {
     }
 
     private void initImageLoader() {
-        OGitImageLoader.getInstance().init(this);
+        ImageUtils.getInstance().init(this);
     }
 }

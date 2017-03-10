@@ -100,11 +100,12 @@ public class CodeFragment extends BaseFragment implements CodeView {
     }
 
     @Override
-    public void stopRefresh() {
+    public void hideProgress() {
         mRefreshLayout.setRefreshing(false);
     }
 
-    public void startRefresh() {
+    @Override
+    public void showProgress() {
         mRefreshLayout.setRefreshing(true);
     }
 

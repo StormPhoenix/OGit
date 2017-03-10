@@ -4,21 +4,20 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.google.gson.Gson;
 import com.stormphoenix.httpknife.github.GitBlob;
-import com.stormphoenix.ogit.mvp.model.api.GithubBlobService;
-import com.stormphoenix.ogit.mvp.model.interactor.GitRepoInteractor;
+import com.stormphoenix.ogit.R;
+import com.stormphoenix.ogit.mvp.model.api.BlobFileApi;
+import com.stormphoenix.ogit.mvp.model.interactor.RepoFileInteractor;
 import com.stormphoenix.ogit.mvp.presenter.base.BasePresenter;
 import com.stormphoenix.ogit.mvp.view.CodeView;
-import com.stormphoenix.ogit.shares.Constants;
+import com.stormphoenix.ogit.mvp.view.base.BaseUIView;
 import com.stormphoenix.ogit.shares.rx.RxJavaCustomTransformer;
+import com.stormphoenix.ogit.shares.rx.creator.RetrofitCreator;
+import com.stormphoenix.ogit.shares.rx.subscribers.DefaultUiSubscriber;
 
 import javax.inject.Inject;
 
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
-import rx.Subscriber;
 
 /**
  * Created by StormPhoenix on 17-3-4.
@@ -33,7 +32,7 @@ public class CodePresenter extends BasePresenter<CodeView> {
     // 代码文件的信息对象
     private GitBlob mBlob = null;
     // 网络交互对象
-    private GitRepoInteractor mInteractor;
+    private RepoFileInteractor mInteractor;
 
     private Context mContext = null;
     // 该代码文件的所有者
@@ -49,7 +48,7 @@ public class CodePresenter extends BasePresenter<CodeView> {
     public CodePresenter(Context context) {
         super();
         mContext = context;
-        mInteractor = new GitRepoInteractor(context);
+        mInteractor = new RepoFileInteractor(context);
     }
 
     @Override
@@ -60,82 +59,34 @@ public class CodePresenter extends BasePresenter<CodeView> {
     }
 
     public void loadBlob() {
-        mView.startRefresh();
         Log.e(TAG, "loadBlob: " + owner + " " + repo + " " + path + " " + branch);
+        Retrofit retrofit = RetrofitCreator.getJsonRetrofit(mContext);
+        BlobFileApi service = retrofit.create(BlobFileApi.class);
 
-        Gson gson = new Gson();
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Constants.BASE_URL)
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
-
-        GithubBlobService service = retrofit.create(GithubBlobService.class);
-        service.loadGitBlob(owner, repo, path, branch)
+        service.loadBlob(owner, repo, path, branch)
                 .compose(RxJavaCustomTransformer.defaultSchedulers())
-                .subscribe(new Subscriber<GitBlob>() {
-                    @Override
-                    public void onCompleted() {
-                        mView.stopRefresh();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        mView.stopRefresh();
-                        Log.e(TAG, "onError: " + e.toString());
-                        mView.showMessage(e.toString());
-                    }
-
+                .subscribe(new DefaultUiSubscriber<GitBlob, BaseUIView>(mView, mContext.getString(R.string.network_error)) {
                     @Override
                     public void onNext(GitBlob blob) {
+                        Log.e(TAG, "onNext: success");
                         mBlob = blob;
-                        loadCodeContent();
+                        loadCode();
                     }
                 });
-//        mInteractor.loadGitBlob(owner, repo, path, branch)
-//                .compose(RxJavaCustomTransformer.defaultSchedulers())
-//                .subscribe(new Subscriber<GitBlob>() {
-//                    @Override
-//                    public void onCompleted() {
-//                        mView.stopRefresh();
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//                    }
-//
-//                    @Override
-//                    public void onNext(GitBlob blob) {
-//                        mBlob = blob;
-//                        loadCodeContent();
-//                    }
-//                });
     }
 
-    private void loadCodeContent() {
+    private void loadCode() {
         if (mBlob != null) {
             mInteractor.loadCodeContent(mBlob.getDownloadUrl())
                     .compose(RxJavaCustomTransformer.defaultSchedulers())
-                    .subscribe(new Subscriber<String>() {
+                    .subscribe(new DefaultUiSubscriber<String, BaseUIView>(mView, mContext.getString(R.string.network_error)) {
                         @Override
-                        public void onCompleted() {
-                            mView.stopRefresh();
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            Log.e(TAG, "onFailure: " + e.toString());
-                            mView.stopRefresh();
-                            mView.showMessage(e.toString());
-                        }
-
-                        @Override
-                        public void onNext(String s) {
-                            mView.stopRefresh();
-                            mView.loadCodeContent(s);
+                        public void onNext(String code) {
+                            Log.e(TAG, "onNext: " + code);
+                            mView.hideProgress();
+                            mView.loadCodeContent(code);
                         }
                     });
-
         }
     }
 
