@@ -22,7 +22,7 @@ import rx.Observable;
 
 public class TokenInteractor {
     public final static String TOKEN_NOTE = "OGit Token";
-    public final static String[] SCOPES = {"public_repo", "repo", "user", "gist"};
+    public final static String[] SCOPES = {"write:org", "read:org", "gist", "public_repo", "repo", "user", "gist"};
 
     private TokenApi tokenApi = null;
 

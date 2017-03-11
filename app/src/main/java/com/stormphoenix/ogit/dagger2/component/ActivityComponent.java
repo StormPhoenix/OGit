@@ -9,6 +9,7 @@ import com.stormphoenix.ogit.mvp.ui.fragments.CodeFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.ContributorsFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.EventsFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.FoldsFragment;
+import com.stormphoenix.ogit.mvp.ui.fragments.OrgFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.StaredFragment;
 
 import dagger.Component;
@@ -20,6 +21,8 @@ import dagger.Component;
 
 @Component(modules = {ContextModule.class})
 public interface ActivityComponent {
+    void inject(OrgFragment fragment);
+
     void inject(CodeFragment fragment);
 
     void inject(ContributorsFragment fragment);

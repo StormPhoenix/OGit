@@ -2,17 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home_black_24dp"
+            android:title="Home" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_trends"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:title="Trends" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:id="@+id/nav_org"
+            android:icon="@drawable/ic_contibutors_event_black_24dp"
+            android:title="Organization" />
         <item
             android:id="@+id/nav_manage"
             android:icon="@drawable/ic_menu_manage"

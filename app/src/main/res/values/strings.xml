@@ -118,4 +118,7 @@
     <string name="star">Star</string>
     <string name="readme">README</string>
     <string name="loading">loading</string>
+    <string name="notification">Notification</string>
+    <string name="search">Search</string>
+    <string name="organization">组织</string>
 </resources>

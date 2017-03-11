@@ -28,7 +28,6 @@ import butterknife.BindView;
 public class EventsFragment extends ListFragment<GitEvent> {
     @BindView(R.id.recy_event_list)
     RecyclerView mRecyEventList;
-
     @BindView(R.id.events_refresh_layout)
     SwipeRefreshLayout mEventsRefreshLayout;
 

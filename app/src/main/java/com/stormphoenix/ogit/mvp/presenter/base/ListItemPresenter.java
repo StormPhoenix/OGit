@@ -7,6 +7,7 @@ import android.util.Log;
 import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.mvp.view.base.BaseUIView;
 import com.stormphoenix.ogit.mvp.view.base.ListItemView;
+import com.stormphoenix.ogit.shares.rx.RxHttpLog;
 import com.stormphoenix.ogit.shares.rx.RxJavaCustomTransformer;
 import com.stormphoenix.ogit.shares.rx.subscribers.DefaultUiSubscriber;
 
@@ -42,14 +43,15 @@ public abstract class ListItemPresenter<T, V extends ListItemView<T>> extends Ba
         load(0).compose(RxJavaCustomTransformer.<Response<List<T>>>defaultSchedulers())
                 .subscribe(new DefaultUiSubscriber<Response<List<T>>, BaseUIView>(mView, mContext.getString(R.string.network_error)) {
                     @Override
-                    public void onNext(Response<List<T>> listResponse) {
-                        if (listResponse.isSuccessful()) {
-                            mView.loadNewlyListItem(listResponse.body());
-                        } else if (listResponse.code() == 401) {
+                    public void onNext(Response<List<T>> response) {
+                        RxHttpLog.logResponse(response);
+                        if (response.isSuccessful()) {
+                            mView.loadNewlyListItem(response.body());
+                        } else if (response.code() == 401) {
                             mView.reLogin();
                         } else {
-                            Log.e(TAG, "onNext: " + listResponse.code() + " " + listResponse.message());
-                            mView.showMessage(listResponse.message());
+                            Log.e(TAG, "onNext: " + response.code() + " " + response.message());
+                            mView.showMessage(response.message());
                         }
                         mView.hideProgress();
                     }
@@ -63,6 +65,7 @@ public abstract class ListItemPresenter<T, V extends ListItemView<T>> extends Ba
                 .subscribe(new DefaultUiSubscriber<Response<List<T>>, BaseUIView>(mView, mContext.getString(R.string.network_error)) {
                     @Override
                     public void onNext(Response<List<T>> response) {
+                        RxHttpLog.logResponse(response);
                         mView.loadMoreListItem(response.body());
                         mView.hideProgress();
                     }

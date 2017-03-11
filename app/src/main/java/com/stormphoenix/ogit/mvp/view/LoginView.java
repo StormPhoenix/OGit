@@ -8,8 +8,6 @@ import com.stormphoenix.ogit.mvp.view.base.BaseUIView;
  */
 
 public interface LoginView extends BaseUIView {
-    void initToolbar(String title);
-
     void onLoginSuccess();
 
     void finishView();

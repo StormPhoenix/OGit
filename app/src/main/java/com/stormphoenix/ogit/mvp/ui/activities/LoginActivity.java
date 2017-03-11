@@ -5,11 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputEditText;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 
 import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.dagger2.component.DaggerActivityComponent;
@@ -36,13 +36,11 @@ public class LoginActivity extends BaseActivity implements LoginView {
     public LoginPresenter mPresenter = null;
 
     @BindView(R.id.edit_username)
-    EditText mEditUsername;
+    TextInputEditText mEditUsername;
     @BindView(R.id.edit_password)
-    EditText mEditPassword;
+    TextInputEditText mEditPassword;
     @BindView(R.id.btn_login)
-    Button mBtnLogin;
-    @BindView(R.id.toolbar)
-    Toolbar mToolbar;
+    AppCompatButton mBtnLogin;
 
     private ProgressDialogGenerator generator;
 
@@ -69,12 +67,6 @@ public class LoginActivity extends BaseActivity implements LoginView {
                 .contextModule(new ContextModule(this))
                 .build()
                 .inject(this);
-    }
-
-    @Override
-    public void initToolbar(String title) {
-        setSupportActionBar(mToolbar);
-        mToolbar.setTitle(title);
     }
 
     @Override

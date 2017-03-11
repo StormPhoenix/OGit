@@ -1,14 +1,14 @@
 package com.stormphoenix.ogit.mvp.ui.activities.base;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.transition.Slide;
 import android.view.Gravity;
-import android.view.WindowManager;
 import android.view.animation.DecelerateInterpolator;
 
+import com.readystatesoftware.systembartint.SystemBarTintManager;
+import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.dagger2.InjectorInitializer;
 
 import butterknife.ButterKnife;
@@ -33,13 +33,13 @@ public abstract class BaseActivity extends AppCompatActivity implements Injector
      * 设置系统状态栏的样式
      */
     private void setStatusBar() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);//此FLAG可使状态栏透明，且当前视图在绘制时，从屏幕顶端开始即top = 0开始绘制，这也是实现沉浸效果的基础
-            this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);//可不加
-        }
-//        SystemBarTintManager tintManager = new SystemBarTintManager(this);
-//        tintManager.setStatusBarTintResource(R.color.colorPrimaryDark);
-//        tintManager.setStatusBarTintEnabled(true);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//            this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);//此FLAG可使状态栏透明，且当前视图在绘制时，从屏幕顶端开始即top = 0开始绘制，这也是实现沉浸效果的基础
+//            this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);//可不加
+//        }
+        SystemBarTintManager tintManager = new SystemBarTintManager(this);
+        tintManager.setStatusBarTintResource(R.color.colorPrimaryDark);
+        tintManager.setStatusBarTintEnabled(true);
     }
 
     private void setUpEnterTransitionAnim() {

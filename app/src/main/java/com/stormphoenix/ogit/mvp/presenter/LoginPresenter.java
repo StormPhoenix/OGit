@@ -46,11 +46,6 @@ public class LoginPresenter extends BasePresenter<LoginView> {
     @Override
     public void onCreate(Bundle onSavedInstanceState) {
         super.onCreate(onSavedInstanceState);
-        initToolbar();
-    }
-
-    private void initToolbar() {
-        mView.initToolbar(mContext.getString(R.string.login));
     }
 
     public void listToken(final String username, final String password) {

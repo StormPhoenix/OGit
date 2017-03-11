@@ -3,12 +3,17 @@ package com.stormphoenix.httpknife.github;
 /**
  * Created by StormPhoenix on 17-2-27.
  * StormPhoenix is a intelligent Android developer.
+ *
+ * 提交信息类
  */
 
 public class GitCommit {
     private String sha;
+    // 提交信息的详细地址
     private String url;
+    // 提交人
     private GitUser author;
+    // 提交附带信息
     private String message;
     private boolean distinct;
 

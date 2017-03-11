@@ -13,11 +13,14 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.stormphoenix.httpknife.github.GitEvent;
+import com.stormphoenix.httpknife.github.payload.GitCreatePayload;
 import com.stormphoenix.httpknife.github.payload.GitIssuePayload;
 import com.stormphoenix.httpknife.github.payload.GitMemberPayload;
 import com.stormphoenix.httpknife.github.payload.GitPushPayload;
+import com.stormphoenix.httpknife.github.payload.GitReleasePayload;
 import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.adapters.base.BaseRecyclerAdapter;
+import com.stormphoenix.ogit.utils.HtmlUtils;
 import com.stormphoenix.ogit.utils.ImageUtils;
 import com.stormphoenix.ogit.utils.TimeUtils;
 
@@ -82,6 +85,12 @@ public class GitEventsAdapter extends BaseRecyclerAdapter<GitEvent> {
         TextView mTextEventInfo;
         @BindView(R.id.text_event_happen_time)
         TextView mTextEventHappenTime;
+        @BindView(R.id.text_commit_nums)
+        TextView mTextCommitNums;
+        @BindView(R.id.text_commit_one)
+        TextView mTextCommitOne;
+        @BindView(R.id.text_commit_two)
+        TextView mTextCommitTwo;
 
         public GitEventViewHolder(View itemView) {
             super(itemView);
@@ -91,41 +100,57 @@ public class GitEventsAdapter extends BaseRecyclerAdapter<GitEvent> {
         public void bind(GitEvent model) {
             String eventType = model.getType();
             if (eventType.equals(GitEvent.GIT_WATCH_EVENT)) {
-                mTextEventInfo.setText(Html.fromHtml(model.getActor().getLogin() + " <b>stared</b> " + model.getRepo().getName()));
+                mTextEventInfo.setText(Html.fromHtml(HtmlUtils.bold(model.getActor().getLogin()) + " stared " + HtmlUtils.bold(model.getRepo().getName())));
                 mEventImage.setImageResource(R.drawable.ic_starred_event_black_24dp);
 //                BitmapUtils.setIconFont(context, img, OctIcon.STAR, R.color.theme_color);
             } else if (eventType.equals(GitEvent.GIT_FORK_EVENT)) {
-                mTextEventInfo.setText(Html.fromHtml(model.getActor().getLogin() + " <b>forked</b> " + model.getRepo().getName()));
+                mTextEventInfo.setText(Html.fromHtml(HtmlUtils.bold(model.getActor().getLogin()) + " forked " + HtmlUtils.bold(model.getRepo().getName())));
                 mEventImage.setImageResource(R.drawable.ic_forked_event_black_24dp);
 //                BitmapUtils.setIconFont(context, img, OctIcon.FORK, R.color.theme_color);
             } else if (eventType.equals(GitEvent.GIT_CREATE_EVENT)) {
-                mTextEventInfo.setText(Html.fromHtml(model.getActor().getLogin() + " <b>created repo</b> " + model.getRepo().getName()));
-                mEventImage.setImageResource(R.drawable.ic_created_event_black_24dp);
+                GitCreatePayload payload = (GitCreatePayload) model.getPayload();
+                if (payload.getRefType().equals(GitCreatePayload.REF_REPOSITORY_TYPE)) {
+                    mTextEventInfo.setText(Html.fromHtml(HtmlUtils.bold(model.getActor().getLogin()) + " created repository " + HtmlUtils.bold(model.getRepo().getName())));
+                    mEventImage.setImageResource(R.drawable.ic_created_event_black_24dp);
+                } else if (payload.getRefType().equals(GitCreatePayload.REF_TAT_TYPE)) {
+                    mTextEventInfo.setText(Html.fromHtml(HtmlUtils.bold(model.getActor().getLogin()) + " created tag " + HtmlUtils.bold(((GitCreatePayload) model.getPayload()).getRef()) + " at " + HtmlUtils.bold(model.getRepo().getName())));
+                    mEventImage.setImageResource(R.drawable.ic_tag_black_24dp);
+                }
 //                BitmapUtils.setIconFont(context, img, OctIcon.REPO, R.color.theme_color);
             } else if (eventType.equals(model.GIT_PULL_REQUEST_EVENT)) {
-                mTextEventInfo.setText(Html.fromHtml(model.getActor().getLogin() + " <b>opened pull request</b> " + model.getRepo().getName()));
+                mTextEventInfo.setText(Html.fromHtml(HtmlUtils.bold(model.getActor().getLogin()) + " opened pull request " + HtmlUtils.bold(model.getRepo().getName())));
 //                BitmapUtils.setIconFont(context, img, OctIcon.PUSH, R.color.theme_color);
             } else if (eventType.equals(model.GIT_MEMBER_EVENT)) {
                 GitMemberPayload payload = (GitMemberPayload) model.getPayload();
-                mTextEventInfo.setText(Html.fromHtml(model.getActor().getLogin() + " <b> add " + payload.getMember().getLogin() + " to </b> " + model.getRepo().getName()));
+                mTextEventInfo.setText(Html.fromHtml(HtmlUtils.bold(model.getActor().getLogin()) + " add " + HtmlUtils.bold(payload.getMember().getLogin()) + " to " + HtmlUtils.bold(model.getRepo().getName())));
 //                BitmapUtils.setIconFont(context, img, OctIcon.PERSON, R.color.theme_color);
             } else if (eventType.equals(model.GIT_ISSUES_EVENT)) {
                 GitIssuePayload payload = (GitIssuePayload) model.getPayload();
-                mTextEventInfo.setText(Html.fromHtml(model.getActor().getLogin() + " <b> " + payload.getAction() + " issue </b> " + model.getRepo().getName() + "#" + payload.getIssue().getNumber()));
+                mTextEventInfo.setText(Html.fromHtml(HtmlUtils.bold(model.getActor().getLogin()) + payload.getAction() + " issue " + model.getRepo().getName() + "#" + payload.getIssue().getNumber()));
                 if (payload.getAction().equals("opened")) {
 //                    BitmapUtils.setIconFont(context, img, OctIcon.ISSUE_OPNE, R.color.theme_color);
                 } else if (payload.getAction().equals("closed")) {
 //                    BitmapUtils.setIconFont(context, img, OctIcon.ISSUE_CLOSE, R.color.theme_color);
                 }
             } else if (eventType.equals(GitEvent.GIT_PUBLIC_EVENT)) {
-                mTextEventInfo.setText(Html.fromHtml(model.getActor().getLogin() + "<strong> made </strong>" + model.getRepo().getName() + " <strong> public </strong>"));
+                mTextEventInfo.setText(Html.fromHtml(HtmlUtils.bold(model.getActor().getLogin()) + "<strong> made </strong>" + HtmlUtils.bold(model.getRepo().getName()) + " <strong> public </strong>"));
 //                BitmapUtils.setIconFont(context, img, OctIcon.REPO, R.color.theme_color);
             } else if (eventType.equals(GitEvent.GIT_PUSH_EVENT)) {
                 GitPushPayload pushPayload = (GitPushPayload) model.getPayload();
                 mEventImage.setImageResource(R.drawable.ic_push_event_black_24dp);
                 int index = pushPayload.getRef().lastIndexOf('/') + 1;
                 String branch = pushPayload.getRef().substring(index);
-                mTextEventInfo.setText(Html.fromHtml(model.getActor().getLogin() + "<b> push </b>to " + branch + " at " + model.getRepo().getName()));
+                mTextEventInfo.setText(Html.fromHtml(HtmlUtils.bold(model.getActor().getLogin()) + " push to " + HtmlUtils.bold(branch) + " at " + HtmlUtils.bold(model.getRepo().getName())));
+
+                mTextCommitNums.setVisibility(View.VISIBLE);
+                mTextCommitNums.setText(String.valueOf(pushPayload.getCommits().size()) + " new commits");
+
+                mTextCommitOne.setVisibility(View.VISIBLE);
+                mTextCommitOne.setText(pushPayload.getCommits().get(0).getSha().substring(0, 6) + " " + pushPayload.getCommits().get(0).getMessage());
+            } else if (eventType.equals(GitEvent.GIT_RELEASE_EVENT)) {
+                GitReleasePayload payload = (GitReleasePayload) model.getPayload();
+                mTextEventInfo.setText(Html.fromHtml(HtmlUtils.bold(model.getActor().getLogin()) + " released to " + HtmlUtils.bold(payload.getRelease().getTagName()) + " at " + HtmlUtils.bold(model.getRepo().getName())));
+                mEventImage.setImageResource(R.drawable.ic_tag_black_24dp);
             } else {
                 mTextEventInfo.setText("Unknown event type");   // I will add more eventtype later
             }

@@ -1,0 +1,18 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".mvp.ui.activities.MainActivity">
+    <item
+        android:id="@+id/action_notification"
+        android:icon="@drawable/ic_notifications_black_24dp"
+        android:orderInCategory="100"
+        android:title="@string/notification"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_search"
+        android:actionViewClass="android.support.v7.widget.SearchView"
+        android:icon="@drawable/ic_search_white_24dp"
+        android:orderInCategory="100"
+        android:title="@string/search"
+        app:showAsAction="always" />
+</menu>

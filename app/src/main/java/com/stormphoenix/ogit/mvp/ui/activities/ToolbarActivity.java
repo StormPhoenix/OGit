@@ -11,7 +11,9 @@ import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.mvp.ui.activities.base.BaseActivity;
 import com.stormphoenix.ogit.mvp.ui.fragments.CodeFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.ContributorsFragment;
+import com.stormphoenix.ogit.mvp.ui.fragments.OrgFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.base.BaseFragment;
+import com.stormphoenix.ogit.utils.PreferenceUtils;
 
 import butterknife.BindView;
 
@@ -25,6 +27,7 @@ public class ToolbarActivity extends BaseActivity {
     public static final String TYPE = "type";
     public static int TYPE_CONTRIBUTOR = 1;
     public static int TYPE_CODE = 2;
+    public static int TYPE_ORGANIZATION = 3;
     private int type;
 
     // Toolbar 设置的标题
@@ -38,6 +41,7 @@ public class ToolbarActivity extends BaseActivity {
     private BaseFragment currentFragment = null;
 
     public static Intent newIntent(Context context, Bundle bundle) {
+        assert bundle != null;
         Intent intent = new Intent(context, ToolbarActivity.class);
         intent.putExtras(bundle);
         return intent;
@@ -59,6 +63,10 @@ public class ToolbarActivity extends BaseActivity {
             title = repo;
             subTitle = path;
             currentFragment = CodeFragment.getInstance(owner, repo, path, branch);
+        } else if (type == TYPE_ORGANIZATION) {
+            title = getString(R.string.organization);
+            subTitle = PreferenceUtils.getUsername(this);
+            currentFragment = OrgFragment.getInstance();
         }
         setUpToolbar();
         // 根据Type设置内容

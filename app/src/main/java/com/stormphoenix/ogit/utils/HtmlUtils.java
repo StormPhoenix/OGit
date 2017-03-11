@@ -34,6 +34,9 @@ public class HtmlUtils {
 
     public static final String PRE = "pre";
 
+    public static String bold(String html) {
+        return "<b>" + html + "</b>";
+    }
 
     public static String format(String html) {
         StringBuilder formatted = new StringBuilder(html);

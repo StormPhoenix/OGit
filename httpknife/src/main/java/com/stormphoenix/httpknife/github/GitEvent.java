@@ -11,6 +11,7 @@ import java.util.Date;
  */
 
 public class GitEvent {
+    public static final String GIT_RELEASE_EVENT = "ReleaseEvent";
     public static final String GIT_WATCH_EVENT = "WatchEvent";
     public static final String GIT_PUSH_EVENT = "PushEvent";
     public final static String GIT_FORK_EVENT = "ForkEvent";
