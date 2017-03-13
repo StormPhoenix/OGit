@@ -126,7 +126,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
         }
     }
 
-    public void setOnViewClickListener(Integer key, OnInternalViewClickListener<T> listener) {
+    public void addOnViewClickListener(Integer key, OnInternalViewClickListener<T> listener) {
         if (clickedItem == null)
             clickedItem = new HashMap<>();
         clickedItem.put(key, listener);

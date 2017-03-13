@@ -130,8 +130,8 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                             mView.onLoginSuccess();
                         } else {
                             mView.showMessage(response.message());
-                            mView.hideProgress();
                         }
+                        mView.hideProgress();
                     }
                 });
     }

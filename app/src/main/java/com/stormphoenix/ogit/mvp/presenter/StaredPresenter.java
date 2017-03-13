@@ -26,13 +26,18 @@ import rx.Observable;
  * StormPhoenix is a intelligent Android developer.
  */
 
-public class StaredPresenter extends ListItemPresenter<GitRepository, ListItemView<GitRepository>> implements BaseRecyclerAdapter.OnInternalViewClickListener<GitRepository> {
+public class StaredPresenter extends ListItemPresenter<GitRepository, List<GitRepository>, ListItemView<GitRepository>> implements BaseRecyclerAdapter.OnInternalViewClickListener<GitRepository> {
     private UserInteractor mInfoInfoInteractor;
 
     @Inject
     public StaredPresenter(Context context) {
         super(context);
         mInfoInfoInteractor = new UserInteractor(context);
+    }
+
+    @Override
+    protected List<GitRepository> transformBody(List<GitRepository> body) {
+        return body;
     }
 
     @Override

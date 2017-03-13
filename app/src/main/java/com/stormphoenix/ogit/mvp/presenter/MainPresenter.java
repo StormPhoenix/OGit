@@ -33,28 +33,5 @@ public class MainPresenter extends BasePresenter<MainView> {
     @Override
     public void onCreate(Bundle onSavedInstanceState) {
         super.onCreate(onSavedInstanceState);
-        initToolbar();
-        mView.initDrawerView();
-        initPagerFragments();
-        initNavigationView();
-    }
-
-    private void initNavigationView() {
-        if (!TextUtils.isEmpty(PreferenceUtils.getString(mContext, PreferenceUtils.AVATAR_URL))) {
-            mView.setHeaderImage(PreferenceUtils.getString(mContext, PreferenceUtils.AVATAR_URL));
-        }
-        mView.setUsername(PreferenceUtils.getUsername(mContext));
-    }
-
-    private void initPagerFragments() {
-        String[] titleList = {"Event", "Starred"};
-        List<BaseFragment> fragmentList = new ArrayList<>();
-        fragmentList.add(EventsFragment.getInstance(PreferenceUtils.getString(mContext, PreferenceUtils.USERNAME)));
-        fragmentList.add(StaredFragment.getInstance(PreferenceUtils.getString(mContext, PreferenceUtils.USERNAME)));
-        mView.initMainPagerFragments(titleList, fragmentList);
-    }
-
-    private void initToolbar() {
-        mView.initToolbar(mContext.getString(R.string.ogit));
     }
 }

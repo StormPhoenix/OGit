@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.mvp.view.base.BaseUIView;
 import com.stormphoenix.ogit.mvp.view.base.ListItemView;
 import com.stormphoenix.ogit.shares.rx.RxHttpLog;
@@ -21,7 +20,7 @@ import rx.Observable;
  * StormPhoenix is a intelligent Android developer.
  */
 
-public abstract class ListItemPresenter<T, V extends ListItemView<T>> extends BasePresenter<V> {
+public abstract class ListItemPresenter<T, R, V extends ListItemView<T>> extends BasePresenter<V> {
     public static String TAG = ListItemPresenter.class.getClass().getName();
 
     protected Context mContext = null;
@@ -40,13 +39,17 @@ public abstract class ListItemPresenter<T, V extends ListItemView<T>> extends Ba
 
     public void loadNewlyListItem() {
         mView.hideProgress();
-        load(0).compose(RxJavaCustomTransformer.<Response<List<T>>>defaultSchedulers())
-                .subscribe(new DefaultUiSubscriber<Response<List<T>>, BaseUIView>(mView, mContext.getString(R.string.network_error)) {
+        Observable<Response<R>> observable = load(0);
+        if (observable == null) {
+            return;
+        }
+        load(0).compose(RxJavaCustomTransformer.defaultSchedulers())
+                .subscribe(new DefaultUiSubscriber<Response<R>, BaseUIView>(mView, "network error") {
                     @Override
-                    public void onNext(Response<List<T>> response) {
+                    public void onNext(Response<R> response) {
                         RxHttpLog.logResponse(response);
                         if (response.isSuccessful()) {
-                            mView.loadNewlyListItem(response.body());
+                            mView.loadNewlyListItem(transformBody(response.body()));
                         } else if (response.code() == 401) {
                             mView.reLogin();
                         } else {
@@ -60,17 +63,22 @@ public abstract class ListItemPresenter<T, V extends ListItemView<T>> extends Ba
 
     public void loadMoreListItem() {
         mView.showProgress();
-        load(mView.getListItemCounts() / 10 + 1)
-                .compose(RxJavaCustomTransformer.<Response<List<T>>>defaultSchedulers())
-                .subscribe(new DefaultUiSubscriber<Response<List<T>>, BaseUIView>(mView, mContext.getString(R.string.network_error)) {
+        Observable<Response<R>> observable = load(mView.getListItemCounts() / 10 + 1);
+        if (observable == null) {
+            return;
+        }
+        observable.compose(RxJavaCustomTransformer.defaultSchedulers())
+                .subscribe(new DefaultUiSubscriber<Response<R>, BaseUIView>(mView, "network error") {
                     @Override
-                    public void onNext(Response<List<T>> response) {
+                    public void onNext(Response<R> response) {
                         RxHttpLog.logResponse(response);
-                        mView.loadMoreListItem(response.body());
+                        mView.loadMoreListItem(transformBody(response.body()));
                         mView.hideProgress();
                     }
                 });
     }
 
-    protected abstract Observable<Response<List<T>>> load(int page);
+    protected abstract List<T> transformBody(R body);
+
+    protected abstract Observable<Response<R>> load(int page);
 }

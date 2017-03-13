@@ -2,8 +2,6 @@ package com.stormphoenix.ogit.mvp.ui.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 
@@ -18,13 +16,10 @@ import com.stormphoenix.ogit.mvp.presenter.base.ListItemPresenter;
 import com.stormphoenix.ogit.mvp.ui.activities.BreadcrumbTreeActivity;
 import com.stormphoenix.ogit.mvp.ui.fragments.base.ListFragment;
 import com.stormphoenix.ogit.mvp.view.TreeItemView;
-import com.stormphoenix.ogit.widget.BreadcrumbView;
 
 import java.util.ArrayList;
 
 import javax.inject.Inject;
-
-import butterknife.BindView;
 
 /**
  * Created by StormPhoenix on 17-3-2.
@@ -33,12 +28,6 @@ import butterknife.BindView;
 
 public class FoldsFragment extends ListFragment<GitTreeItem> implements TreeItemView<GitTreeItem> {
     public static final String TAG = FoldsFragment.class.getSimpleName();
-
-    @BindView(R.id.recycler_view)
-    RecyclerView mRecyclerView;
-
-    @BindView(R.id.swipe_refresh_layout)
-    SwipeRefreshLayout mRefreshLayout;
 
     @Inject
     public RepoTreePresenter mPresenter;
@@ -62,7 +51,7 @@ public class FoldsFragment extends ListFragment<GitTreeItem> implements TreeItem
     public void initListItemView() {
         super.initListItemView();
         // 设置RecyclerView的点击事件
-        mAdapter.setOnViewClickListener(R.id.file_card_wrapper, createOnInternalViewClickListener());
+        mAdapter.addOnViewClickListener(R.id.file_card_wrapper, createOnInternalViewClickListener());
     }
 
     @NonNull
@@ -109,23 +98,13 @@ public class FoldsFragment extends ListFragment<GitTreeItem> implements TreeItem
     }
 
     @Override
-    public SwipeRefreshLayout getRefreshLayout() {
-        return mRefreshLayout;
-    }
-
-    @Override
-    public RecyclerView getRecyclerView() {
-        return mRecyclerView;
-    }
-
-    @Override
     public ListItemPresenter getListItemPresetner() {
         return mPresenter;
     }
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_recyclerview;
+        return R.layout.fragment_refresh_recyclerview;
     }
 
     @Override

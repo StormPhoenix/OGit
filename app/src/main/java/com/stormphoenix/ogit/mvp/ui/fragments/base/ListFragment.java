@@ -19,14 +19,28 @@ import com.stormphoenix.ogit.utils.ActivityUtils;
 
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
  * Created by StormPhoenix on 17-2-28.
  * StormPhoenix is a intelligent Android developer.
+ * <p>
+ *
+ * @author StormPhoenix
+ *
+ * SwipeRefreshLayout + RecyclerView + Fragment样式模板
+ * Usage:
+ * 覆写{@link #getAdapter()} 获取RecyclerView的适配器
+ * 覆写{@link #getListItemPresetner()} 获取逻辑交互的Presenter
  */
-
 public abstract class ListFragment<T> extends BaseFragment implements ListItemView<T> {
+    @BindView(R.id.recycler_view)
+    RecyclerView mRecyclerView;
+
+    @BindView(R.id.refresh_layout)
+    SwipeRefreshLayout mRefreshLayout;
+
     protected LinearLayoutManager mLayoutManager;
     protected BaseRecyclerAdapter mAdapter;
 
@@ -38,21 +52,22 @@ public abstract class ListFragment<T> extends BaseFragment implements ListItemVi
     }
 
     @Override
+    protected int getLayoutId() {
+        return R.layout.fragment_refresh_recyclerview;
+    }
+
+    @Override
     public void showProgress() {
-        getRefreshLayout().setRefreshing(true);
+        mRefreshLayout.setRefreshing(true);
     }
 
     public abstract BaseRecyclerAdapter<T> getAdapter();
-
-    public abstract SwipeRefreshLayout getRefreshLayout();
-
-    public abstract RecyclerView getRecyclerView();
 
     public abstract ListItemPresenter getListItemPresetner();
 
     @Override
     public void hideProgress() {
-        getRefreshLayout().setRefreshing(false);
+        mRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -62,10 +77,10 @@ public abstract class ListFragment<T> extends BaseFragment implements ListItemVi
         }
 
         mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        if (getRecyclerView() != null) {
-            getRecyclerView().setLayoutManager(mLayoutManager);
-            getRecyclerView().setHasFixedSize(true);
-            getRecyclerView().setAdapter(mAdapter);
+        if (mRecyclerView != null) {
+            mRecyclerView.setLayoutManager(mLayoutManager);
+            mRecyclerView.setHasFixedSize(true);
+            mRecyclerView.setAdapter(mAdapter);
         }
     }
 
@@ -97,15 +112,10 @@ public abstract class ListFragment<T> extends BaseFragment implements ListItemVi
 
     @Override
     public void initRefreshLayout() {
-        getRefreshLayout().setColorSchemeResources(R.color.colorPrimary, R.color.colorAccent);
-        getRefreshLayout().setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                getListItemPresetner().loadNewlyListItem();
-            }
-        });
+        mRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorAccent);
+        mRefreshLayout.setOnRefreshListener(() -> getListItemPresetner().loadNewlyListItem());
 
-        getRecyclerView().addOnScrollListener(new RecyclerView.OnScrollListener() {
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             int lastVisibleItem = 0;
 
             @Override
@@ -113,7 +123,7 @@ public abstract class ListFragment<T> extends BaseFragment implements ListItemVi
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == RecyclerView.SCROLL_STATE_IDLE
                         && lastVisibleItem + 1 == mAdapter.getItemCount()) {
-                    getRefreshLayout().setRefreshing(true);
+                    mRefreshLayout.setRefreshing(true);
                     getListItemPresetner().loadMoreListItem();
                 }
             }

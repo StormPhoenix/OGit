@@ -27,7 +27,7 @@ import rx.Observable;
  * StormPhoenix is a intelligent Android developer.
  */
 
-public class EventsPresenter extends ListItemPresenter<GitEvent, ListItemView<GitEvent>> implements BaseRecyclerAdapter.OnInternalViewClickListener<GitEvent> {
+public class EventsPresenter extends ListItemPresenter<GitEvent, List<GitEvent>, ListItemView<GitEvent>> implements BaseRecyclerAdapter.OnInternalViewClickListener<GitEvent> {
     /**
      * Interactor 用于提交网络请求获取数据
      **/
@@ -37,6 +37,11 @@ public class EventsPresenter extends ListItemPresenter<GitEvent, ListItemView<Gi
     public EventsPresenter(Context context) {
         super(context);
         mInfoInfoInteractor = new UserInteractor(mContext);
+    }
+
+    @Override
+    protected List<GitEvent> transformBody(List<GitEvent> body) {
+        return body;
     }
 
     @Override

@@ -34,11 +34,6 @@ public class ContributorsFragment extends ListFragment<GitUser> {
     @Inject
     public ContributorsPresenter mPresenter;
 
-    @BindView(R.id.recy_contributor_list)
-    RecyclerView mRecyContributorList;
-    @BindView(R.id.contibuters_refresh_layout)
-    SwipeRefreshLayout mContibutersRefreshLayout;
-
     public static BaseFragment getInstance() {
         return new ContributorsFragment();
     }
@@ -49,23 +44,13 @@ public class ContributorsFragment extends ListFragment<GitUser> {
     }
 
     @Override
-    public SwipeRefreshLayout getRefreshLayout() {
-        return mContibutersRefreshLayout;
-    }
-
-    @Override
-    public RecyclerView getRecyclerView() {
-        return mRecyContributorList;
-    }
-
-    @Override
     public ListItemPresenter getListItemPresetner() {
         return mPresenter;
     }
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_contributors;
+        return R.layout.fragment_refresh_recyclerview;
     }
 
     @Override

@@ -23,7 +23,7 @@ import rx.Observable;
  * Created by StormPhoenix on 17-3-1.
  * StormPhoenix is a intelligent Android developer.
  */
-public class ContributorsPresenter extends ListItemPresenter<GitUser, ListItemView<GitUser>> {
+public class ContributorsPresenter extends ListItemPresenter<GitUser, List<GitUser>, ListItemView<GitUser>> {
     private RepoInteractor mInteractor;
     private GitRepository mRepository;
 
@@ -35,8 +35,17 @@ public class ContributorsPresenter extends ListItemPresenter<GitUser, ListItemVi
     }
 
     @Override
+    protected List<GitUser> transformBody(List<GitUser> body) {
+        return body;
+    }
+
+    @Override
     protected Observable<Response<List<GitUser>>> load(int page) {
-        return mInteractor.loadContributors(mRepository.getOwner().getLogin(), mRepository.getName(), String.valueOf(page));
+        if (mRepository != null) {
+            return mInteractor.loadContributors(mRepository.getOwner().getLogin(), mRepository.getName(), String.valueOf(page));
+        } else {
+            return null;
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)

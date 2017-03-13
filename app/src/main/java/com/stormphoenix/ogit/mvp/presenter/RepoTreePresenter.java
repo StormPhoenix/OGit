@@ -35,7 +35,7 @@ import rx.Observable;
  * StormPhoenix is a intelligent Android developer.
  */
 
-public class RepoTreePresenter extends ListItemPresenter<GitTreeItem, TreeItemView<GitTreeItem>> {
+public class RepoTreePresenter extends ListItemPresenter<GitTreeItem,List<GitTreeItem>, TreeItemView<GitTreeItem>> {
     public static final String TAG = RepoTreePresenter.class.getSimpleName();
     private RepoInteractor mInteractor;
     private GitRepository mRepository;
@@ -51,6 +51,11 @@ public class RepoTreePresenter extends ListItemPresenter<GitTreeItem, TreeItemVi
     @Override
     public void loadMoreListItem() {
         mView.showProgress();
+    }
+
+    @Override
+    protected List<GitTreeItem> transformBody(List<GitTreeItem> body) {
+        return body;
     }
 
     @Override

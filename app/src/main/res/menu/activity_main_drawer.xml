@@ -19,7 +19,7 @@
             android:title="Tools" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="Communication">
         <menu>
             <item
                 android:id="@+id/nav_share"
@@ -31,4 +31,9 @@
                 android:title="Send" />
         </menu>
     </item>
+
+    <item
+        android:id="@+id/nav_exit"
+        android:icon="@drawable/ic_exit_to_app_black_24dp"
+        android:title="@string/exit" />
 </menu>

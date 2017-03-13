@@ -57,6 +57,7 @@ public class RepositoryPresenter extends BasePresenter<RepositoryView> {
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void onMainEvent(GitRepository repository) {
         mRepository = repository;
+        EventBus.getDefault().unregister(this);
         mInteractor.loadRepositoryBranch(mRepository.getOwner().getLogin(), mRepository.getName())
                 .compose(RxJavaCustomTransformer.defaultSchedulers())
                 .subscribe(new DefaultUiSubscriber<Response<List<GitBranch>>, BaseUIView>(mView, mContext.getString(R.string.network_error)) {
@@ -80,7 +81,6 @@ public class RepositoryPresenter extends BasePresenter<RepositoryView> {
                     }
                 });
         initRepositoryView();
-        EventBus.getDefault().unregister(this);
     }
 
     private void initRepositoryView() {

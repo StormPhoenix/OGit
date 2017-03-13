@@ -1,8 +1,6 @@
 package com.stormphoenix.ogit.mvp.ui.fragments;
 
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.RecyclerView;
 
 import com.stormphoenix.httpknife.github.GitEvent;
 import com.stormphoenix.ogit.R;
@@ -18,18 +16,12 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
-
 /**
  * Created by StormPhoenix on 17-2-25.
  * StormPhoenix is a intelligent Android developer.
  */
 
 public class EventsFragment extends ListFragment<GitEvent> {
-    @BindView(R.id.recy_event_list)
-    RecyclerView mRecyEventList;
-    @BindView(R.id.events_refresh_layout)
-    SwipeRefreshLayout mEventsRefreshLayout;
 
     @Inject
     public EventsPresenter mEventPresenter;
@@ -37,7 +29,7 @@ public class EventsFragment extends ListFragment<GitEvent> {
     @Override
     public void initListItemView() {
         super.initListItemView();
-        mAdapter.setOnViewClickListener(R.id.header_image, mEventPresenter);
+        mAdapter.addOnViewClickListener(R.id.header_image, mEventPresenter);
     }
 
     public static EventsFragment getInstance(String username) {
@@ -50,7 +42,7 @@ public class EventsFragment extends ListFragment<GitEvent> {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_events;
+        return R.layout.fragment_refresh_recyclerview;
     }
 
     @Override
@@ -64,16 +56,6 @@ public class EventsFragment extends ListFragment<GitEvent> {
     @Override
     public BaseRecyclerAdapter<GitEvent> getAdapter() {
         return new GitEventsAdapter(getActivity(), new ArrayList<GitEvent>());
-    }
-
-    @Override
-    public SwipeRefreshLayout getRefreshLayout() {
-        return mEventsRefreshLayout;
-    }
-
-    @Override
-    public RecyclerView getRecyclerView() {
-        return mRecyEventList;
     }
 
     @Override

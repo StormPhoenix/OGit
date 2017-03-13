@@ -32,10 +32,6 @@ import butterknife.ButterKnife;
  */
 
 public class OrgFragment extends ListFragment<GitOrg> {
-    @BindView(R.id.recy_org_list)
-    RecyclerView mRecyOrgList;
-    @BindView(R.id.org_refresh_layout)
-    SwipeRefreshLayout mOrgRefreshLayout;
 
     @Inject
     public OrgPresenter mPresenter;
@@ -50,22 +46,12 @@ public class OrgFragment extends ListFragment<GitOrg> {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_orgs;
+        return R.layout.fragment_refresh_recyclerview;
     }
 
     @Override
     public BaseRecyclerAdapter<GitOrg> getAdapter() {
         return new GitOrgsAdapter(getActivity(), new ArrayList<GitOrg>());
-    }
-
-    @Override
-    public SwipeRefreshLayout getRefreshLayout() {
-        return mOrgRefreshLayout;
-    }
-
-    @Override
-    public RecyclerView getRecyclerView() {
-        return mRecyOrgList;
     }
 
     @Override

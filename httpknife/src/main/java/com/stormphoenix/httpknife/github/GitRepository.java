@@ -14,6 +14,8 @@ public class GitRepository {
     @SerializedName("full_name")
     private String fullName;
     private GitUser owner;
+    @SerializedName("private")
+    private String privates;
     @SerializedName("html_url")
     private String htmlUrl;
     private String description;
@@ -21,9 +23,19 @@ public class GitRepository {
     private String url;
     @SerializedName("forks_url")
     private String forksUrl;
+    @SerializedName("keys_url")
+    private String keysUrl;
     private String collaboratorsUrl;
+    @SerializedName("teams_url")
+    private String teamsUrl;
+    @SerializedName("hooks_url")
+    private String hooksUrl;
+    @SerializedName("issue_events_url")
+    private String issueEventsUrl;
     @SerializedName("events_url")
     private String eventsUrl;
+    @SerializedName("assignees_url")
+    private String assigneesUrl;
     private String branchesUrl;
     @SerializedName("tags_url")
     private String tagsUrl;
@@ -35,6 +47,20 @@ public class GitRepository {
     private String commitsUrl;
     @SerializedName("contents_url")
     private String contentsUrl;
+    @SerializedName("merges_url")
+    private String mergesUrl;
+    @SerializedName("downloads_url")
+    private String downloadsUrl;
+    @SerializedName("milestones_url")
+    private String milestonesUrl;
+    @SerializedName("notifications_url")
+    private String notificationsUrl;
+    @SerializedName("labels_url")
+    private String labelsUrl;
+    @SerializedName("releases_url")
+    private String releasesUrl;
+    @SerializedName("deployments_url")
+    private String deploymentsUrl;
     @SerializedName("created_at")
     private Date createdAt;
     @SerializedName("updated_at")
@@ -256,5 +282,101 @@ public class GitRepository {
 
     public void setWatchers(int watchers) {
         this.watchers = watchers;
+    }
+
+    public String getKeysUrl() {
+        return keysUrl;
+    }
+
+    public void setKeysUrl(String keysUrl) {
+        this.keysUrl = keysUrl;
+    }
+
+    public String getTeamsUrl() {
+        return teamsUrl;
+    }
+
+    public void setTeamsUrl(String teamsUrl) {
+        this.teamsUrl = teamsUrl;
+    }
+
+    public String getHooksUrl() {
+        return hooksUrl;
+    }
+
+    public void setHooksUrl(String hooksUrl) {
+        this.hooksUrl = hooksUrl;
+    }
+
+    public String getIssueEventsUrl() {
+        return issueEventsUrl;
+    }
+
+    public void setIssueEventsUrl(String issueEventsUrl) {
+        this.issueEventsUrl = issueEventsUrl;
+    }
+
+    public String getAssigneesUrl() {
+        return assigneesUrl;
+    }
+
+    public void setAssigneesUrl(String assigneesUrl) {
+        this.assigneesUrl = assigneesUrl;
+    }
+
+    public String getDeploymentsUrl() {
+        return deploymentsUrl;
+    }
+
+    public void setDeploymentsUrl(String deploymentsUrl) {
+        this.deploymentsUrl = deploymentsUrl;
+    }
+
+    public String getReleasesUrl() {
+        return releasesUrl;
+    }
+
+    public void setReleasesUrl(String releasesUrl) {
+        this.releasesUrl = releasesUrl;
+    }
+
+    public String getNotificationsUrl() {
+        return notificationsUrl;
+    }
+
+    public void setNotificationsUrl(String notificationsUrl) {
+        this.notificationsUrl = notificationsUrl;
+    }
+
+    public String getLabelsUrl() {
+        return labelsUrl;
+    }
+
+    public void setLabelsUrl(String labelsUrl) {
+        this.labelsUrl = labelsUrl;
+    }
+
+    public String getMilestonesUrl() {
+        return milestonesUrl;
+    }
+
+    public void setMilestonesUrl(String milestonesUrl) {
+        this.milestonesUrl = milestonesUrl;
+    }
+
+    public String getDownloadsUrl() {
+        return downloadsUrl;
+    }
+
+    public void setDownloadsUrl(String downloadsUrl) {
+        this.downloadsUrl = downloadsUrl;
+    }
+
+    public String getMergesUrl() {
+        return mergesUrl;
+    }
+
+    public void setMergesUrl(String mergesUrl) {
+        this.mergesUrl = mergesUrl;
     }
 }

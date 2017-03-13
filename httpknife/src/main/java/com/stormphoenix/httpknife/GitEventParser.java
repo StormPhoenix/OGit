@@ -1,4 +1,4 @@
-package com.stormphoenix.httpknife.github.payload;
+package com.stormphoenix.httpknife;
 
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
@@ -8,6 +8,12 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.stormphoenix.httpknife.github.GitEvent;
+import com.stormphoenix.httpknife.github.payload.GitCreatePayload;
+import com.stormphoenix.httpknife.github.payload.GitIssuePayload;
+import com.stormphoenix.httpknife.github.payload.GitMemberPayload;
+import com.stormphoenix.httpknife.github.payload.GitPayload;
+import com.stormphoenix.httpknife.github.payload.GitPushPayload;
+import com.stormphoenix.httpknife.github.payload.GitReleasePayload;
 
 import java.lang.reflect.Type;
 

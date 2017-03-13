@@ -121,4 +121,6 @@
     <string name="notification">Notification</string>
     <string name="search">Search</string>
     <string name="organization">组织</string>
+    <string name="exit">exit</string>
+    <string name="search_hint">Search in Github</string>
 </resources>

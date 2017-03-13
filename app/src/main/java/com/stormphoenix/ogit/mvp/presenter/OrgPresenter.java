@@ -18,7 +18,7 @@ import rx.Observable;
  * Created by StormPhoenix on 17-3-11.
  * StormPhoenix is a intelligent Android developer.
  */
-public class OrgPresenter extends ListItemPresenter<GitOrg, ListItemView<GitOrg>> {
+public class OrgPresenter extends ListItemPresenter<GitOrg, List<GitOrg>, ListItemView<GitOrg>> {
     private OrgInteractor mInteractor = null;
 
     @Inject
@@ -30,6 +30,11 @@ public class OrgPresenter extends ListItemPresenter<GitOrg, ListItemView<GitOrg>
     @Override
     public void loadMoreListItem() {
         mView.hideProgress();
+    }
+
+    @Override
+    protected List<GitOrg> transformBody(List<GitOrg> body) {
+        return body;
     }
 
     /**

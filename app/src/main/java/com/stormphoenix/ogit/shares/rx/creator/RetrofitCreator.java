@@ -6,7 +6,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.stormphoenix.httpknife.github.GitEvent;
-import com.stormphoenix.httpknife.github.payload.GitEventParser;
+import com.stormphoenix.httpknife.GitEventParser;
 import com.stormphoenix.ogit.shares.Constants;
 import com.stormphoenix.ogit.shares.rx.converter.StringConverterFactory;
 import com.stormphoenix.ogit.utils.PreferenceUtils;
@@ -56,6 +56,7 @@ public class RetrofitCreator {
         GsonBuilder builder = new GsonBuilder();
         // 注意Type类型
         builder.registerTypeAdapter(GitEvent.class, new GitEventParser());
+//        builder.registerTypeAdapter(GitS)
 //                    builder.registerTypeAdapter(GitBlob.class, new GitBlobParser());
 //                    builder.setLenient();
         gson = builder.create();
