@@ -108,14 +108,6 @@ public class RepositoryPresenter extends BasePresenter<RepositoryView> {
         super.onDestory();
     }
 
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                mView.finishView();
-        }
-        return true;
-    }
-
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.contributor_wrapper:

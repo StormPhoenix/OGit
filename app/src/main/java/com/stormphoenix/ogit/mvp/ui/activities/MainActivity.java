@@ -1,14 +1,17 @@
 package com.stormphoenix.ogit.mvp.ui.activities;
 
+import android.app.SearchManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
-import android.support.v4.view.ViewPager;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -152,6 +155,36 @@ public class MainActivity extends TabPagerActivity<FragmentsAdapter> implements 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_home_toolbar, menu);
+        final MenuItem searchMenuItem = menu.findItem(R.id.action_search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenuItem);
+        SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this, SearchActivity.class)));
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                MenuItemCompat.collapseActionView(searchMenuItem);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+        searchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
+            @Override
+            public boolean onSuggestionSelect(int position) {
+                MenuItemCompat.collapseActionView(searchMenuItem);
+                return false;
+            }
+
+            @Override
+            public boolean onSuggestionClick(int position) {
+                MenuItemCompat.collapseActionView(searchMenuItem);
+                return false;
+            }
+        });
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -191,7 +224,7 @@ public class MainActivity extends TabPagerActivity<FragmentsAdapter> implements 
             case R.id.nav_exit:
                 // 退出登录
                 PreferenceUtils.putBoolean(this, PreferenceUtils.IS_LOGIN, false);
-                ActivityUtils.startActivity(this, LoginActivity.newIntent(this));
+//                ActivityUtils.startActivity(this, LoginActivity.newIntent(this));
                 finish();
             default:
                 return false;

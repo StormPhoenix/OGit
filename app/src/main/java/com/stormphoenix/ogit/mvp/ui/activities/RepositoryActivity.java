@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -56,6 +57,12 @@ public class RepositoryActivity extends BaseActivity implements RepositoryView {
     protected void onDestroy() {
         mPresenter.onDestory();
         super.onDestroy();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_repo_details, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -125,7 +132,17 @@ public class RepositoryActivity extends BaseActivity implements RepositoryView {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return mPresenter.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finishView();
+                return true;
+            case R.id.action_fork:
+                return true;
+            case R.id.action_star:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @OnClick({R.id.contributor_wrapper, R.id.code_wrapper})
