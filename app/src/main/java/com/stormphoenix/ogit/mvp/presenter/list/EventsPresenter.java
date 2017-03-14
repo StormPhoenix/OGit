@@ -1,19 +1,16 @@
-package com.stormphoenix.ogit.mvp.presenter;
+package com.stormphoenix.ogit.mvp.presenter.list;
 
 import android.content.Context;
 import android.content.Intent;
-import android.view.View;
 
 import com.stormphoenix.httpknife.github.GitEvent;
-import com.stormphoenix.ogit.adapters.base.BaseRecyclerAdapter;
 import com.stormphoenix.ogit.mvp.model.interactor.UserInteractor;
-import com.stormphoenix.ogit.mvp.presenter.base.ListItemPresenter;
+import com.stormphoenix.ogit.mvp.presenter.list.ListItemPresenter;
+import com.stormphoenix.ogit.mvp.ui.activities.RepositoryActivity;
 import com.stormphoenix.ogit.mvp.ui.activities.UserDetailsActivity;
 import com.stormphoenix.ogit.mvp.view.base.ListItemView;
 import com.stormphoenix.ogit.utils.ActivityUtils;
 import com.stormphoenix.ogit.utils.PreferenceUtils;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -27,7 +24,7 @@ import rx.Observable;
  * StormPhoenix is a intelligent Android developer.
  */
 
-public class EventsPresenter extends ListItemPresenter<GitEvent, List<GitEvent>, ListItemView<GitEvent>> implements BaseRecyclerAdapter.OnInternalViewClickListener<GitEvent> {
+public class EventsPresenter extends ListItemPresenter<GitEvent, List<GitEvent>, ListItemView<GitEvent>> {
     /**
      * Interactor 用于提交网络请求获取数据
      **/
@@ -50,19 +47,13 @@ public class EventsPresenter extends ListItemPresenter<GitEvent, List<GitEvent>,
         return mInfoInfoInteractor.loadReceiveEvents(PreferenceUtils.getUsername(mContext), page);
     }
 
-    @Override
-    public void onClick(View parentV, View v, Integer position, GitEvent values) {
-        EventBus.getDefault().postSticky(values.getActor());
-        startUserDetailsActivity();
-    }
-
-    private void startUserDetailsActivity() {
+    public void startUserDetailsActivity() {
         Intent intent = new Intent(mContext, UserDetailsActivity.class);
         ActivityUtils.startActivity(mContext, intent);
     }
 
-    @Override
-    public boolean onLongClick(View parentV, View v, Integer position, GitEvent values) {
-        return false;
+    public void startRepoDetailsActivity() {
+        Intent intent = RepositoryActivity.getIntent(mContext);
+        ActivityUtils.startActivity(mContext, intent);
     }
 }

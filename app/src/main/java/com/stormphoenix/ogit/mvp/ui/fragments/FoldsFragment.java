@@ -11,10 +11,10 @@ import com.stormphoenix.ogit.adapters.GitFoldersAdapter;
 import com.stormphoenix.ogit.adapters.base.BaseRecyclerAdapter;
 import com.stormphoenix.ogit.dagger2.component.DaggerActivityComponent;
 import com.stormphoenix.ogit.dagger2.module.ContextModule;
-import com.stormphoenix.ogit.mvp.presenter.RepoTreePresenter;
-import com.stormphoenix.ogit.mvp.presenter.base.ListItemPresenter;
+import com.stormphoenix.ogit.mvp.presenter.list.RepoTreePresenter;
+import com.stormphoenix.ogit.mvp.presenter.list.ListItemPresenter;
 import com.stormphoenix.ogit.mvp.ui.activities.BreadcrumbTreeActivity;
-import com.stormphoenix.ogit.mvp.ui.fragments.base.ListFragment;
+import com.stormphoenix.ogit.mvp.ui.fragments.base.ListWithPresenterFragment;
 import com.stormphoenix.ogit.mvp.view.TreeItemView;
 
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ import javax.inject.Inject;
  * StormPhoenix is a intelligent Android developer.
  */
 
-public class FoldsFragment extends ListFragment<GitTreeItem> implements TreeItemView<GitTreeItem> {
+public class FoldsFragment extends ListWithPresenterFragment<GitTreeItem> implements TreeItemView<GitTreeItem> {
     public static final String TAG = FoldsFragment.class.getSimpleName();
 
     @Inject

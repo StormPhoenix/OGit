@@ -1,26 +1,14 @@
 package com.stormphoenix.ogit.mvp.ui.fragments.base;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.adapters.base.BaseRecyclerAdapter;
-import com.stormphoenix.ogit.mvp.presenter.base.ListItemPresenter;
-import com.stormphoenix.ogit.mvp.ui.activities.LoginActivity;
-import com.stormphoenix.ogit.mvp.view.base.ListItemView;
-import com.stormphoenix.ogit.utils.ActivityUtils;
-
-import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Created by StormPhoenix on 17-2-28.
@@ -28,13 +16,12 @@ import butterknife.ButterKnife;
  * <p>
  *
  * @author StormPhoenix
- *
- * SwipeRefreshLayout + RecyclerView + Fragment样式模板
- * Usage:
- * 覆写{@link #getAdapter()} 获取RecyclerView的适配器
- * 覆写{@link #getListItemPresetner()} 获取逻辑交互的Presenter
+ *         <p>
+ *         SwipeRefreshLayout + RecyclerView + Fragment样式模板
+ *         Usage:
+ *         覆写{@link #getAdapter()} 获取RecyclerView的适配器
  */
-public abstract class ListFragment<T> extends BaseFragment implements ListItemView<T> {
+public abstract class ListFragment<T> extends BaseFragment {
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
 
@@ -47,103 +34,9 @@ public abstract class ListFragment<T> extends BaseFragment implements ListItemVi
     protected View rootView = null;
 
     @Override
-    public void loadMoreListItem(List<T> listItems) {
-        mAdapter.addAll(listItems);
-    }
-
-    @Override
     protected int getLayoutId() {
         return R.layout.fragment_refresh_recyclerview;
     }
 
-    @Override
-    public void showProgress() {
-        mRefreshLayout.setRefreshing(true);
-    }
-
     public abstract BaseRecyclerAdapter<T> getAdapter();
-
-    public abstract ListItemPresenter getListItemPresetner();
-
-    @Override
-    public void hideProgress() {
-        mRefreshLayout.setRefreshing(false);
-    }
-
-    @Override
-    public void initListItemView() {
-        if (mAdapter == null) {
-            mAdapter = getAdapter();
-        }
-
-        mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        if (mRecyclerView != null) {
-            mRecyclerView.setLayoutManager(mLayoutManager);
-            mRecyclerView.setHasFixedSize(true);
-            mRecyclerView.setAdapter(mAdapter);
-        }
-    }
-
-    @Override
-    public int getListItemCounts() {
-        return mAdapter.getItemCount();
-    }
-
-    /**
-     * 加载最新数据列表
-     *
-     * @param listItems
-     */
-    @Override
-    public void loadNewlyListItem(List<T> listItems) {
-        mAdapter.setData(listItems);
-        mAdapter.notifyDataSetChanged();
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        rootView = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.bind(this, rootView);
-        getListItemPresetner().onAttachView(this);
-        getListItemPresetner().onCreate(savedInstanceState);
-        return rootView;
-    }
-
-    @Override
-    public void initRefreshLayout() {
-        mRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorAccent);
-        mRefreshLayout.setOnRefreshListener(() -> getListItemPresetner().loadNewlyListItem());
-
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            int lastVisibleItem = 0;
-
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (newState == RecyclerView.SCROLL_STATE_IDLE
-                        && lastVisibleItem + 1 == mAdapter.getItemCount()) {
-                    mRefreshLayout.setRefreshing(true);
-                    getListItemPresetner().loadMoreListItem();
-                }
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                lastVisibleItem = mLayoutManager.findLastVisibleItemPosition();
-            }
-        });
-    }
-
-    @Override
-    public void showMessage(String message) {
-        Snackbar.make(rootView, message, Snackbar.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void reLogin() {
-        ActivityUtils.startActivity(getActivity(), LoginActivity.newIntent(getActivity()));
-        getActivity().finish();
-    }
 }

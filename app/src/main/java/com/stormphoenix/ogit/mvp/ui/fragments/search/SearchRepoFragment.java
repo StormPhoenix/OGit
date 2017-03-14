@@ -1,4 +1,4 @@
-package com.stormphoenix.ogit.mvp.ui.fragments;
+package com.stormphoenix.ogit.mvp.ui.fragments.search;
 
 import android.view.View;
 
@@ -6,27 +6,33 @@ import com.stormphoenix.httpknife.github.GitRepository;
 import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.adapters.GitRepositoryAdapter;
 import com.stormphoenix.ogit.adapters.base.BaseRecyclerAdapter;
-import com.stormphoenix.ogit.mvp.presenter.base.ListItemPresenter;
+import com.stormphoenix.ogit.dagger2.component.DaggerActivityComponent;
+import com.stormphoenix.ogit.dagger2.module.ContextModule;
+import com.stormphoenix.ogit.mvp.presenter.search.SearchRepoPresenter;
+import com.stormphoenix.ogit.mvp.presenter.search.SearchPresenter;
 import com.stormphoenix.ogit.mvp.ui.activities.RepositoryActivity;
-import com.stormphoenix.ogit.mvp.ui.fragments.base.ListFragment;
 import com.stormphoenix.ogit.utils.ActivityUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+
 /**
  * Created by StormPhoenix on 17-3-12.
  * StormPhoenix is a intelligent Android developer.
+ * <p>
+ * 用户显示搜索得到的Repository信息
  */
 
-public class RepoFragment extends ListFragment<GitRepository> {
+public class SearchRepoFragment extends SearchFragment<GitRepository> {
 
-    private ListItemPresenter mPresenter = null;
+    @Inject
+    public SearchRepoPresenter mPresenter = null;
 
-    public static RepoFragment getInstance(ListItemPresenter presenter) {
-        RepoFragment fragment = new RepoFragment();
-        fragment.setPresenter(presenter);
+    public static SearchRepoFragment getInstance() {
+        SearchRepoFragment fragment = new SearchRepoFragment();
         return fragment;
     }
 
@@ -49,7 +55,10 @@ public class RepoFragment extends ListFragment<GitRepository> {
 
     @Override
     public void initializeInjector() {
-        // Do nothing
+        DaggerActivityComponent.builder()
+                .contextModule(new ContextModule(getActivity()))
+                .build()
+                .inject(this);
     }
 
     @Override
@@ -58,11 +67,7 @@ public class RepoFragment extends ListFragment<GitRepository> {
     }
 
     @Override
-    public ListItemPresenter getListItemPresetner() {
+    protected SearchPresenter<GitRepository> getSearchPresenter() {
         return mPresenter;
-    }
-
-    public void setPresenter(ListItemPresenter presenter) {
-        mPresenter = presenter;
     }
 }

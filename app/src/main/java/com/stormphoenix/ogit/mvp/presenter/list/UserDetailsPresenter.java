@@ -1,4 +1,4 @@
-package com.stormphoenix.ogit.mvp.presenter;
+package com.stormphoenix.ogit.mvp.presenter.list;
 
 import android.content.Context;
 import android.os.Bundle;

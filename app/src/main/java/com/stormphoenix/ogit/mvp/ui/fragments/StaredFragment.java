@@ -8,9 +8,9 @@ import com.stormphoenix.ogit.adapters.GitRepositoryAdapter;
 import com.stormphoenix.ogit.adapters.base.BaseRecyclerAdapter;
 import com.stormphoenix.ogit.dagger2.component.DaggerActivityComponent;
 import com.stormphoenix.ogit.dagger2.module.ContextModule;
-import com.stormphoenix.ogit.mvp.presenter.StaredPresenter;
-import com.stormphoenix.ogit.mvp.presenter.base.ListItemPresenter;
-import com.stormphoenix.ogit.mvp.ui.fragments.base.ListFragment;
+import com.stormphoenix.ogit.mvp.presenter.list.StaredPresenter;
+import com.stormphoenix.ogit.mvp.presenter.list.ListItemPresenter;
+import com.stormphoenix.ogit.mvp.ui.fragments.base.ListWithPresenterFragment;
 
 import java.util.ArrayList;
 
@@ -20,7 +20,7 @@ import javax.inject.Inject;
  * Created by StormPhoenix on 17-2-27.
  * StormPhoenix is a intelligent Android developer.
  */
-public class StaredFragment extends ListFragment<GitRepository> {
+public class StaredFragment extends ListWithPresenterFragment<GitRepository> {
     @Inject
     StaredPresenter mRepositoryPresenter;
 

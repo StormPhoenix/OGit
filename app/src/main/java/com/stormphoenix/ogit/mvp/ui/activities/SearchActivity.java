@@ -7,13 +7,10 @@ import android.support.v4.view.PagerAdapter;
 import android.view.MenuItem;
 
 import com.stormphoenix.ogit.adapters.FragmentsAdapter;
-import com.stormphoenix.ogit.mvp.presenter.SearchPresenter;
 import com.stormphoenix.ogit.mvp.ui.activities.base.TabPagerActivity;
-import com.stormphoenix.ogit.mvp.ui.fragments.ContributorsFragment;
-import com.stormphoenix.ogit.mvp.ui.fragments.RepoFragment;
+import com.stormphoenix.ogit.mvp.ui.fragments.search.SearchRepoFragment;
+import com.stormphoenix.ogit.mvp.ui.fragments.search.SearchUsersFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.base.BaseFragment;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,9 +21,14 @@ import static android.content.Intent.ACTION_SEARCH;
 /**
  * Created by StormPhoenix on 17-3-11.
  * StormPhoenix is a intelligent Android developer.
+ * <p>
+ * 用于响应搜索功能。当调用系统搜索框架时，SearchActivity就会进行响应
  */
 
 public class SearchActivity extends TabPagerActivity {
+    /**
+     * 搜索的关键字，SearchActivity被启动的时候，keyword就可以通过Intent进行赋值
+     */
     private String keyword;
 
     @Override
@@ -39,7 +41,6 @@ public class SearchActivity extends TabPagerActivity {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         parseIntent(getIntent());
-        EventBus.getDefault().postSticky(keyword);
         configureTabPager();
     }
 
@@ -64,14 +65,17 @@ public class SearchActivity extends TabPagerActivity {
         getSupportActionBar().setTitle(query);
     }
 
+    public String getSearchKeyWord() {
+        return keyword;
+    }
+
     @Override
     protected PagerAdapter createAdapter() {
+//        String[] titleList = {"User"};
         String[] titleList = {"Repo", "User"};
-//        String[] titleList = {"Repositories"};
         List<BaseFragment> fragmentList = new ArrayList<>();
-        fragmentList.add(RepoFragment.getInstance(new SearchPresenter(this)));
-//        fragmentList.add(StaredFragment.getInstance(PreferenceUtils.getString(this, PreferenceUtils.USERNAME)));
-        fragmentList.add(ContributorsFragment.getInstance());
+        fragmentList.add(SearchRepoFragment.getInstance());
+        fragmentList.add(SearchUsersFragment.getInstance());
 
         FragmentsAdapter mAdapter = new FragmentsAdapter(this.getSupportFragmentManager());
         mAdapter.setFragmentList(fragmentList, titleList);

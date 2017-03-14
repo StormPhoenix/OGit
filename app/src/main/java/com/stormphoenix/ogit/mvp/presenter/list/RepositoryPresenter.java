@@ -1,9 +1,8 @@
-package com.stormphoenix.ogit.mvp.presenter;
+package com.stormphoenix.ogit.mvp.presenter.list;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 
 import com.stormphoenix.httpknife.github.GitBranch;
@@ -58,6 +57,29 @@ public class RepositoryPresenter extends BasePresenter<RepositoryView> {
     public void onMainEvent(GitRepository repository) {
         mRepository = repository;
         EventBus.getDefault().unregister(this);
+        if (!isRepoFragmentary(mRepository)) {
+            loadMoreRepoDetails();
+            initRepositoryView();
+        } else {
+            // the Repository is fragmentary, we must get it from the net
+            mInteractor.loadRepository(mRepository.getUrl())
+                    .compose(RxJavaCustomTransformer.defaultSchedulers())
+                    .subscribe(new DefaultUiSubscriber<Response<GitRepository>, BaseUIView>(mView, mContext.getString(R.string.network_error)) {
+                        @Override
+                        public void onNext(Response<GitRepository> response) {
+                            if (response.isSuccessful()) {
+                                mRepository = response.body();
+                                loadMoreRepoDetails();
+                                initRepositoryView();
+                            } else {
+                                mView.showMessage(mContext.getString(R.string.network_error));
+                            }
+                        }
+                    });
+        }
+    }
+
+    private void loadMoreRepoDetails() {
         mInteractor.loadRepositoryBranch(mRepository.getOwner().getLogin(), mRepository.getName())
                 .compose(RxJavaCustomTransformer.defaultSchedulers())
                 .subscribe(new DefaultUiSubscriber<Response<List<GitBranch>>, BaseUIView>(mView, mContext.getString(R.string.network_error)) {
@@ -80,7 +102,16 @@ public class RepositoryPresenter extends BasePresenter<RepositoryView> {
                         mView.loadReadmeHtml(readmeText, mRepository.getHtmlUrl(), mRepository.getDefaultBranch());
                     }
                 });
-        initRepositoryView();
+    }
+
+    /**
+     * 判断GitRepository信息是否完整
+     *
+     * @param mRepository
+     * @return
+     */
+    private boolean isRepoFragmentary(GitRepository mRepository) {
+        return mRepository.getOwner() == null;
     }
 
     private void initRepositoryView() {

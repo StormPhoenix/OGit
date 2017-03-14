@@ -9,18 +9,18 @@ import java.util.List;
  * StormPhoenix is a intelligent Android developer.
  */
 
-public class GitRepoSearch {
+public class GitSearchResult<T> {
     @SerializedName("total_count")
     private int totalCount;
     @SerializedName("incomplete_results")
     private boolean incompleteResults;
-    private List<GitRepository> items;
+    private List<T> items;
 
-    public List<GitRepository> getItems() {
+    public List<T> getItems() {
         return items;
     }
 
-    public void setItems(List<GitRepository> items) {
+    public void setItems(List<T> items) {
         this.items = items;
     }
 

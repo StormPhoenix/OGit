@@ -3,6 +3,7 @@ package com.stormphoenix.ogit.mvp.model.interactor;
 import android.content.Context;
 
 import com.stormphoenix.httpknife.github.GitBranch;
+import com.stormphoenix.httpknife.github.GitRepository;
 import com.stormphoenix.httpknife.github.GitTree;
 import com.stormphoenix.httpknife.github.GitUser;
 import com.stormphoenix.ogit.mvp.model.api.CodeFileApi;
@@ -27,6 +28,10 @@ public class RepoInteractor {
         mContext = context;
         repoApi = RetrofitCreator.getJsonRetrofitWithToken(mContext).create(RepoApi.class);
         codeFileApi = RetrofitCreator.getStringRetrofit(mContext).create(CodeFileApi.class);
+    }
+
+    public Observable<Response<GitRepository>> loadRepository(String url) {
+        return repoApi.loadRepo(url);
     }
 
     public Observable<Response<List<GitBranch>>> loadRepositoryBranch(final String user, final String repository) {

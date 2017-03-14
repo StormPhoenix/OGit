@@ -1,37 +1,26 @@
 package com.stormphoenix.ogit.mvp.ui.fragments;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.stormphoenix.httpknife.github.GitOrg;
 import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.adapters.GitOrgsAdapter;
 import com.stormphoenix.ogit.adapters.base.BaseRecyclerAdapter;
 import com.stormphoenix.ogit.dagger2.component.DaggerActivityComponent;
 import com.stormphoenix.ogit.dagger2.module.ContextModule;
-import com.stormphoenix.ogit.mvp.presenter.OrgPresenter;
-import com.stormphoenix.ogit.mvp.presenter.base.ListItemPresenter;
+import com.stormphoenix.ogit.mvp.presenter.list.OrgPresenter;
+import com.stormphoenix.ogit.mvp.presenter.list.ListItemPresenter;
 import com.stormphoenix.ogit.mvp.ui.fragments.base.BaseFragment;
-import com.stormphoenix.ogit.mvp.ui.fragments.base.ListFragment;
+import com.stormphoenix.ogit.mvp.ui.fragments.base.ListWithPresenterFragment;
 
 import java.util.ArrayList;
 
 import javax.inject.Inject;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Created by StormPhoenix on 17-3-11.
  * StormPhoenix is a intelligent Android developer.
  */
 
-public class OrgFragment extends ListFragment<GitOrg> {
+public class OrgFragment extends ListWithPresenterFragment<GitOrg> {
 
     @Inject
     public OrgPresenter mPresenter;

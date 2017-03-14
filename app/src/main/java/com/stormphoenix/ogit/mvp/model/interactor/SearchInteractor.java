@@ -2,7 +2,9 @@ package com.stormphoenix.ogit.mvp.model.interactor;
 
 import android.content.Context;
 
-import com.stormphoenix.httpknife.github.GitRepoSearch;
+import com.stormphoenix.httpknife.github.GitSearchResult;
+import com.stormphoenix.httpknife.github.GitRepository;
+import com.stormphoenix.httpknife.github.GitUser;
 import com.stormphoenix.ogit.mvp.model.api.SearchApi;
 import com.stormphoenix.ogit.shares.rx.creator.RetrofitCreator;
 
@@ -23,11 +25,15 @@ public class SearchInteractor {
         searchApi = RetrofitCreator.getJsonRetrofitWithToken(mContext).create(SearchApi.class);
     }
 
-    public Observable<Response<GitRepoSearch>> searchRepos(String keyword, int page) {
+    public Observable<Response<GitSearchResult<GitRepository>>> searchRepos(String keyword, int page) {
         return searchApi.searchRepos(keyword, page);
     }
 
-    public Observable<Response<GitRepoSearch>> searchReposByLang(String keyword, String lang) {
-        return searchApi.searchReposByLang(keyword, lang, "stars", "desc");
+    public Observable<Response<GitSearchResult<GitRepository>>> searchReposByLang(String keyword, String lang) {
+        return searchApi.searchReposByLang(keyword, lang);
+    }
+
+    public Observable<Response<GitSearchResult<GitUser>>> searchUsers(String keyword, int page) {
+        return searchApi.searchUsers(keyword, page);
     }
 }

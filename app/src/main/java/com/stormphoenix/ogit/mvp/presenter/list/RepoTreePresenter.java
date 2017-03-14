@@ -1,4 +1,4 @@
-package com.stormphoenix.ogit.mvp.presenter;
+package com.stormphoenix.ogit.mvp.presenter.list;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -10,7 +10,6 @@ import com.stormphoenix.httpknife.github.GitTree;
 import com.stormphoenix.httpknife.github.GitTreeItem;
 import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.mvp.model.interactor.RepoInteractor;
-import com.stormphoenix.ogit.mvp.presenter.base.ListItemPresenter;
 import com.stormphoenix.ogit.mvp.ui.activities.BreadcrumbTreeActivity;
 import com.stormphoenix.ogit.mvp.ui.activities.ToolbarActivity;
 import com.stormphoenix.ogit.mvp.view.TreeItemView;

@@ -1,9 +1,10 @@
-package com.stormphoenix.ogit.mvp.presenter.base;
+package com.stormphoenix.ogit.mvp.presenter.list;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.stormphoenix.ogit.mvp.presenter.base.BasePresenter;
 import com.stormphoenix.ogit.mvp.view.base.BaseUIView;
 import com.stormphoenix.ogit.mvp.view.base.ListItemView;
 import com.stormphoenix.ogit.shares.rx.RxHttpLog;

@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.dagger2.component.DaggerActivityComponent;
 import com.stormphoenix.ogit.dagger2.module.ContextModule;
-import com.stormphoenix.ogit.mvp.presenter.UserDetailsPresenter;
+import com.stormphoenix.ogit.mvp.presenter.list.UserDetailsPresenter;
 import com.stormphoenix.ogit.mvp.ui.activities.base.BaseActivity;
 import com.stormphoenix.ogit.mvp.view.UserDetailsView;
 import com.stormphoenix.ogit.utils.ActivityUtils;
