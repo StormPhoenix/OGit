@@ -3,5 +3,6 @@
     <declare-styleable name="key_value_label">
         <attr name="key_text" format="string" />
         <attr name="value_text" format="string" />
+        <attr name="image" format="reference" />
     </declare-styleable>
 </resources>

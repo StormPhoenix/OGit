@@ -2,12 +2,14 @@ package com.stormphoenix.httpknife.github;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Date;
+
 /**
  * Created by StormPhoenix on 17-3-11.
  * StormPhoenix is a intelligent Android developer.
  */
 
-public class GitOrg {
+public class GitOrganization {
     /**
      * login : github
      * id : 1
@@ -21,6 +23,7 @@ public class GitOrg {
      * avatarUrl : https://github.com/images/error/octocat_happy.gif
      * description : A great organization
      */
+    public static final String TYPE_ORG = "Organization";
 
     private String login;
     private int id;
@@ -40,6 +43,24 @@ public class GitOrg {
     @SerializedName("avatar_url")
     private String avatarUrl;
     private String description;
+    private String name;
+    private String company;
+    private String blog;
+    private String location;
+    private String email;
+    @SerializedName("public_repos")
+    private int publicRepos;
+    @SerializedName("public_gists")
+    private int publicGists;
+    private int followers;
+    private int following;
+    @SerializedName("html_url")
+    private String htmlUrl;
+    @SerializedName("created_at")
+    private Date createdAt;
+    @SerializedName("updated_at")
+    private Date updatedAt;
+    private String type;
 
     public String getLogin() {
         return login;
@@ -127,5 +148,109 @@ public class GitOrg {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public String getBlog() {
+        return blog;
+    }
+
+    public void setBlog(String blog) {
+        this.blog = blog;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public int getPublicRepos() {
+        return publicRepos;
+    }
+
+    public void setPublicRepos(int publicRepos) {
+        this.publicRepos = publicRepos;
+    }
+
+    public int getPublicGists() {
+        return publicGists;
+    }
+
+    public void setPublicGists(int publicGists) {
+        this.publicGists = publicGists;
+    }
+
+    public int getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(int followers) {
+        this.followers = followers;
+    }
+
+    public int getFollowing() {
+        return following;
+    }
+
+    public void setFollowing(int following) {
+        this.following = following;
+    }
+
+    public String getHtmlUrl() {
+        return htmlUrl;
+    }
+
+    public void setHtmlUrl(String htmlUrl) {
+        this.htmlUrl = htmlUrl;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

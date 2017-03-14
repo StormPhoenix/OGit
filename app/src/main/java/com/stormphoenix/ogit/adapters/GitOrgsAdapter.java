@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.stormphoenix.httpknife.github.GitOrg;
+import com.stormphoenix.httpknife.github.GitOrganization;
 import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.adapters.base.BaseRecyclerAdapter;
 import com.stormphoenix.ogit.utils.ImageUtils;
@@ -25,13 +25,13 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * StormPhoenix is a intelligent Android developer.
  */
 
-public class GitOrgsAdapter extends BaseRecyclerAdapter<GitOrg> {
+public class GitOrgsAdapter extends BaseRecyclerAdapter<GitOrganization> {
 
-    public GitOrgsAdapter(List<GitOrg> dataList) {
+    public GitOrgsAdapter(List<GitOrganization> dataList) {
         this(null, dataList);
     }
 
-    public GitOrgsAdapter(Context context, List<GitOrg> dataList) {
+    public GitOrgsAdapter(Context context, List<GitOrganization> dataList) {
         super(context, dataList);
     }
 
@@ -74,7 +74,7 @@ public class GitOrgsAdapter extends BaseRecyclerAdapter<GitOrg> {
             ButterKnife.bind(this, itemView);
         }
 
-        public void bind(GitOrg org) {
+        public void bind(GitOrganization org) {
             ImageUtils.getInstance().displayImage(org.getAvatarUrl(), mHeaderImage);
             mTextUserName.setText(org.getLogin());
             mTextOtherInfo.setText(org.getDescription());

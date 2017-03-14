@@ -2,8 +2,8 @@ package com.stormphoenix.ogit.mvp.model.interactor;
 
 import android.content.Context;
 
-import com.stormphoenix.httpknife.github.GitOrg;
-import com.stormphoenix.ogit.mvp.model.api.OrgApi;
+import com.stormphoenix.httpknife.github.GitOrganization;
+import com.stormphoenix.ogit.mvp.model.api.OrganizationApi;
 import com.stormphoenix.ogit.shares.rx.creator.RetrofitCreator;
 
 import java.util.List;
@@ -19,15 +19,19 @@ import rx.Observable;
  */
 
 public class OrgInteractor {
-    private OrgApi api = null;
+    private OrganizationApi api = null;
     private Context mContext = null;
 
     public OrgInteractor(Context context) {
         mContext = context;
-        api = RetrofitCreator.getJsonRetrofitWithToken(mContext).create(OrgApi.class);
+        api = RetrofitCreator.getJsonRetrofitWithToken(mContext).create(OrganizationApi.class);
     }
 
-    public Observable<Response<List<GitOrg>>> loadOwnerOrgs(int page) {
+    public Observable<Response<List<GitOrganization>>> loadOwnerOrgs(int page) {
         return api.loadOwnerOrgs(page);
+    }
+
+    public Observable<Response<GitOrganization>> loadOrganization(String org) {
+        return api.loadOrganization(org);
     }
 }

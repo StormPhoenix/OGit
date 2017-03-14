@@ -2,9 +2,8 @@ package com.stormphoenix.ogit.mvp.presenter.list;
 
 import android.content.Context;
 
-import com.stormphoenix.httpknife.github.GitOrg;
+import com.stormphoenix.httpknife.github.GitOrganization;
 import com.stormphoenix.ogit.mvp.model.interactor.OrgInteractor;
-import com.stormphoenix.ogit.mvp.presenter.list.ListItemPresenter;
 import com.stormphoenix.ogit.mvp.view.base.ListItemView;
 
 import java.util.List;
@@ -18,7 +17,7 @@ import rx.Observable;
  * Created by StormPhoenix on 17-3-11.
  * StormPhoenix is a intelligent Android developer.
  */
-public class OrgPresenter extends ListItemPresenter<GitOrg, List<GitOrg>, ListItemView<GitOrg>> {
+public class OrgPresenter extends ListItemPresenter<GitOrganization, List<GitOrganization>, ListItemView<GitOrganization>> {
     private OrgInteractor mInteractor = null;
 
     @Inject
@@ -33,7 +32,7 @@ public class OrgPresenter extends ListItemPresenter<GitOrg, List<GitOrg>, ListIt
     }
 
     @Override
-    protected List<GitOrg> transformBody(List<GitOrg> body) {
+    protected List<GitOrganization> transformBody(List<GitOrganization> body) {
         return body;
     }
 
@@ -41,7 +40,7 @@ public class OrgPresenter extends ListItemPresenter<GitOrg, List<GitOrg>, ListIt
      * 加载用户组织信息
      */
     @Override
-    protected Observable<Response<List<GitOrg>>> load(int page) {
+    protected Observable<Response<List<GitOrganization>>> load(int page) {
         return mInteractor.loadOwnerOrgs(page);
     }
 }

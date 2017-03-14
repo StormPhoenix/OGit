@@ -1,6 +1,6 @@
 package com.stormphoenix.ogit.mvp.ui.fragments;
 
-import com.stormphoenix.httpknife.github.GitOrg;
+import com.stormphoenix.httpknife.github.GitOrganization;
 import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.adapters.GitOrgsAdapter;
 import com.stormphoenix.ogit.adapters.base.BaseRecyclerAdapter;
@@ -20,7 +20,7 @@ import javax.inject.Inject;
  * StormPhoenix is a intelligent Android developer.
  */
 
-public class OrgFragment extends ListWithPresenterFragment<GitOrg> {
+public class OrgFragment extends ListWithPresenterFragment<GitOrganization> {
 
     @Inject
     public OrgPresenter mPresenter;
@@ -39,8 +39,8 @@ public class OrgFragment extends ListWithPresenterFragment<GitOrg> {
     }
 
     @Override
-    public BaseRecyclerAdapter<GitOrg> getAdapter() {
-        return new GitOrgsAdapter(getActivity(), new ArrayList<GitOrg>());
+    public BaseRecyclerAdapter<GitOrganization> getAdapter() {
+        return new GitOrgsAdapter(getActivity(), new ArrayList<GitOrganization>());
     }
 
     @Override
