@@ -50,7 +50,7 @@ public class GitOrgsAdapter extends BaseRecyclerAdapter<GitOrganization> {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_recyclerview_git_user, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_recyclerview_git_owner, parent, false);
         return new OrgViewHolder(view);
     }
 

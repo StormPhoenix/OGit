@@ -3,6 +3,7 @@ package com.stormphoenix.ogit.mvp.model.interactor;
 import android.content.Context;
 
 import com.stormphoenix.httpknife.github.GitBranch;
+import com.stormphoenix.httpknife.github.GitEmpty;
 import com.stormphoenix.httpknife.github.GitRepository;
 import com.stormphoenix.httpknife.github.GitTree;
 import com.stormphoenix.httpknife.github.GitUser;
@@ -62,5 +63,21 @@ public class RepoInteractor {
      */
     public Observable<String> loadReadmeHtml(String owner, String repo, String ref) {
         return codeFileApi.loadReadMeHtml(owner, repo, ref);
+    }
+
+    public Observable<Response<GitRepository>> fork(final String owner, final String repo) {
+        return repoApi.fork(owner, repo);
+    }
+
+    public Observable<Response<GitEmpty>> hasStared(final String owner, final String repo) {
+        return repoApi.hasStar(owner, repo);
+    }
+
+    public Observable<Response<GitEmpty>> unstar(String owner, String repo) {
+        return repoApi.unStar(owner, repo);
+    }
+
+    public Observable<Response<GitEmpty>> star(String owner, String repo) {
+        return repoApi.star(owner, repo);
     }
 }

@@ -2,7 +2,9 @@ package com.stormphoenix.ogit.utils;
 
 import android.text.format.DateUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import static android.text.format.DateUtils.FORMAT_NUMERIC_DATE;
 import static android.text.format.DateUtils.FORMAT_SHOW_DATE;
@@ -15,9 +17,11 @@ import static android.text.format.DateUtils.MINUTE_IN_MILLIS;
  */
 
 public class TimeUtils {
+    private static final SimpleDateFormat defaultTimeFormater = new SimpleDateFormat("hh:mm MMM dd, yyyy", Locale.UK);
 
     /**
      * 将时间转化为相对时间
+     *
      * @param date
      * @return
      */
@@ -29,5 +33,9 @@ public class TimeUtils {
                             | FORMAT_NUMERIC_DATE);
         else
             return "just now";
+    }
+
+    public static String defaultTimeFormat(Date date) {
+        return defaultTimeFormater.format(date);
     }
 }

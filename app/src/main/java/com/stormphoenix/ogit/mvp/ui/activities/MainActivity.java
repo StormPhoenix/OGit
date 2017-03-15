@@ -217,6 +217,7 @@ public class MainActivity extends TabPagerActivity<FragmentsAdapter> implements 
             case R.id.nav_home:
                 return true;
             case R.id.nav_org:
+                mDrawerLayout.closeDrawers();
                 Bundle bundle = new Bundle();
                 bundle.putInt(ToolbarActivity.TYPE, ToolbarActivity.TYPE_ORGANIZATION);
                 ActivityUtils.startActivity(this, ToolbarActivity.newIntent(this, bundle));

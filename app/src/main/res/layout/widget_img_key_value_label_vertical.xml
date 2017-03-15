@@ -21,6 +21,7 @@
         android:layout_marginLeft="72dp">
 
         <TextView
+            android:maxLines="1"
             android:id="@+id/text_value"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -28,6 +29,7 @@
             android:gravity="center_vertical"
             android:textColor="@color/colorPrimaryText"
             android:textSize="17sp"
+            android:ellipsize="end"
             tools:text="hzau.cs.wangcheng@gmail" />
 
         <TextView

@@ -1,6 +1,7 @@
 package com.stormphoenix.ogit.mvp.model.api;
 
 import com.stormphoenix.httpknife.github.GitBranch;
+import com.stormphoenix.httpknife.github.GitEmpty;
 import com.stormphoenix.httpknife.github.GitRepository;
 import com.stormphoenix.httpknife.github.GitTree;
 import com.stormphoenix.httpknife.github.GitUser;
@@ -8,7 +9,10 @@ import com.stormphoenix.httpknife.github.GitUser;
 import java.util.List;
 
 import retrofit2.Response;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.Url;
@@ -40,4 +44,16 @@ public interface RepoApi {
 
     @GET
     Observable<Response<GitRepository>> loadRepo(@Url String url);
+
+    @POST("/repos/{owner}/{repo}/forks")
+    Observable<Response<GitRepository>> fork(@Path("owner") String owner, @Path("repo") String repo);
+
+    @GET("/user/starred/{owner}/{repo}")
+    Observable<Response<GitEmpty>> hasStar(@Path("owner") String owner, @Path("repo") String repo);
+
+    @DELETE("/user/starred/{owner}/{repo}")
+    Observable<Response<GitEmpty>> unStar(@Path("owner") String owner, @Path("repo") String repo);
+
+    @PUT("/user/starred/{owner}/{repo}")
+    Observable<Response<GitEmpty>> star(@Path("owner") String owner, @Path("repo") String repo);
 }

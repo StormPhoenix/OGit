@@ -123,4 +123,17 @@
     <string name="organization">组织</string>
     <string name="exit">exit</string>
     <string name="search_hint">Search in Github</string>
+    <string name="company">Company</string>
+    <string name="description">Description</string>
+    <string name="blob">Blob</string>
+    <string name="member">Member</string>
+    <string name="public_repos">public repos</string>
+    <string name="public_gists">public gists</string>
+    <string name="github_page">github page</string>
+    <string name="forking">forking...</string>
+    <string name="waiting">waiting...</string>
+    <string name="fork_success">fork success</string>
+    <string name="repo_has_been_forked">仓库已经被fork过</string>
+    <string name="forked">forked</string>
+    <string name="unstar">unstar</string>
 </resources>

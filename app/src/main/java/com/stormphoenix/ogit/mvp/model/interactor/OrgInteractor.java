@@ -3,6 +3,7 @@ package com.stormphoenix.ogit.mvp.model.interactor;
 import android.content.Context;
 
 import com.stormphoenix.httpknife.github.GitOrganization;
+import com.stormphoenix.httpknife.github.GitUser;
 import com.stormphoenix.ogit.mvp.model.api.OrganizationApi;
 import com.stormphoenix.ogit.shares.rx.creator.RetrofitCreator;
 
@@ -33,5 +34,9 @@ public class OrgInteractor {
 
     public Observable<Response<GitOrganization>> loadOrganization(String org) {
         return api.loadOrganization(org);
+    }
+
+    public Observable<Response<List<GitUser>>> loadMembersCount(String org) {
+        return api.loadMembersCount(org);
     }
 }

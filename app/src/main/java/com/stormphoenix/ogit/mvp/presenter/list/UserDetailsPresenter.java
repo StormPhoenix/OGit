@@ -10,18 +10,17 @@ import com.stormphoenix.httpknife.github.GitUser;
 import com.stormphoenix.ogit.mvp.model.interactor.UserInteractor;
 import com.stormphoenix.ogit.mvp.presenter.base.BasePresenter;
 import com.stormphoenix.ogit.mvp.view.UserDetailsView;
-import com.stormphoenix.ogit.utils.ImageUtils;
 import com.stormphoenix.ogit.shares.rx.RxHttpLog;
 import com.stormphoenix.ogit.shares.rx.RxJavaCustomTransformer;
+import com.stormphoenix.ogit.utils.ImageUtils;
 import com.stormphoenix.ogit.utils.TextTools;
+import com.stormphoenix.ogit.utils.TimeUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -36,7 +35,6 @@ import rx.Subscriber;
 public class UserDetailsPresenter extends BasePresenter<UserDetailsView> {
     public static final String TAG = UserDetailsPresenter.class.getSimpleName();
 
-    private final SimpleDateFormat timeFormater;
     private UserInteractor mInteractor = null;
     private Context mContext;
     private GitUser mUser;
@@ -46,7 +44,6 @@ public class UserDetailsPresenter extends BasePresenter<UserDetailsView> {
         super();
         mContext = context;
         mInteractor = new UserInteractor(mContext);
-        timeFormater = new SimpleDateFormat("hh:mm MMM dd, yyyy", Locale.UK);
     }
 
     public void loadUserInfo() {
@@ -97,7 +94,7 @@ public class UserDetailsPresenter extends BasePresenter<UserDetailsView> {
                             String linkHeader = response.headers().get("Link");
                             Log.e(TAG, "linkHeader = " + linkHeader);
                             if (!TextUtils.isEmpty(linkHeader)) {
-                                int count = TextTools.parseStaredCount(linkHeader);
+                                int count = TextTools.parseListCount(linkHeader);
                                 mView.setStaredCount(String.valueOf(count));
                             }
                         } else {
@@ -112,7 +109,7 @@ public class UserDetailsPresenter extends BasePresenter<UserDetailsView> {
         mView.setFollowings(String.valueOf(mUser.getFollowing()));
         mView.setEmail(mUser.getEmail());
         mView.setLocation(mUser.getLocation());
-        mView.setJoinTime(timeFormater.format(mUser.getCreatedAt()));
+        mView.setJoinTime(TimeUtils.defaultTimeFormat(mUser.getCreatedAt()));
     }
 
     @Override

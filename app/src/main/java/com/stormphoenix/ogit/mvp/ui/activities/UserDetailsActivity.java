@@ -66,13 +66,12 @@ public class UserDetailsActivity extends BaseActivity implements UserDetailsView
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-//            case android.R.id.home:
-//                finish();
-//                return true;
+            case android.R.id.home:
+                finish();
+                return true;
             default:
-                break;
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override

@@ -60,6 +60,9 @@
             android:label="@string/title_activity_user_details"
             android:theme="@style/AppTheme"></activity>
         <activity
+            android:name=".mvp.ui.activities.OrgDetailsActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
             android:name=".mvp.ui.activities.SearchActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:launchMode="singleTop">

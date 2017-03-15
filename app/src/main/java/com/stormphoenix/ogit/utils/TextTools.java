@@ -37,8 +37,8 @@ public class TextTools {
         }
     };
 
-    // 从响应头之中获取 star 的数量
-    public static int parseStaredCount(String raw) {
+    // 从Link响应头之中获取某一個列表中item的数量
+    public static int parseListCount(String raw) {
         // <https://api.github.com/user/6383426/starred?per_page=1&page=86>;rel="last"
         int begin = raw.lastIndexOf("page") + 5;
         int end = raw.lastIndexOf(">");

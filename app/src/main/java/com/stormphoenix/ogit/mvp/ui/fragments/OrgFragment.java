@@ -1,15 +1,20 @@
 package com.stormphoenix.ogit.mvp.ui.fragments;
 
+import android.view.View;
+
 import com.stormphoenix.httpknife.github.GitOrganization;
 import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.adapters.GitOrgsAdapter;
 import com.stormphoenix.ogit.adapters.base.BaseRecyclerAdapter;
 import com.stormphoenix.ogit.dagger2.component.DaggerActivityComponent;
 import com.stormphoenix.ogit.dagger2.module.ContextModule;
-import com.stormphoenix.ogit.mvp.presenter.list.OrgPresenter;
 import com.stormphoenix.ogit.mvp.presenter.list.ListItemPresenter;
+import com.stormphoenix.ogit.mvp.presenter.list.OrgListPresenter;
+import com.stormphoenix.ogit.mvp.ui.activities.OrgDetailsActivity;
 import com.stormphoenix.ogit.mvp.ui.fragments.base.BaseFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.base.ListWithPresenterFragment;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
@@ -23,7 +28,7 @@ import javax.inject.Inject;
 public class OrgFragment extends ListWithPresenterFragment<GitOrganization> {
 
     @Inject
-    public OrgPresenter mPresenter;
+    public OrgListPresenter mPresenter;
 
     @Override
     public void initializeInjector() {
@@ -40,7 +45,20 @@ public class OrgFragment extends ListWithPresenterFragment<GitOrganization> {
 
     @Override
     public BaseRecyclerAdapter<GitOrganization> getAdapter() {
-        return new GitOrgsAdapter(getActivity(), new ArrayList<GitOrganization>());
+        GitOrgsAdapter adapter = new GitOrgsAdapter(getActivity(), new ArrayList<GitOrganization>());
+        adapter.addOnViewClickListener(R.id.owner_wrapper, new BaseRecyclerAdapter.OnInternalViewClickListener<GitOrganization>() {
+            @Override
+            public void onClick(View parentV, View v, Integer position, GitOrganization values) {
+                EventBus.getDefault().postSticky(values);
+                mPresenter.startOrgDetailsActivity(OrgDetailsActivity.getIntent(getActivity()));
+            }
+
+            @Override
+            public boolean onLongClick(View parentV, View v, Integer position, GitOrganization values) {
+                return false;
+            }
+        });
+        return adapter;
     }
 
     @Override

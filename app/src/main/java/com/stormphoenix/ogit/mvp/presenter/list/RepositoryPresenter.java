@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.stormphoenix.httpknife.github.GitBranch;
+import com.stormphoenix.httpknife.github.GitEmpty;
 import com.stormphoenix.httpknife.github.GitRepository;
 import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.mvp.model.interactor.RepoInteractor;
@@ -14,6 +15,7 @@ import com.stormphoenix.ogit.mvp.ui.activities.BreadcrumbTreeActivity;
 import com.stormphoenix.ogit.mvp.ui.activities.ToolbarActivity;
 import com.stormphoenix.ogit.mvp.view.RepositoryView;
 import com.stormphoenix.ogit.mvp.view.base.BaseUIView;
+import com.stormphoenix.ogit.shares.rx.RxHttpLog;
 import com.stormphoenix.ogit.shares.rx.RxJavaCustomTransformer;
 import com.stormphoenix.ogit.shares.rx.subscribers.DefaultUiSubscriber;
 import com.stormphoenix.ogit.utils.ActivityUtils;
@@ -122,6 +124,7 @@ public class RepositoryPresenter extends BasePresenter<RepositoryView> {
         mView.setForkCount(String.valueOf(mRepository.getForksCount()));
         mView.setWatchersCount(String.valueOf(mRepository.getWatchers()));
         mView.setBranch(mRepository.getDefaultBranch());
+        mView.setIsForked(mRepository.isFork());
 //        mView.setCommitCount(String .valueOf(mRepository.get))
 //        mView.setBranch();
     }
@@ -129,6 +132,40 @@ public class RepositoryPresenter extends BasePresenter<RepositoryView> {
     private void initToolbarStatus() {
         assert mRepository != null;
         mView.setToolbarStatus(mRepository.getName(), mRepository.getOwner().getLogin());
+    }
+
+    public void hasStared() {
+        mInteractor.hasStared(mRepository.getOwner().getLogin(), mRepository.getName())
+                .compose(RxJavaCustomTransformer.defaultSchedulers())
+                .subscribe(new DefaultUiSubscriber<Response<GitEmpty>, BaseUIView>(mView, mContext.getString(R.string.network_error)) {
+                    @Override
+                    public void onNext(Response<GitEmpty> response) {
+                        if (response.code() == 204) {
+                            mView.setIsStared(true);
+                        } else {
+                            mView.setIsStared(false);
+                        }
+                    }
+                });
+    }
+
+    public void fork() {
+        if (mRepository.isFork()) {
+            mView.showMessage(mContext.getString(R.string.repo_has_been_forked));
+            return;
+        }
+        mView.startForking();
+        mInteractor.fork(mRepository.getOwner().getLogin(), mRepository.getName())
+                .compose(RxJavaCustomTransformer.defaultSchedulers())
+                .subscribe(new DefaultUiSubscriber<Response<GitRepository>, BaseUIView>(mView, mContext.getString(R.string.network_error)) {
+                    @Override
+                    public void onNext(Response<GitRepository> response) {
+                        mView.hideProgress();
+                        mView.showMessage(mContext.getString(R.string.fork_success));
+                        mView.setIsForked(true);
+                        mView.stopForking();
+                    }
+                });
     }
 
     @Override
@@ -165,5 +202,33 @@ public class RepositoryPresenter extends BasePresenter<RepositoryView> {
         Bundle bundle = new Bundle();
         bundle.putInt(ToolbarActivity.TYPE, ToolbarActivity.TYPE_CONTRIBUTOR);
         ActivityUtils.startActivity(mContext, ToolbarActivity.newIntent(mContext, bundle));
+    }
+
+    public void unstar() {
+        mInteractor.unstar(mRepository.getOwner().getLogin(), mRepository.getName())
+                .compose(RxJavaCustomTransformer.defaultSchedulers())
+                .subscribe(new DefaultUiSubscriber<Response<GitEmpty>, BaseUIView>(mView, mContext.getString(R.string.network_error)) {
+                    @Override
+                    public void onNext(Response<GitEmpty> response) {
+                        RxHttpLog.logResponse(response);
+                        if (response.code() == 204) {
+                            mView.setIsStared(false);
+                        }
+                    }
+                });
+    }
+
+    public void star() {
+        mInteractor.star(mRepository.getOwner().getLogin(), mRepository.getName())
+                .compose(RxJavaCustomTransformer.defaultSchedulers())
+                .subscribe(new DefaultUiSubscriber<Response<GitEmpty>, BaseUIView>(mView, mContext.getString(R.string.network_error)) {
+                    @Override
+                    public void onNext(Response<GitEmpty> response) {
+                        RxHttpLog.logResponse(response);
+                        if (response.code() == 204) {
+                            mView.setIsStared(true);
+                        }
+                    }
+                });
     }
 }
