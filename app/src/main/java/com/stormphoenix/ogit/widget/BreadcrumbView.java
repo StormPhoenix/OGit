@@ -73,7 +73,7 @@ public class BreadcrumbView<T> extends HorizontalScrollView implements View.OnCl
             return;
         }
 
-        for (int i = index; i < mBreadcrumbs.size(); i++) {
+        for (int i = mBreadcrumbs.size() - 1; i >= index; i--) {
             mBreadcrumbs.remove(i);
             mContainer.removeViewAt(i);
         }

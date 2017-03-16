@@ -82,6 +82,7 @@ public class RepositoryPresenter extends BasePresenter<RepositoryView> {
     }
 
     private void loadMoreRepoDetails() {
+        hasStared();
         mInteractor.loadRepositoryBranch(mRepository.getOwner().getLogin(), mRepository.getName())
                 .compose(RxJavaCustomTransformer.defaultSchedulers())
                 .subscribe(new DefaultUiSubscriber<Response<List<GitBranch>>, BaseUIView>(mView, mContext.getString(R.string.network_error)) {
@@ -160,6 +161,7 @@ public class RepositoryPresenter extends BasePresenter<RepositoryView> {
                 .subscribe(new DefaultUiSubscriber<Response<GitRepository>, BaseUIView>(mView, mContext.getString(R.string.network_error)) {
                     @Override
                     public void onNext(Response<GitRepository> response) {
+                        mRepository.setFork(true);
                         mView.hideProgress();
                         mView.showMessage(mContext.getString(R.string.fork_success));
                         mView.setIsForked(true);

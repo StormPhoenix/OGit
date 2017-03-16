@@ -1,5 +1,7 @@
 package com.stormphoenix.ogit.mvp.ui.activities;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
@@ -22,6 +24,11 @@ import javax.inject.Inject;
 import butterknife.BindView;
 
 public class UserDetailsActivity extends BaseActivity implements UserDetailsView {
+
+    public static final Intent getIntent(Context context) {
+        Intent intent = new Intent(context, UserDetailsActivity.class);
+        return intent;
+    }
 
     @BindView(R.id.img_user_header)
     ImageView mImgUserHeader;

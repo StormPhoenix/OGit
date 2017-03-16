@@ -74,7 +74,7 @@ public class GitFoldersAdapter extends BaseRecyclerAdapter<GitTreeItem> {
             switch (model.getMode()) {
                 case GitTreeItem.MODE_BLOB:
                 case GitTreeItem.MODE_EXECUTABLE:
-                    mImageView.setImageResource(R.drawable.ic_link_black_24dp);
+                    mImageView.setImageResource(R.drawable.ic_blob_black_24dp);
                     break;
                 case GitTreeItem.MODE_SUBDIRECTORY:
                     mImageView.setImageResource(R.drawable.ic_fold_black_24dp);

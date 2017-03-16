@@ -1,12 +1,19 @@
 package com.stormphoenix.ogit.mvp.ui.fragments.search;
 
+import android.view.View;
+
 import com.stormphoenix.httpknife.github.GitUser;
+import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.adapters.GitUserAdapter;
 import com.stormphoenix.ogit.adapters.base.BaseRecyclerAdapter;
 import com.stormphoenix.ogit.dagger2.component.DaggerActivityComponent;
 import com.stormphoenix.ogit.dagger2.module.ContextModule;
-import com.stormphoenix.ogit.mvp.presenter.search.SearchUsersPresenter;
 import com.stormphoenix.ogit.mvp.presenter.search.SearchPresenter;
+import com.stormphoenix.ogit.mvp.presenter.search.SearchUsersPresenter;
+import com.stormphoenix.ogit.mvp.ui.activities.UserDetailsActivity;
+import com.stormphoenix.ogit.utils.ActivityUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
@@ -47,6 +54,19 @@ public class SearchUsersFragment extends SearchFragment<GitUser> {
 
     @Override
     public BaseRecyclerAdapter<GitUser> getAdapter() {
-        return new GitUserAdapter(getActivity(), new ArrayList<>());
+        GitUserAdapter adapter = new GitUserAdapter(getActivity(), new ArrayList<>());
+        adapter.addOnViewClickListener(R.id.owner_wrapper, new BaseRecyclerAdapter.OnInternalViewClickListener<GitUser>() {
+            @Override
+            public void onClick(View parentV, View v, Integer position, GitUser values) {
+                EventBus.getDefault().postSticky(values);
+                ActivityUtils.startActivity(getActivity(), UserDetailsActivity.getIntent(getActivity()));
+            }
+
+            @Override
+            public boolean onLongClick(View parentV, View v, Integer position, GitUser values) {
+                return false;
+            }
+        });
+        return adapter;
     }
 }
