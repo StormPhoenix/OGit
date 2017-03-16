@@ -5,19 +5,29 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.stormphoenix.httpknife.github.GitTreeItem;
 import com.stormphoenix.ogit.R;
+import com.stormphoenix.ogit.mvp.presenter.list.RepoTreePresenter;
 import com.stormphoenix.ogit.mvp.ui.activities.base.BaseActivity;
 import com.stormphoenix.ogit.mvp.ui.fragments.FoldsFragment;
 import com.stormphoenix.ogit.widget.BreadcrumbView;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
+/**
+ * 逻辑流程：
+ * BreadcrumbView 是面包屑布局，它实现了BreadcrumbTreeController接口，
+ * 通过此接口可以对BreadcrumbView进行控制。
+ * <p>
+ * BreadcrumbTreeActivity负责FoldFragment和BreadcrumbView之间的信息同步，
+ * 当FoldFragment的信息变化时，可以通过BreadcrumbTreeController接口来操作
+ * BreadcrumbView里面的内容。
+ */
 public class BreadcrumbTreeActivity extends BaseActivity {
+    public static final String TAG = BreadcrumbTreeActivity.class.getSimpleName();
 
     public static final String TITLE = "title";
     public static final String SUB_TITLE = "subtitle";
@@ -30,6 +40,8 @@ public class BreadcrumbTreeActivity extends BaseActivity {
     private String title;
     // Toolbar 设置的子标题
     private String subTitle;
+    // 控制FoldsFragment逻辑交互的 Presenter
+    RepoTreePresenter presenter;
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -48,37 +60,28 @@ public class BreadcrumbTreeActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ButterKnife.bind(this);
         parseIntent();
-
         setUpToolbar();
         // 设置fragment内容
         initFragment();
-
-        mBreadcrumbView.setOnBreadSelectListener(new BreadcrumbView.OnCrumbSelectListener() {
-            @Override
-            public void onItemSelect(View view, Breadcrumb crumb) {
-                int index = (int) view.getTag();
-                mBreadcrumbView.removeFrom(index + 1);
-                foldsFragment.onBreadcrumbSelect(crumb.getAttachedInfo());
-            }
-        });
     }
 
     @Override
     public void onBackPressed() {
         int length = mBreadcrumbView.getBreadcrumbLength();
+        Log.e(TAG, "onBackPressed: length = " + length);
         if (length == 1) {
             super.onBackPressed();
         } else {
-            mBreadcrumbView.removeFrom(length - 1);
-            Breadcrumb breadcrumb = mBreadcrumbView.getBreadcrumb(length - 2);
-            foldsFragment.onBreadcrumbSelect(breadcrumb.getAttachedInfo());
+            presenter.onItemSelect(length - 2, mBreadcrumbView.getBreadcrumb(length - 2));
         }
     }
 
     private void initFragment() {
-        foldsFragment = FoldsFragment.getInstance(mBreadcrumbView);
+        presenter = new RepoTreePresenter(this);
+        mBreadcrumbView.setOnBreadSelectListener(presenter);
+        presenter.setController(mBreadcrumbView);
+        foldsFragment = FoldsFragment.newInstance(presenter);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, foldsFragment)
                 .commit();
@@ -95,7 +98,6 @@ public class BreadcrumbTreeActivity extends BaseActivity {
         if (!TextUtils.isEmpty(subTitle)) {
             mToolbar.setSubtitle(subTitle);
         }
-
         // 设置为默认工具栏杆
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -105,7 +107,7 @@ public class BreadcrumbTreeActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                onBackPressed();
+                super.onBackPressed();
                 return true;
             default:
                 break;
@@ -123,10 +125,6 @@ public class BreadcrumbTreeActivity extends BaseActivity {
     @Override
     protected int getLayoutId() {
         return R.layout.activity_file_tree;
-    }
-
-    @Override
-    public void initializeInjector() {
     }
 
     /**
@@ -161,6 +159,11 @@ public class BreadcrumbTreeActivity extends BaseActivity {
         Breadcrumb getBreadcrumb(int index);
     }
 
+    /**
+     * 存储在BreadcrumbView里面的信息
+     *
+     * @param <T>
+     */
     public static class Breadcrumb<T> {
         private String name;
         private T attachedInfo;
@@ -180,5 +183,9 @@ public class BreadcrumbTreeActivity extends BaseActivity {
         public void setAttachedInfo(T attachedInfo) {
             this.attachedInfo = attachedInfo;
         }
+    }
+
+    @Override
+    public void initializeInjector() {
     }
 }

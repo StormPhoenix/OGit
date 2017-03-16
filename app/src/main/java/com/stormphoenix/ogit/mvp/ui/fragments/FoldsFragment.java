@@ -2,24 +2,22 @@ package com.stormphoenix.ogit.mvp.ui.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.stormphoenix.httpknife.github.GitTreeItem;
 import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.adapters.GitFoldersAdapter;
 import com.stormphoenix.ogit.adapters.base.BaseRecyclerAdapter;
-import com.stormphoenix.ogit.dagger2.component.DaggerActivityComponent;
-import com.stormphoenix.ogit.dagger2.module.ContextModule;
-import com.stormphoenix.ogit.mvp.presenter.list.RepoTreePresenter;
 import com.stormphoenix.ogit.mvp.presenter.list.ListItemPresenter;
-import com.stormphoenix.ogit.mvp.ui.activities.BreadcrumbTreeActivity;
+import com.stormphoenix.ogit.mvp.presenter.list.RepoTreePresenter;
 import com.stormphoenix.ogit.mvp.ui.fragments.base.ListWithPresenterFragment;
 import com.stormphoenix.ogit.mvp.view.TreeItemView;
 
 import java.util.ArrayList;
-
-import javax.inject.Inject;
 
 /**
  * Created by StormPhoenix on 17-3-2.
@@ -29,22 +27,18 @@ import javax.inject.Inject;
 public class FoldsFragment extends ListWithPresenterFragment<GitTreeItem> implements TreeItemView<GitTreeItem> {
     public static final String TAG = FoldsFragment.class.getSimpleName();
 
-    @Inject
-    public RepoTreePresenter mPresenter;
+    private RepoTreePresenter mPresenter = null;
 
-    private BreadcrumbTreeActivity.BreadcrumbTreeController mBreadcrumbTreeController;
-
-    public static FoldsFragment getInstance(BreadcrumbTreeActivity.BreadcrumbTreeController breadcrumbTreeController) {
+    public static FoldsFragment newInstance(RepoTreePresenter presenter) {
         FoldsFragment eventsFragment = new FoldsFragment();
-        eventsFragment.setBreadcrumbTree(breadcrumbTreeController);
-
+        eventsFragment.setRepoTreePresenter(presenter);
         Bundle bundle = new Bundle();
         eventsFragment.setArguments(bundle);
         return eventsFragment;
     }
 
-    public void setBreadcrumbTree(BreadcrumbTreeActivity.BreadcrumbTreeController breadcrumbTreeController) {
-        mBreadcrumbTreeController = breadcrumbTreeController;
+    public void setRepoTreePresenter(RepoTreePresenter presenter) {
+        mPresenter = presenter;
     }
 
     @Override
@@ -54,28 +48,27 @@ public class FoldsFragment extends ListWithPresenterFragment<GitTreeItem> implem
         mAdapter.addOnViewClickListener(R.id.file_card_wrapper, createOnInternalViewClickListener());
     }
 
+    /**
+     * 设置文件夹的点击事件
+     *
+     * @return
+     */
     @NonNull
     private BaseRecyclerAdapter.OnInternalViewClickListener<GitTreeItem> createOnInternalViewClickListener() {
         return new BaseRecyclerAdapter.OnInternalViewClickListener<GitTreeItem>() {
             @Override
             public void onClick(View parentV, View v, Integer position, GitTreeItem values) {
-                mPresenter.setSha(values.getSha());
                 // 判断 GitTreeItem 类型，确定应该进行何种操作
                 Log.d(TAG, "onClick: " + values.getType());
                 switch (values.getType()) {
                     case GitTreeItem.TYPE_BLOB:
                         /** 如果点击的文件是文本（Blob）类型 **/
-                        Log.e(TAG, "onClick: " + getAbsolutPath() + " " + values.getPath());
                         mPresenter.startCodeActivity(values);
                         break;
                     case GitTreeItem.TYPE_TREE:
                         /** 如果点击的文件是文件（Tree）类型，则进入下一个文件夹 **/
-                        // 创建新的 BreadcrumbView，并添加给TreeItemView
-                        BreadcrumbTreeActivity.Breadcrumb<GitTreeItem> crumb = mPresenter.createBreadcrubm(values);
-                        addBreadcrumb(crumb);
                         // 设置该文件的sha值，并更新界面
-                        mPresenter.setSha(values.getSha());
-                        mPresenter.loadNewlyListItem();
+                        mPresenter.intoNewBreadcrum(values);
                         break;
                     case GitTreeItem.TYPE_COMMIT:
                         /**
@@ -109,25 +102,6 @@ public class FoldsFragment extends ListWithPresenterFragment<GitTreeItem> implem
 
     @Override
     public void initializeInjector() {
-        DaggerActivityComponent.builder()
-                .contextModule(new ContextModule(getActivity()))
-                .build()
-                .inject(this);
-    }
-
-    @Override
-    public void addBreadcrumb(BreadcrumbTreeActivity.Breadcrumb crumb) {
-        mBreadcrumbTreeController.addBreadcrumb(crumb);
-    }
-
-    @Override
-    public String getAbsolutPath() {
-        return mBreadcrumbTreeController.getAbsolutePath();
-    }
-
-    public void onBreadcrumbSelect(Object attachedInfo) {
-        GitTreeItem treeItem = (GitTreeItem) attachedInfo;
-        mPresenter.setSha(treeItem.getSha());
-        mPresenter.loadNewlyListItem();
+        // Do nothing
     }
 }

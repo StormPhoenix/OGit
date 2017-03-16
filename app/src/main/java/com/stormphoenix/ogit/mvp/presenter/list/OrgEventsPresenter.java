@@ -39,6 +39,16 @@ public class OrgEventsPresenter extends EventsPresenter {
     }
 
     @Override
+    public void startOwnerProfileActivity() {
+
+    }
+
+    @Override
+    public void startRepoDetailsActivity() {
+
+    }
+
+    @Override
     protected Observable<Response<List<GitEvent>>> load(int page) {
         if (TextUtils.isEmpty(orgName)) {
             return null;

@@ -22,4 +22,8 @@ public abstract class EventsPresenter extends ListItemPresenter<GitEvent, List<G
     protected List<GitEvent> transformBody(List<GitEvent> body) {
         return body;
     }
+
+    public abstract void startOwnerProfileActivity();
+
+    public abstract void startRepoDetailsActivity();
 }

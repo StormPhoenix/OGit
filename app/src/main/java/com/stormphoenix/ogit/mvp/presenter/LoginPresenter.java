@@ -23,6 +23,7 @@ import javax.inject.Inject;
 
 import retrofit2.Response;
 import rx.Observable;
+import rx.Subscriber;
 import rx.functions.Func1;
 
 /**
@@ -89,7 +90,16 @@ public class LoginPresenter extends BasePresenter<LoginView> {
         mView.showProgress();
         mTokenInteractor.createToken(username, password)
                 .compose(RxJavaCustomTransformer.<Response<GitToken>>defaultSchedulers())
-                .subscribe(new DefaultUiSubscriber<Response<GitToken>, BaseUIView>(mView, mContext.getResources().getString(R.string.network_error)) {
+                .subscribe(new Subscriber<Response<GitToken>>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mView.hideProgress();
+                    }
+
                     @Override
                     public void onNext(Response<GitToken> response) {
                         if (response.isSuccessful()) {

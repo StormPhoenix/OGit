@@ -35,8 +35,6 @@ public interface ActivityComponent {
 
     void inject(ContributorsFragment fragment);
 
-    void inject(FoldsFragment fragment);
-
     void inject(StaredFragment fragment);
 
     void inject(MainActivity activity);

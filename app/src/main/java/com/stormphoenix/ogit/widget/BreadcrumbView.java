@@ -150,8 +150,8 @@ public class BreadcrumbView<T> extends HorizontalScrollView implements View.OnCl
     @Override
     public void onClick(View v) {
         if (listener != null) {
-            Log.e(TAG, "onClick: click index : " + (Integer) v.getTag());
-            listener.onItemSelect(v, mBreadcrumbs.get((Integer) v.getTag()));
+            Log.e(TAG, "onClick: index : " + (Integer) v.getTag());
+            listener.onItemSelect((Integer) v.getTag(), mBreadcrumbs.get((Integer) v.getTag()));
         }
     }
 
@@ -166,7 +166,6 @@ public class BreadcrumbView<T> extends HorizontalScrollView implements View.OnCl
     }
 
     public interface OnCrumbSelectListener {
-        void onItemSelect(View view, BreadcrumbTreeActivity.Breadcrumb crumb);
+        void onItemSelect(int index, BreadcrumbTreeActivity.Breadcrumb crumb);
     }
-
 }

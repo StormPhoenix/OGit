@@ -42,7 +42,7 @@ public class UserEventsPresenter extends EventsPresenter {
         return mInfoInfoInteractor.loadReceiveEvents(PreferenceUtils.getUsername(mContext), page);
     }
 
-    public void startUserDetailsActivity() {
+    public void startOwnerProfileActivity() {
         Intent intent = new Intent(mContext, UserProfileActivity.class);
         ActivityUtils.startActivity(mContext, intent);
     }
