@@ -35,6 +35,10 @@ public class RepoInteractor {
         return repoApi.loadRepo(url);
     }
 
+    public Observable<Response<List<GitRepository>>> loadOwnerRepos() {
+        return repoApi.loadOwnerRepos();
+    }
+
     public Observable<Response<List<GitBranch>>> loadRepositoryBranch(final String user, final String repository) {
         return repoApi.loadBranches(user, repository);
     }

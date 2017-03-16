@@ -6,9 +6,8 @@ import com.stormphoenix.httpknife.github.GitEvent;
 import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.adapters.GitEventsAdapter;
 import com.stormphoenix.ogit.adapters.base.BaseRecyclerAdapter;
-import com.stormphoenix.ogit.mvp.presenter.EventsPresenter;
+import com.stormphoenix.ogit.mvp.presenter.base.EventsPresenter;
 import com.stormphoenix.ogit.mvp.presenter.list.ListItemPresenter;
-import com.stormphoenix.ogit.mvp.presenter.list.UserEventsPresenter;
 import com.stormphoenix.ogit.mvp.ui.fragments.base.ListWithPresenterFragment;
 
 import org.greenrobot.eventbus.EventBus;

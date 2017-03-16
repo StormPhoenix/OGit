@@ -4,7 +4,7 @@ import android.view.View;
 
 import com.stormphoenix.httpknife.github.GitRepository;
 import com.stormphoenix.ogit.R;
-import com.stormphoenix.ogit.adapters.GitRepositoryAdapter;
+import com.stormphoenix.ogit.adapters.GitReposAdapter;
 import com.stormphoenix.ogit.adapters.base.BaseRecyclerAdapter;
 import com.stormphoenix.ogit.dagger2.component.DaggerActivityComponent;
 import com.stormphoenix.ogit.dagger2.module.ContextModule;
@@ -63,7 +63,7 @@ public class SearchRepoFragment extends SearchFragment<GitRepository> {
 
     @Override
     public BaseRecyclerAdapter<GitRepository> getAdapter() {
-        return new GitRepositoryAdapter(getActivity(), new ArrayList<>());
+        return new GitReposAdapter(getActivity(), new ArrayList<>());
     }
 
     @Override

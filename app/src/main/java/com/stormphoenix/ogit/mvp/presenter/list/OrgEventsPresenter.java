@@ -5,7 +5,7 @@ import android.text.TextUtils;
 
 import com.stormphoenix.httpknife.github.GitEvent;
 import com.stormphoenix.ogit.mvp.model.interactor.OrgInteractor;
-import com.stormphoenix.ogit.mvp.presenter.EventsPresenter;
+import com.stormphoenix.ogit.mvp.presenter.base.EventsPresenter;
 import com.stormphoenix.ogit.utils.PreferenceUtils;
 
 import java.util.List;

@@ -24,12 +24,12 @@ import butterknife.ButterKnife;
  * StormPhoenix is a intelligent Android developer.
  */
 
-public class GitRepositoryAdapter extends BaseRecyclerAdapter<GitRepository> {
-    public GitRepositoryAdapter(List<GitRepository> dataList) {
+public class GitReposAdapter extends BaseRecyclerAdapter<GitRepository> {
+    public GitReposAdapter(List<GitRepository> dataList) {
         this(null, dataList);
     }
 
-    public GitRepositoryAdapter(Context context, List<GitRepository> dataList) {
+    public GitReposAdapter(Context context, List<GitRepository> dataList) {
         super(context, dataList);
     }
 

@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import com.stormphoenix.httpknife.github.GitRepository;
 import com.stormphoenix.ogit.R;
-import com.stormphoenix.ogit.adapters.GitRepositoryAdapter;
+import com.stormphoenix.ogit.adapters.GitReposAdapter;
 import com.stormphoenix.ogit.adapters.base.BaseRecyclerAdapter;
 import com.stormphoenix.ogit.dagger2.component.DaggerActivityComponent;
 import com.stormphoenix.ogit.dagger2.module.ContextModule;
@@ -24,7 +24,7 @@ public class StaredFragment extends ListWithPresenterFragment<GitRepository> {
     @Inject
     StaredPresenter mRepositoryPresenter;
 
-    public static StaredFragment getInstance(String username) {
+    public static StaredFragment newInstance(String username) {
         StaredFragment staredFragment = new StaredFragment();
         Bundle bundle = new Bundle();
         bundle.putString(USERNAME, username);
@@ -47,7 +47,7 @@ public class StaredFragment extends ListWithPresenterFragment<GitRepository> {
 
     @Override
     public BaseRecyclerAdapter<GitRepository> getAdapter() {
-        return new GitRepositoryAdapter(getActivity(), new ArrayList<>());
+        return new GitReposAdapter(getActivity(), new ArrayList<>());
     }
 
     @Override

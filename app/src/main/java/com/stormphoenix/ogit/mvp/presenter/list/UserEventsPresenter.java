@@ -5,10 +5,9 @@ import android.content.Intent;
 
 import com.stormphoenix.httpknife.github.GitEvent;
 import com.stormphoenix.ogit.mvp.model.interactor.UserInteractor;
-import com.stormphoenix.ogit.mvp.presenter.EventsPresenter;
+import com.stormphoenix.ogit.mvp.presenter.base.EventsPresenter;
 import com.stormphoenix.ogit.mvp.ui.activities.RepositoryActivity;
 import com.stormphoenix.ogit.mvp.ui.activities.UserProfileActivity;
-import com.stormphoenix.ogit.mvp.view.base.ListItemView;
 import com.stormphoenix.ogit.utils.ActivityUtils;
 import com.stormphoenix.ogit.utils.PreferenceUtils;
 

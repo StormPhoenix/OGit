@@ -56,4 +56,12 @@ public interface RepoApi {
 
     @PUT("/user/starred/{owner}/{repo}")
     Observable<Response<GitEmpty>> star(@Path("owner") String owner, @Path("repo") String repo);
+
+    /**
+     * 列出使用者本人的Repos
+     *
+     * @return
+     */
+    @GET("user/repos?sort=updated&per_page=10")
+    Observable<Response<List<GitRepository>>> loadOwnerRepos();
 }

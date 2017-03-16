@@ -22,9 +22,11 @@ import android.widget.TextView;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.adapters.FragmentsAdapter;
+import com.stormphoenix.ogit.mvp.model.UserReposPresenter;
 import com.stormphoenix.ogit.mvp.presenter.list.UserEventsPresenter;
 import com.stormphoenix.ogit.mvp.ui.activities.base.TabPagerActivity;
 import com.stormphoenix.ogit.mvp.ui.fragments.EventsFragment;
+import com.stormphoenix.ogit.mvp.ui.fragments.ReposFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.StaredFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.base.BaseFragment;
 import com.stormphoenix.ogit.utils.ActivityUtils;
@@ -94,10 +96,11 @@ public class MainActivity extends TabPagerActivity<FragmentsAdapter> implements 
 
     @Override
     protected FragmentsAdapter createAdapter() {
-        String[] titleList = {"Event", "Starred"};
+        String[] titleList = {"Event", "Starred", "Repos"};
         List<BaseFragment> fragmentList = new ArrayList<>();
         fragmentList.add(EventsFragment.newInstance(new UserEventsPresenter(this)));
-        fragmentList.add(StaredFragment.getInstance(PreferenceUtils.getString(this, PreferenceUtils.USERNAME)));
+        fragmentList.add(StaredFragment.newInstance(PreferenceUtils.getString(this, PreferenceUtils.USERNAME)));
+        fragmentList.add(ReposFragment.newInstance(new UserReposPresenter(this)));
 
         mAdapter = new FragmentsAdapter(this.getSupportFragmentManager());
         mAdapter.setFragmentList(fragmentList, titleList);
