@@ -56,7 +56,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Injector
         getWindow().setEnterTransition(slideTransition);
         getWindow().setExitTransition(slideTransition);
         getWindow().setReturnTransition(slideTransition);
-        getWindow().setReenterTransition(slideTransition);//
+//        getWindow().setReenterTransition(slideTransition);
     }
 
     protected abstract int getLayoutId();

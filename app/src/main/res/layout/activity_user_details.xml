@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        tools:context=".mvp.ui.activities.UserDetailsActivity">
+        tools:context=".mvp.ui.activities.UserProfileActivity">
         <!--android:clipToPadding="false"-->
         <!--android:fitsSystemWindows="true"-->
 

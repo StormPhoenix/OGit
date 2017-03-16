@@ -2,6 +2,7 @@ package com.stormphoenix.ogit.mvp.model.interactor;
 
 import android.content.Context;
 
+import com.stormphoenix.httpknife.github.GitEvent;
 import com.stormphoenix.httpknife.github.GitOrganization;
 import com.stormphoenix.httpknife.github.GitUser;
 import com.stormphoenix.ogit.mvp.model.api.OrganizationApi;
@@ -38,5 +39,9 @@ public class OrgInteractor {
 
     public Observable<Response<List<GitUser>>> loadMembersCount(String org) {
         return api.loadMembersCount(org);
+    }
+
+    public Observable<Response<List<GitEvent>>> loadOwnerOrgEvents(String username, String org, int page) {
+        return api.loadOwnerOrgEvents(username, org, page);
     }
 }

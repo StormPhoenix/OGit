@@ -25,7 +25,7 @@ import static android.content.Intent.ACTION_SEARCH;
  * 用于响应搜索功能。当调用系统搜索框架时，SearchActivity就会进行响应
  */
 
-public class SearchActivity extends TabPagerActivity {
+public class SearchActivity extends TabPagerActivity<FragmentsAdapter> {
     /**
      * 搜索的关键字，SearchActivity被启动的时候，keyword就可以通过Intent进行赋值
      */
@@ -70,7 +70,7 @@ public class SearchActivity extends TabPagerActivity {
     }
 
     @Override
-    protected PagerAdapter createAdapter() {
+    protected FragmentsAdapter createAdapter() {
 //        String[] titleList = {"User"};
         String[] titleList = {"Repo", "User"};
         List<BaseFragment> fragmentList = new ArrayList<>();

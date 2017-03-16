@@ -1,5 +1,6 @@
 package com.stormphoenix.ogit.mvp.model.api;
 
+import com.stormphoenix.httpknife.github.GitEvent;
 import com.stormphoenix.httpknife.github.GitOrganization;
 import com.stormphoenix.httpknife.github.GitUser;
 
@@ -41,4 +42,7 @@ public interface OrganizationApi {
 
     @GET("orgs/{org}/members?per_page=1")
     Observable<Response<List<GitUser>>> loadMembersCount(@Path("org") String org);
+
+    @GET("users/{username}/events/orgs/{org}?per_page=10")
+    Observable<Response<List<GitEvent>>> loadOwnerOrgEvents(@Path("username") String username, @Path("org") String org, @Query("page") int page);
 }

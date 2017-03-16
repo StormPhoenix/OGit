@@ -3,12 +3,11 @@ package com.stormphoenix.ogit.dagger2.component;
 import com.stormphoenix.ogit.dagger2.module.ContextModule;
 import com.stormphoenix.ogit.mvp.ui.activities.LoginActivity;
 import com.stormphoenix.ogit.mvp.ui.activities.MainActivity;
-import com.stormphoenix.ogit.mvp.ui.activities.OrgDetailsActivity;
+import com.stormphoenix.ogit.mvp.ui.activities.OrgProfileActivity;
 import com.stormphoenix.ogit.mvp.ui.activities.RepositoryActivity;
-import com.stormphoenix.ogit.mvp.ui.activities.UserDetailsActivity;
+import com.stormphoenix.ogit.mvp.ui.activities.UserProfileActivity;
 import com.stormphoenix.ogit.mvp.ui.fragments.CodeFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.ContributorsFragment;
-import com.stormphoenix.ogit.mvp.ui.fragments.EventsFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.FoldsFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.OrgFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.StaredFragment;
@@ -24,7 +23,7 @@ import dagger.Component;
 
 @Component(modules = {ContextModule.class})
 public interface ActivityComponent {
-    void inject(OrgDetailsActivity activity);
+    void inject(OrgProfileActivity activity);
 
     void inject(SearchUsersFragment fragment);
 
@@ -42,11 +41,9 @@ public interface ActivityComponent {
 
     void inject(MainActivity activity);
 
-    void inject(UserDetailsActivity activity);
+    void inject(UserProfileActivity activity);
 
     void inject(RepositoryActivity activity);
-
-    void inject(EventsFragment fragment);
 
     void inject(LoginActivity activity);
 }

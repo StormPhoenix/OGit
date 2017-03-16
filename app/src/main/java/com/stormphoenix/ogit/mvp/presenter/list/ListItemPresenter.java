@@ -44,6 +44,7 @@ public abstract class ListItemPresenter<T, R, V extends ListItemView<T>> extends
         if (observable == null) {
             return;
         }
+        mView.clearAllItems();
         load(0).compose(RxJavaCustomTransformer.defaultSchedulers())
                 .subscribe(new DefaultUiSubscriber<Response<R>, BaseUIView>(mView, "network error") {
                     @Override
@@ -64,8 +65,16 @@ public abstract class ListItemPresenter<T, R, V extends ListItemView<T>> extends
 
     public void loadMoreListItem() {
         mView.showProgress();
+
+        // temperary handle
+        if (mView.getListItemCounts() % 10 != 0) {
+            mView.hideProgress();
+            return;
+        }
+
         Observable<Response<R>> observable = load(mView.getListItemCounts() / 10 + 1);
         if (observable == null) {
+            mView.hideProgress();
             return;
         }
         observable.compose(RxJavaCustomTransformer.defaultSchedulers())

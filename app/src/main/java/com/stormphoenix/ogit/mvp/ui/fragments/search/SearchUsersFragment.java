@@ -10,7 +10,7 @@ import com.stormphoenix.ogit.dagger2.component.DaggerActivityComponent;
 import com.stormphoenix.ogit.dagger2.module.ContextModule;
 import com.stormphoenix.ogit.mvp.presenter.search.SearchPresenter;
 import com.stormphoenix.ogit.mvp.presenter.search.SearchUsersPresenter;
-import com.stormphoenix.ogit.mvp.ui.activities.UserDetailsActivity;
+import com.stormphoenix.ogit.mvp.ui.activities.UserProfileActivity;
 import com.stormphoenix.ogit.utils.ActivityUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -59,7 +59,7 @@ public class SearchUsersFragment extends SearchFragment<GitUser> {
             @Override
             public void onClick(View parentV, View v, Integer position, GitUser values) {
                 EventBus.getDefault().postSticky(values);
-                ActivityUtils.startActivity(getActivity(), UserDetailsActivity.getIntent(getActivity()));
+                ActivityUtils.startActivity(getActivity(), UserProfileActivity.getIntent(getActivity()));
             }
 
             @Override

@@ -3,6 +3,7 @@ package com.stormphoenix.ogit.mvp.ui.activities.base;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -12,13 +13,14 @@ import com.stormphoenix.ogit.widget.ImageVerticalKeyValueLabel;
 import com.stormphoenix.ogit.widget.KeyValueLabel;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by StormPhoenix on 17-3-14.
  * StormPhoenix is a intelligent Android developer.
  */
 
-public abstract class OwnerDetailsActivity extends BaseActivity {
+public abstract class OwnerProfileActivity extends BaseActivity {
 
     @BindView(R.id.img_app_bar)
     protected ImageView mImgAppBar;
@@ -62,5 +64,23 @@ public abstract class OwnerDetailsActivity extends BaseActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @OnClick({R.id.base_info_wrapper, R.id.dynamic_label_wrapper})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.base_info_wrapper:
+                onBaseInfoWrapper();
+                break;
+            case R.id.dynamic_label_wrapper:
+                onDynamicInfoClicked();
+                break;
+        }
+    }
+
+    protected void onDynamicInfoClicked() {
+    }
+
+    protected void onBaseInfoWrapper() {
     }
 }

@@ -109,12 +109,15 @@ public class GitEventsAdapter extends BaseRecyclerAdapter<GitEvent> {
 //                BitmapUtils.setIconFont(context, img, OctIcon.FORK, R.color.theme_color);
             } else if (eventType.equals(GitEvent.GIT_CREATE_EVENT)) {
                 GitCreatePayload payload = (GitCreatePayload) model.getPayload();
-                if (payload.getRefType().equals(GitCreatePayload.REF_REPOSITORY_TYPE)) {
+                if (payload.getRefType().equals(GitCreatePayload.REF_TYPE_REPOSITORY)) {
                     mTextEventInfo.setText(Html.fromHtml(HtmlUtils.bold(model.getActor().getLogin()) + " created repository " + HtmlUtils.bold(model.getRepo().getName())));
                     mEventImage.setImageResource(R.drawable.ic_created_event_black_24dp);
-                } else if (payload.getRefType().equals(GitCreatePayload.REF_TAT_TYPE)) {
+                } else if (payload.getRefType().equals(GitCreatePayload.REF_TYPE_TAG)) {
                     mTextEventInfo.setText(Html.fromHtml(HtmlUtils.bold(model.getActor().getLogin()) + " created tag " + HtmlUtils.bold(((GitCreatePayload) model.getPayload()).getRef()) + " at " + HtmlUtils.bold(model.getRepo().getName())));
                     mEventImage.setImageResource(R.drawable.ic_tag_black_24dp);
+                } else if (payload.getRefType().equals(GitCreatePayload.REF_TYPE_BRANCH)) {
+                    mTextEventInfo.setText(Html.fromHtml(HtmlUtils.bold(model.getActor().getLogin()) + " created branch " + HtmlUtils.bold(((GitCreatePayload) model.getPayload()).getRef()) + " at " + HtmlUtils.bold(model.getRepo().getName())));
+                    mEventImage.setImageResource(R.drawable.ic_created_event_black_24dp);
                 }
 //                BitmapUtils.setIconFont(context, img, OctIcon.REPO, R.color.theme_color);
             } else if (eventType.equals(model.GIT_PULL_REQUEST_EVENT)) {
@@ -123,6 +126,7 @@ public class GitEventsAdapter extends BaseRecyclerAdapter<GitEvent> {
             } else if (eventType.equals(model.GIT_MEMBER_EVENT)) {
                 GitMemberPayload payload = (GitMemberPayload) model.getPayload();
                 mTextEventInfo.setText(Html.fromHtml(HtmlUtils.bold(model.getActor().getLogin()) + " add " + HtmlUtils.bold(payload.getMember().getLogin()) + " to " + HtmlUtils.bold(model.getRepo().getName())));
+                mEventImage.setImageResource(R.drawable.ic_member_black_24dp);
 //                BitmapUtils.setIconFont(context, img, OctIcon.PERSON, R.color.theme_color);
             } else if (eventType.equals(model.GIT_ISSUES_EVENT)) {
                 GitIssuePayload payload = (GitIssuePayload) model.getPayload();

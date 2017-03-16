@@ -5,9 +5,9 @@ import android.content.Intent;
 
 import com.stormphoenix.httpknife.github.GitEvent;
 import com.stormphoenix.ogit.mvp.model.interactor.UserInteractor;
-import com.stormphoenix.ogit.mvp.presenter.list.ListItemPresenter;
+import com.stormphoenix.ogit.mvp.presenter.EventsPresenter;
 import com.stormphoenix.ogit.mvp.ui.activities.RepositoryActivity;
-import com.stormphoenix.ogit.mvp.ui.activities.UserDetailsActivity;
+import com.stormphoenix.ogit.mvp.ui.activities.UserProfileActivity;
 import com.stormphoenix.ogit.mvp.view.base.ListItemView;
 import com.stormphoenix.ogit.utils.ActivityUtils;
 import com.stormphoenix.ogit.utils.PreferenceUtils;
@@ -24,21 +24,16 @@ import rx.Observable;
  * StormPhoenix is a intelligent Android developer.
  */
 
-public class EventsPresenter extends ListItemPresenter<GitEvent, List<GitEvent>, ListItemView<GitEvent>> {
+public class UserEventsPresenter extends EventsPresenter {
     /**
      * Interactor 用于提交网络请求获取数据
      **/
     private UserInteractor mInfoInfoInteractor;
 
     @Inject
-    public EventsPresenter(Context context) {
+    public UserEventsPresenter(Context context) {
         super(context);
         mInfoInfoInteractor = new UserInteractor(mContext);
-    }
-
-    @Override
-    protected List<GitEvent> transformBody(List<GitEvent> body) {
-        return body;
     }
 
     @Override
@@ -48,7 +43,7 @@ public class EventsPresenter extends ListItemPresenter<GitEvent, List<GitEvent>,
     }
 
     public void startUserDetailsActivity() {
-        Intent intent = new Intent(mContext, UserDetailsActivity.class);
+        Intent intent = new Intent(mContext, UserProfileActivity.class);
         ActivityUtils.startActivity(mContext, intent);
     }
 

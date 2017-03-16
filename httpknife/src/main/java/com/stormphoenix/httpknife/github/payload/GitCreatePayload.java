@@ -8,8 +8,9 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class GitCreatePayload extends GitPayload {
-    public static final String REF_REPOSITORY_TYPE = "ref_type";
-    public static final String REF_TAT_TYPE = "tag";
+    public static final String REF_TYPE_REPOSITORY = "repository";
+    public static final String REF_TYPE_TAG = "tag";
+    public static final String REF_TYPE_BRANCH = "branch";
 
     private String ref;
     @SerializedName("ref_type")

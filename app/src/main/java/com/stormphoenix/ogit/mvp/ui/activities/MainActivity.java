@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.adapters.FragmentsAdapter;
+import com.stormphoenix.ogit.mvp.presenter.list.UserEventsPresenter;
 import com.stormphoenix.ogit.mvp.ui.activities.base.TabPagerActivity;
 import com.stormphoenix.ogit.mvp.ui.fragments.EventsFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.StaredFragment;
@@ -95,7 +96,7 @@ public class MainActivity extends TabPagerActivity<FragmentsAdapter> implements 
     protected FragmentsAdapter createAdapter() {
         String[] titleList = {"Event", "Starred"};
         List<BaseFragment> fragmentList = new ArrayList<>();
-        fragmentList.add(EventsFragment.getInstance(PreferenceUtils.getString(this, PreferenceUtils.USERNAME)));
+        fragmentList.add(EventsFragment.newInstance(new UserEventsPresenter(this)));
         fragmentList.add(StaredFragment.getInstance(PreferenceUtils.getString(this, PreferenceUtils.USERNAME)));
 
         mAdapter = new FragmentsAdapter(this.getSupportFragmentManager());

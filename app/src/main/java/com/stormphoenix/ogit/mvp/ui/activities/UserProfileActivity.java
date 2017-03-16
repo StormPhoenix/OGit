@@ -23,10 +23,10 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 
-public class UserDetailsActivity extends BaseActivity implements UserDetailsView {
+public class UserProfileActivity extends BaseActivity implements UserDetailsView {
 
     public static final Intent getIntent(Context context) {
-        Intent intent = new Intent(context, UserDetailsActivity.class);
+        Intent intent = new Intent(context, UserProfileActivity.class);
         return intent;
     }
 

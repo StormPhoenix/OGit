@@ -10,7 +10,7 @@ import com.stormphoenix.ogit.dagger2.component.DaggerActivityComponent;
 import com.stormphoenix.ogit.dagger2.module.ContextModule;
 import com.stormphoenix.ogit.mvp.presenter.list.ListItemPresenter;
 import com.stormphoenix.ogit.mvp.presenter.list.OrgListPresenter;
-import com.stormphoenix.ogit.mvp.ui.activities.OrgDetailsActivity;
+import com.stormphoenix.ogit.mvp.ui.activities.OrgProfileActivity;
 import com.stormphoenix.ogit.mvp.ui.fragments.base.BaseFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.base.ListWithPresenterFragment;
 
@@ -50,7 +50,7 @@ public class OrgFragment extends ListWithPresenterFragment<GitOrganization> {
             @Override
             public void onClick(View parentV, View v, Integer position, GitOrganization values) {
                 EventBus.getDefault().postSticky(values);
-                mPresenter.startOrgDetailsActivity(OrgDetailsActivity.getIntent(getActivity()));
+                mPresenter.startOrgDetailsActivity(OrgProfileActivity.getIntent(getActivity()));
             }
 
             @Override

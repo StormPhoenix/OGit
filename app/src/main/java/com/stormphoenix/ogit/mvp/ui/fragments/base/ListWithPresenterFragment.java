@@ -15,6 +15,7 @@ import com.stormphoenix.ogit.mvp.ui.activities.LoginActivity;
 import com.stormphoenix.ogit.mvp.view.base.ListItemView;
 import com.stormphoenix.ogit.utils.ActivityUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -34,6 +35,12 @@ import butterknife.ButterKnife;
 public abstract class ListWithPresenterFragment<T> extends ListFragment<T> implements ListItemView<T> {
     @Override
     public void initializeInjector() {
+    }
+
+    @Override
+    public void clearAllItems() {
+        mAdapter.setData(new ArrayList<T>());
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override

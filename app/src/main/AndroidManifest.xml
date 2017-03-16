@@ -55,12 +55,15 @@
             android:name=".mvp.ui.activities.BreadcrumbTreeActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
-            android:name=".mvp.ui.activities.UserDetailsActivity"
+            android:name=".mvp.ui.activities.UserProfileActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_user_details"
             android:theme="@style/AppTheme"></activity>
         <activity
             android:name=".mvp.ui.activities.OrgDetailsActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name=".mvp.ui.activities.OrgProfileActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
             android:name=".mvp.ui.activities.SearchActivity"

@@ -1,6 +1,7 @@
 package com.stormphoenix.ogit.mvp.presenter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -10,6 +11,7 @@ import com.stormphoenix.httpknife.github.GitUser;
 import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.mvp.model.interactor.OrgInteractor;
 import com.stormphoenix.ogit.mvp.presenter.base.BasePresenter;
+import com.stormphoenix.ogit.mvp.ui.activities.OrgDetailsActivity;
 import com.stormphoenix.ogit.mvp.view.OrgDetailsView;
 import com.stormphoenix.ogit.mvp.view.base.BaseUIView;
 import com.stormphoenix.ogit.shares.rx.RxHttpLog;
@@ -35,13 +37,13 @@ import retrofit2.Response;
  * StormPhoenix is a intelligent Android developer.
  */
 
-public class OrgDetailsPresenter extends BasePresenter<OrgDetailsView> {
+public class OrgProfilePresenter extends BasePresenter<OrgDetailsView> {
     private OrgInteractor mInteractor = null;
     private Context mContext;
     private GitOrganization organization = null;
 
     @Inject
-    public OrgDetailsPresenter(Context context) {
+    public OrgProfilePresenter(Context context) {
         super();
         mContext = context;
         mInteractor = new OrgInteractor(mContext);
@@ -173,5 +175,11 @@ public class OrgDetailsPresenter extends BasePresenter<OrgDetailsView> {
         mView.setTitle(this.organization.getLogin());
         loadOrganizationDetails(organization.getLogin());
         loadMembersCount(organization.getLogin());
+    }
+
+    public void startOrgDetailsActivity() {
+        EventBus.getDefault().postSticky(organization);
+        Intent intent = OrgDetailsActivity.getIntent(mContext);
+        mContext.startActivity(intent);
     }
 }

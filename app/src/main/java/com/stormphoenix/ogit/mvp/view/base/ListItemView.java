@@ -20,4 +20,6 @@ public interface ListItemView<T> extends BaseUIView {
     void loadMoreListItem(List<T> listItems);
 
     void reLogin();
+
+    void clearAllItems();
 }
