@@ -1,15 +1,17 @@
 #OGit
-ForkHub is a Github client for Android, and needs lots of improvements.
+
 ---------------------
-![pic4](https://github.com/StormPhoenix/OGit/raw/master/captures/device-2017-03-16-154618.png)
-![pic1](https://github.com/StormPhoenix/OGit/raw/master/captures/device-2017-03-16-153852.png)
-![pic2](https://github.com/StormPhoenix/OGit/raw/master/captures/device-2017-03-16-154201.png)
-![pic3](https://github.com/StormPhoenix/OGit/raw/master/captures/device-2017-03-16-154438.png)
-![pic4](https://github.com/StormPhoenix/OGit/raw/master/captures/device-2017-03-16-154450.png)
-![pic4](https://github.com/StormPhoenix/OGit/raw/master/captures/device-2017-03-16-154509.png)
-![pic4](https://github.com/StormPhoenix/OGit/raw/master/captures/device-2017-03-16-162708.png)
-![pic4](https://github.com/StormPhoenix/OGit/raw/master/captures/device-2017-03-16-162757.png)
-![pic4](https://github.com/StormPhoenix/OGit/raw/master/captures/device-2017-03-16-162829.png)
+OGit is a github client for Android, and needs lots of improvements.
+---------------------
+![pic4](https://github.com/StormPhoenix/OGit/raw/master/screenshot/device-2017-03-16-154618.png)
+![pic1](https://github.com/StormPhoenix/OGit/raw/master/screenshot/device-2017-03-16-153852.png)
+![pic2](https://github.com/StormPhoenix/OGit/raw/master/screenshot/device-2017-03-16-154201.png)
+![pic3](https://github.com/StormPhoenix/OGit/raw/master/screenshot/device-2017-03-16-154438.png)
+![pic4](https://github.com/StormPhoenix/OGit/raw/master/screenshot/device-2017-03-16-154450.png)
+![pic4](https://github.com/StormPhoenix/OGit/raw/master/screenshot/device-2017-03-16-154509.png)
+![pic4](https://github.com/StormPhoenix/OGit/raw/master/screenshot/device-2017-03-16-162708.png)
+![pic4](https://github.com/StormPhoenix/OGit/raw/master/screenshot/device-2017-03-16-162757.png)
+![pic4](https://github.com/StormPhoenix/OGit/raw/master/screenshot/device-2017-03-16-162829.png)
 ---------------------
 欢迎任何方式的与StormPhoenix的合作。
 
