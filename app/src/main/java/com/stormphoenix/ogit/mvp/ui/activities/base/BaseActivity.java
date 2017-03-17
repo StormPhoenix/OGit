@@ -46,14 +46,14 @@ public abstract class BaseActivity extends AppCompatActivity implements Injector
 
     private void setUpEnterTransitionAnim() {
         // Re-enter transition is executed when returning to this activity
-        Explode slideTransition = new Explode();
-        slideTransition.setDuration(500);
-        slideTransition.setInterpolator(new AccelerateInterpolator());
+//        Explode slideTransition = new Explode();
+//        slideTransition.setDuration(500);
+//        slideTransition.setInterpolator(new AccelerateInterpolator());
 //        Slide slideTransition = new Slide();//滑出，fade 也可以，什么效果自己上
 //        slideTransition.).TOP);//滑出的方向
 //        slideTransition.setInterpolator(new DecelerateInterpolator());
 //        slideTransition.setDuration(500);//动画持续时间
-        getWindow().setEnterTransition(slideTransition);
+//        getWindow().setEnterTransition(slideTransition);
 //        getWindow().setExitTransition(slideTransition);
 //        getWindow().setReturnTransition(slideTransition);
 //        getWindow().setReenterTransition(slideTransition);

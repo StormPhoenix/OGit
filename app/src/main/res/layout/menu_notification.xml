@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Button
+        android:id="@+id/btn_unread"
+        style="@style/MenuButton"
+        android:text="@string/no_unread_messages"
+        android:textColor="@color/colorPrimaryDark" />
+
+    <!--<Button-->
+        <!--android:id="@+id/btnSharePhoto"-->
+        <!--style="@style/MenuButton"-->
+        <!--android:text="Participation" />-->
+
+    <!--<Button-->
+        <!--android:id="@+id/btnCopyShareUrl"-->
+        <!--style="@style/MenuButton"-->
+        <!--android:text="All notifications" />-->
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#eeeeee" />
+
+    <Button
+        android:id="@+id/btn_cancel_menu"
+        style="@style/MenuButton"
+        android:text="@string/cancel" />
+
+</merge>

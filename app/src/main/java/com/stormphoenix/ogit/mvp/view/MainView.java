@@ -1,7 +1,7 @@
 package com.stormphoenix.ogit.mvp.view;
 
-import com.stormphoenix.ogit.mvp.ui.fragments.base.BaseFragment;
-import com.stormphoenix.ogit.mvp.view.base.BaseView;
+import com.stormphoenix.httpknife.github.GitNotification;
+import com.stormphoenix.ogit.mvp.view.base.MessageView;
 
 import java.util.List;
 
@@ -10,10 +10,6 @@ import java.util.List;
  * StormPhoenix is a intelligent Android developer.
  */
 
-public interface MainView extends BaseView {
-    void initToolbar(String title);
-
-    void setHeaderImage(String url);
-
-    void setUsername(String username);
+public interface MainView extends MessageView {
+    void saveNotificationMessage(List<GitNotification> notifications);
 }

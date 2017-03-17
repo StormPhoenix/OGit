@@ -14,6 +14,7 @@ import com.stormphoenix.ogit.mvp.presenter.list.ListItemPresenter;
 import com.stormphoenix.ogit.mvp.ui.activities.LoginActivity;
 import com.stormphoenix.ogit.mvp.view.base.ListItemView;
 import com.stormphoenix.ogit.utils.ActivityUtils;
+import com.stormphoenix.ogit.utils.PreferenceUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -133,6 +134,7 @@ public abstract class ListWithPresenterFragment<T> extends ListFragment<T> imple
 
     @Override
     public void reLogin() {
+        PreferenceUtils.putBoolean(getActivity(), PreferenceUtils.IS_LOGIN, false);
         ActivityUtils.startActivity(getActivity(), LoginActivity.newIntent(getActivity()));
         getActivity().finish();
     }

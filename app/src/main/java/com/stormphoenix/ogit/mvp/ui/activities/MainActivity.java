@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -20,27 +21,34 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
+import com.stormphoenix.httpknife.github.GitNotification;
 import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.adapters.FragmentsAdapter;
+import com.stormphoenix.ogit.dagger2.component.DaggerActivityComponent;
+import com.stormphoenix.ogit.dagger2.module.ContextModule;
 import com.stormphoenix.ogit.mvp.model.UserReposPresenter;
+import com.stormphoenix.ogit.mvp.presenter.MainPresenter;
 import com.stormphoenix.ogit.mvp.presenter.list.UserEventsPresenter;
 import com.stormphoenix.ogit.mvp.ui.activities.base.TabPagerActivity;
 import com.stormphoenix.ogit.mvp.ui.fragments.EventsFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.ReposFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.StaredFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.base.BaseFragment;
+import com.stormphoenix.ogit.mvp.view.MainView;
 import com.stormphoenix.ogit.utils.ActivityUtils;
 import com.stormphoenix.ogit.utils.ImageUtils;
 import com.stormphoenix.ogit.utils.PreferenceUtils;
-import com.stormphoenix.ogit.widget.manager.PopupMenuManager;
+import com.stormphoenix.ogit.widget.manager.NotifyMenuManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MainActivity extends TabPagerActivity<FragmentsAdapter> implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends TabPagerActivity<FragmentsAdapter> implements NavigationView.OnNavigationItemSelectedListener, MainView {
     private static final String TAG = MainActivity.class.getSimpleName();
     @BindView(R.id.tab_layout)
     SmartTabLayout mTabLayout;
@@ -53,12 +61,17 @@ public class MainActivity extends TabPagerActivity<FragmentsAdapter> implements 
     View mUserInfoView;
     CircleImageView mHeaderImage;
     TextView mTextUsername;
+    View menuNotify;
 
     FragmentsAdapter mAdapter;
     ActionBarDrawerToggle mDrawerToggle;
 
     @BindView(R.id.nav_view)
     NavigationView mNavView;
+
+    @Inject
+    public MainPresenter mainPresenter;
+    private List<GitNotification> mNotifications = null;
 
     public static Intent newIntent(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -68,6 +81,8 @@ public class MainActivity extends TabPagerActivity<FragmentsAdapter> implements 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mainPresenter.onAttachView(this);
+        mainPresenter.onCreate(savedInstanceState);
         initViews();
         loadPagerData();
     }
@@ -115,6 +130,10 @@ public class MainActivity extends TabPagerActivity<FragmentsAdapter> implements 
 
     @Override
     public void initializeInjector() {
+        DaggerActivityComponent.builder()
+                .contextModule(new ContextModule(this))
+                .build()
+                .inject(this);
     }
 
     /**
@@ -206,14 +225,10 @@ public class MainActivity extends TabPagerActivity<FragmentsAdapter> implements 
                 onSearchRequested();
                 return true;
             case R.id.action_notification:
-                View viewById = toolbar.findViewById(R.id.action_notification);
-                PopupMenuManager.getInstance().toggleMenuFromView(viewById);
-//                if (viewById == null) {
-//                    Log.e(TAG, "onOptionsItemSelected: null");
-//                } else {
-//                    Log.e(TAG, "onOptionsItemSelected: not null");
-//                }
-//                PopupMenuManager.getInstance().toggleMenuFromView();
+                if (menuNotify == null) {
+                    menuNotify = toolbar.findViewById(R.id.action_notification);
+                }
+                NotifyMenuManager.getInstance().toggleMenuFromView(menuNotify);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -245,5 +260,17 @@ public class MainActivity extends TabPagerActivity<FragmentsAdapter> implements 
             default:
                 return false;
         }
+    }
+
+    @Override
+    public void showMessage(String message) {
+        Snackbar.make(mDrawerLayout, message, Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void saveNotificationMessage(List<GitNotification> notifications) {
+        this.mNotifications = notifications;
+        String notifyMessage = String.valueOf(mNotifications.size()) + " unread messages";
+        NotifyMenuManager.getInstance().setNotifyContent(notifyMessage);
     }
 }

@@ -136,4 +136,7 @@
     <string name="repo_has_been_forked">仓库已经被fork过</string>
     <string name="forked">forked</string>
     <string name="unstar">unstar</string>
+    <string name="cancel">cancel</string>
+    <string name="unread_message">unread messages</string>
+    <string name="no_unread_messages">no read message</string>
 </resources>

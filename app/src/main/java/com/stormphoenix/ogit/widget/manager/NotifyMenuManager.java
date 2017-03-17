@@ -2,6 +2,7 @@ package com.stormphoenix.ogit.widget.manager;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,34 +11,35 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 
 import com.stormphoenix.ogit.utils.UiUtils;
-import com.stormphoenix.ogit.widget.menu.VerticalMenu;
+import com.stormphoenix.ogit.widget.menu.NotifyMenu;
 
 /**
  * Created by StormPhoenix on 17-3-17.
  * StormPhoenix is a intelligent Android developer.
  */
 
-public class PopupMenuManager implements View.OnAttachStateChangeListener {
-    private VerticalMenu menuView = null;
+public class NotifyMenuManager implements View.OnAttachStateChangeListener {
+    private NotifyMenu menuView = null;
 
-    private static PopupMenuManager instance;
+    private static NotifyMenuManager instance;
 
     private volatile boolean isMenuShowing = false;
     private volatile boolean isMenuDismissing = false;
+    private String mNotifyMessage;
 
     /**
      * 单例模式
      *
      * @return
      */
-    public static PopupMenuManager getInstance() {
+    public static NotifyMenuManager getInstance() {
         if (instance == null) {
-            instance = new PopupMenuManager();
+            instance = new NotifyMenuManager();
         }
         return instance;
     }
 
-    private PopupMenuManager() {
+    private NotifyMenuManager() {
     }
 
     public void toggleMenuFromView(View openView) {
@@ -45,25 +47,6 @@ public class PopupMenuManager implements View.OnAttachStateChangeListener {
             showMenuFromView(openView);
         } else {
             hideMenu();
-        }
-    }
-
-    synchronized private void showMenuFromView(View openView) {
-        if (!isMenuShowing) {
-            isMenuShowing = true;
-            menuView = new VerticalMenu(openView.getContext());
-            menuView.addOnAttachStateChangeListener(this);
-            ((ViewGroup) openView.getRootView().findViewById(android.R.id.content)).addView(menuView);
-
-            menuView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-                @Override
-                public boolean onPreDraw() {
-                    menuView.getViewTreeObserver().removeOnPreDrawListener(this);
-                    setupMenuInitialPostion(openView);
-                    executeShowAnimation();
-                    return false;
-                }
-            });
         }
     }
 
@@ -87,11 +70,37 @@ public class PopupMenuManager implements View.OnAttachStateChangeListener {
                 });
     }
 
+    synchronized private void showMenuFromView(View openView) {
+        if (!isMenuShowing) {
+            isMenuShowing = true;
+            menuView = new NotifyMenu(openView.getContext());
+            if (!TextUtils.isEmpty(mNotifyMessage)) {
+                menuView.setNofityContent(mNotifyMessage);
+            }
+            menuView.addOnAttachStateChangeListener(this);
+            ((ViewGroup) openView.getRootView().findViewById(android.R.id.content)).addView(menuView);
+
+            menuView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                @Override
+                public boolean onPreDraw() {
+                    menuView.getViewTreeObserver().removeOnPreDrawListener(this);
+                    setupMenuInitialPostion(openView);
+                    executeShowAnimation();
+                    return false;
+                }
+            });
+        }
+    }
+
     synchronized private void hideMenu() {
         if (!isMenuDismissing) {
             isMenuDismissing = true;
             executeDismissAnimation();
         }
+    }
+
+    public void setNotifyContent(String message) {
+        this.mNotifyMessage = message;
     }
 
     private void executeDismissAnimation() {
@@ -128,7 +137,7 @@ public class PopupMenuManager implements View.OnAttachStateChangeListener {
 
     @Override
     public void onViewDetachedFromWindow(View v) {
-        Log.e(PopupMenuManager.class.getSimpleName(), "onViewDetachedFromWindow: detach");
+        Log.e(NotifyMenuManager.class.getSimpleName(), "onViewDetachedFromWindow: detach");
         menuView = null;
     }
 }
