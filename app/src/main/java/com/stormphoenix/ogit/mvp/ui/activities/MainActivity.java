@@ -32,6 +32,7 @@ import com.stormphoenix.ogit.mvp.ui.fragments.base.BaseFragment;
 import com.stormphoenix.ogit.utils.ActivityUtils;
 import com.stormphoenix.ogit.utils.ImageUtils;
 import com.stormphoenix.ogit.utils.PreferenceUtils;
+import com.stormphoenix.ogit.widget.manager.PopupMenuManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -203,6 +204,16 @@ public class MainActivity extends TabPagerActivity<FragmentsAdapter> implements 
         switch (item.getItemId()) {
             case R.id.action_search:
                 onSearchRequested();
+                return true;
+            case R.id.action_notification:
+                View viewById = toolbar.findViewById(R.id.action_notification);
+                PopupMenuManager.getInstance().toggleMenuFromView(viewById);
+//                if (viewById == null) {
+//                    Log.e(TAG, "onOptionsItemSelected: null");
+//                } else {
+//                    Log.e(TAG, "onOptionsItemSelected: not null");
+//                }
+//                PopupMenuManager.getInstance().toggleMenuFromView();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

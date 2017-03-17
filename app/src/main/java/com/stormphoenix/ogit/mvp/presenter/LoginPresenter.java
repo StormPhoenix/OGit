@@ -62,12 +62,23 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                         return Observable.empty();
                     }
                 }).compose(RxJavaCustomTransformer.<Response<GitEmpty>>defaultSchedulers())
-                .subscribe(new DefaultUiSubscriber<Response<GitEmpty>, BaseUIView>(mView, mContext.getString(R.string.network_error)) {
+                .subscribe(new Subscriber<Response<GitEmpty>>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mView.showMessage(e.toString());
+                        mView.hideProgress();
+                    }
+
                     @Override
                     public void onNext(Response<GitEmpty> response) {
                         if (response.code() == 204) {
                             login(username, password);
                         } else {
+                            mView.hideProgress();
                             mView.showMessage(mContext.getString(R.string.login_failed));
                         }
                     }
@@ -111,8 +122,8 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                             mView.hideProgress();
                             mView.showMessage(mContext.getResources().getString(R.string.username_or_password_incorrect));
                         } else if (response.code() == 403) {
-                            mView.hideProgress();
                             Log.i(TAG, "Token created fail: auth over-try");
+                            mView.hideProgress();
                             mView.showMessage(mContext.getResources().getString(R.string.unknown_error));
                         } else if (response.code() == 422) {
                             Log.i(TAG, "Token created fail: try to delete existing token");

@@ -21,4 +21,7 @@
     <color name="colorFabPressed">#546e7a</color>
     <!--<color name="colorControlHighlight"></color>-->
     <!--<color name="colorTitle">#de000000</color>-->
+    <color name="btn_menu_normal">#ffffff</color>
+    <color name="btn_menu_pressed">#40000000</color>
+    <color name="btn_context_menu_text_red">#ffff0000</color>
 </resources>

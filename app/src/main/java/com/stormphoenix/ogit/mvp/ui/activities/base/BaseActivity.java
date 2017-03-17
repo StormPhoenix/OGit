@@ -54,8 +54,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Injector
 //        slideTransition.setInterpolator(new DecelerateInterpolator());
 //        slideTransition.setDuration(500);//动画持续时间
         getWindow().setEnterTransition(slideTransition);
-        getWindow().setExitTransition(slideTransition);
-        getWindow().setReturnTransition(slideTransition);
+//        getWindow().setExitTransition(slideTransition);
+//        getWindow().setReturnTransition(slideTransition);
 //        getWindow().setReenterTransition(slideTransition);
     }
 
