@@ -141,7 +141,7 @@ public class GitEventsAdapter extends BaseRecyclerAdapter<GitEvent> {
 //                BitmapUtils.setIconFont(context, img, OctIcon.PERSON, R.color.theme_color);
             } else if (eventType.equals(model.GIT_ISSUES_EVENT)) {
                 GitIssuePayload payload = (GitIssuePayload) model.getPayload();
-                mTextEventInfo.setText(Html.fromHtml(HtmlUtils.bold(model.getActor().getLogin()) + payload.getAction() + " issue " + model.getRepo().getName() + "#" + payload.getIssue().getNumber()));
+                mTextEventInfo.setText(Html.fromHtml(HtmlUtils.bold(model.getActor().getLogin()) + " " + payload.getAction() + " issue " + model.getRepo().getName() + "#" + payload.getIssue().getNumber()));
                 if (payload.getAction().equals("opened")) {
 //                    BitmapUtils.setIconFont(context, img, OctIcon.ISSUE_OPNE, R.color.theme_color);
                 } else if (payload.getAction().equals("closed")) {

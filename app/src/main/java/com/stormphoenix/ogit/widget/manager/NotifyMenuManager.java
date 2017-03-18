@@ -11,8 +11,11 @@ import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 
+import com.stormphoenix.httpknife.github.GitNotification;
 import com.stormphoenix.ogit.utils.UiUtils;
 import com.stormphoenix.ogit.widget.menu.NotifyMenu;
+
+import java.util.List;
 
 /**
  * Created by StormPhoenix on 17-3-17.
@@ -27,6 +30,7 @@ public class NotifyMenuManager extends RecyclerView.OnScrollListener implements 
     private volatile boolean isMenuShowing = false;
     private volatile boolean isMenuDismissing = false;
     private String mNotifyMessage;
+    private List<GitNotification> mNotifications;
 
     /**
      * 单例模式
@@ -76,7 +80,7 @@ public class NotifyMenuManager extends RecyclerView.OnScrollListener implements 
             isMenuShowing = true;
             menuView = new NotifyMenu(openView.getContext());
             if (!TextUtils.isEmpty(mNotifyMessage)) {
-                menuView.setNofityContent(mNotifyMessage);
+                menuView.setNofityContent(mNotifyMessage, mNotifications);
             }
             menuView.addOnAttachStateChangeListener(this);
             ((ViewGroup) openView.getRootView().findViewById(android.R.id.content)).addView(menuView);
@@ -100,7 +104,8 @@ public class NotifyMenuManager extends RecyclerView.OnScrollListener implements 
         }
     }
 
-    public void setNotifyContent(String message) {
+    public void setNotifyContent(String message, List<GitNotification> notifications) {
+        this.mNotifications = notifications;
         this.mNotifyMessage = message;
     }
 

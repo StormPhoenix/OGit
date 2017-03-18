@@ -278,6 +278,6 @@ public class MainActivity extends TabPagerActivity<FragmentsAdapter> implements 
     public void saveNotificationMessage(List<GitNotification> notifications) {
         this.mNotifications = notifications;
         String notifyMessage = String.valueOf(mNotifications.size()) + " unread messages";
-        NotifyMenuManager.getInstance().setNotifyContent(notifyMessage);
+        NotifyMenuManager.getInstance().setNotifyContent(notifyMessage,notifications);
     }
 }

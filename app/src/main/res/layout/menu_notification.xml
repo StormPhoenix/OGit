@@ -23,7 +23,7 @@
         android:background="#eeeeee" />
 
     <Button
-        android:id="@+id/btn_cancel_menu"
+        android:id="@+id/btn_cancel"
         style="@style/MenuButton"
         android:text="@string/cancel" />
 

@@ -8,9 +8,11 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 
 import com.stormphoenix.ogit.R;
+import com.stormphoenix.ogit.mvp.presenter.list.NotifyPresenter;
 import com.stormphoenix.ogit.mvp.ui.activities.base.BaseActivity;
 import com.stormphoenix.ogit.mvp.ui.fragments.CodeFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.ContributorsFragment;
+import com.stormphoenix.ogit.mvp.ui.fragments.NotifyFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.OrgFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.base.BaseFragment;
 import com.stormphoenix.ogit.utils.PreferenceUtils;
@@ -68,6 +70,10 @@ public class ToolbarActivity extends BaseActivity {
             title = getString(R.string.organization);
             subTitle = PreferenceUtils.getUsername(this);
             currentFragment = OrgFragment.getInstance();
+        } else if (type == TYPE_NOTIFICATION) {
+            title = getString(R.string.notification);
+            subTitle = PreferenceUtils.getUsername(this);
+            currentFragment = NotifyFragment.newInstance(new NotifyPresenter(this));
         }
         setUpToolbar();
         // 根据Type设置内容
