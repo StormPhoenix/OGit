@@ -1,6 +1,5 @@
-#OGit
-
----------------------
+OGit
+===
 OGit is a github client for Android, and needs lots of improvements.
 ---------------------
 ![pic4](https://github.com/StormPhoenix/OGit/raw/master/screenshot/device-2017-03-16-154618.png)

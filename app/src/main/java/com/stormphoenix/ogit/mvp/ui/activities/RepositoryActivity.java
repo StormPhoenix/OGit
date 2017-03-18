@@ -200,9 +200,20 @@ public class RepositoryActivity extends BaseActivity implements RepositoryView {
         }
     }
 
-    @OnClick({R.id.contributor_wrapper, R.id.code_wrapper})
+    @OnClick({R.id.contributor_wrapper, R.id.code_wrapper, R.id.commit_wrapper})
     public void onClick(View view) {
-        mPresenter.onClick(view);
+        switch (view.getId()) {
+            case R.id.contributor_wrapper:
+                mPresenter.startContributorActivity();
+                break;
+            case R.id.code_wrapper:
+                mPresenter.startCodeActivity();
+                break;
+            case R.id.commit_wrapper:
+                mPresenter.startCommitsActivity();
+            default:
+                break;
+        }
     }
 
     @Override

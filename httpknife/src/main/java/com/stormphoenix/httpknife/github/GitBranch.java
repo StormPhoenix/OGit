@@ -7,7 +7,7 @@ package com.stormphoenix.httpknife.github;
 
 public class GitBranch {
     private String name;
-    private GitCommit commit;
+    private GitCommitMessage commit;
 
     public GitBranch() {
     }
@@ -21,11 +21,11 @@ public class GitBranch {
         return this;
     }
 
-    public GitCommit getCommit() {
+    public GitCommitMessage getCommit() {
         return commit;
     }
 
-    public void setCommit(GitCommit commit) {
+    public void setCommit(GitCommitMessage commit) {
         this.commit = commit;
     }
 

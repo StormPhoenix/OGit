@@ -1,7 +1,7 @@
 package com.stormphoenix.httpknife.github.payload;
 
 import com.google.gson.annotations.SerializedName;
-import com.stormphoenix.httpknife.github.GitCommit;
+import com.stormphoenix.httpknife.github.GitCommitMessage;
 
 import java.util.Date;
 import java.util.List;
@@ -20,7 +20,7 @@ public class GitPushPayload extends GitPayload {
     private String ref;
     private String head;
     private String before;
-    private List<GitCommit> commits;
+    private List<GitCommitMessage> commits;
     @SerializedName("public")
     private boolean publik;
     @SerializedName("created_at")
@@ -74,11 +74,11 @@ public class GitPushPayload extends GitPayload {
         this.before = before;
     }
 
-    public List<GitCommit> getCommits() {
+    public List<GitCommitMessage> getCommits() {
         return commits;
     }
 
-    public void setCommits(List<GitCommit> commits) {
+    public void setCommits(List<GitCommitMessage> commits) {
         this.commits = commits;
     }
 

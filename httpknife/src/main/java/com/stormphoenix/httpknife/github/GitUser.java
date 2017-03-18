@@ -70,6 +70,7 @@ public class GitUser implements Serializable {
     private int diskUsage;
     private int collaborators;
     private Plan plan;
+    private Date date;
 
     public GitUser() {
     }
@@ -370,32 +371,48 @@ public class GitUser implements Serializable {
         this.plan = plan;
     }
 
-    private static class Plan implements Serializable{
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    private static class Plan implements Serializable {
         private String name;
         private int space;
         private int privateRepos;
         private int collaborators;
+
         public String getName() {
             return name;
         }
+
         public void setName(String name) {
             this.name = name;
         }
+
         public int getSpace() {
             return space;
         }
+
         public void setSpace(int space) {
             this.space = space;
         }
+
         public int getPrivateRepos() {
             return privateRepos;
         }
+
         public void setPrivateRepos(int privateRepos) {
             this.privateRepos = privateRepos;
         }
+
         public int getCollaborators() {
             return collaborators;
         }
+
         public void setCollaborators(int collaborators) {
             this.collaborators = collaborators;
         }

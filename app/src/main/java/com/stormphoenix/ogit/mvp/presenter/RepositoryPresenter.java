@@ -3,7 +3,6 @@ package com.stormphoenix.ogit.mvp.presenter;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 
 import com.stormphoenix.httpknife.github.GitBranch;
 import com.stormphoenix.httpknife.github.GitEmpty;
@@ -56,7 +55,7 @@ public class RepositoryPresenter extends BasePresenter<RepositoryView> {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
-    public void onMainEvent(GitRepository repository) {
+    public void onMainThreadEvent(GitRepository repository) {
         mRepository = repository;
         EventBus.getDefault().unregister(this);
         if (!isRepoFragmentary(mRepository)) {
@@ -178,29 +177,16 @@ public class RepositoryPresenter extends BasePresenter<RepositoryView> {
         super.onDestory();
     }
 
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.contributor_wrapper:
-                startContributorActivity();
-                break;
-            case R.id.code_wrapper:
-                startCodeActivity();
-                break;
-            default:
-                break;
-        }
-    }
-
-    private void startCodeActivity() {
-        EventBus.getDefault().postSticky(mRepository);
+    public void startCodeActivity() {
+//        EventBus.getDefault().postSticky(mRepository);
         Bundle bundle = new Bundle();
         bundle.putString(BreadcrumbTreeActivity.TITLE, mRepository.getName());
         bundle.putString(BreadcrumbTreeActivity.SUB_TITLE, mRepository.getDefaultBranch());
         ActivityUtils.startActivity(mContext, BreadcrumbTreeActivity.newIntent(mContext, bundle));
     }
 
-    private void startContributorActivity() {
-        EventBus.getDefault().postSticky(mRepository);
+    public void startContributorActivity() {
+//        EventBus.getDefault().postSticky(mRepository);
         Bundle bundle = new Bundle();
         bundle.putInt(ToolbarActivity.TYPE, ToolbarActivity.TYPE_CONTRIBUTOR);
         ActivityUtils.startActivity(mContext, ToolbarActivity.newIntent(mContext, bundle));
@@ -233,4 +219,13 @@ public class RepositoryPresenter extends BasePresenter<RepositoryView> {
                     }
                 });
     }
+
+    public void startCommitsActivity() {
+//        EventBus.getDefault().postSticky(mRepository);
+        Bundle bundle = new Bundle();
+        bundle.putInt(ToolbarActivity.TYPE, ToolbarActivity.TYPE_COMMITS);
+        bundle.putString(ToolbarActivity.SUB_TITLE, mRepository.getName());
+        ActivityUtils.startActivity(mContext, ToolbarActivity.newIntent(mContext, bundle));
+    }
 }
+

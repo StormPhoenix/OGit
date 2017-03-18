@@ -139,4 +139,5 @@
     <string name="cancel">cancel</string>
     <string name="unread_message">unread messages</string>
     <string name="no_unread_messages">no read message</string>
+    <string name="commits">commits</string>
 </resources>
