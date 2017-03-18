@@ -9,9 +9,11 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.stormphoenix.httpknife.github.GitEvent;
 import com.stormphoenix.httpknife.github.payload.GitCreatePayload;
+import com.stormphoenix.httpknife.github.payload.GitIssueCommentPayload;
 import com.stormphoenix.httpknife.github.payload.GitIssuePayload;
 import com.stormphoenix.httpknife.github.payload.GitMemberPayload;
 import com.stormphoenix.httpknife.github.payload.GitPayload;
+import com.stormphoenix.httpknife.github.payload.GitPullRequestPayload;
 import com.stormphoenix.httpknife.github.payload.GitPushPayload;
 import com.stormphoenix.httpknife.github.payload.GitReleasePayload;
 
@@ -60,6 +62,10 @@ public class GitEventParser implements JsonDeserializer<GitEvent> {
                 payloadClass = GitReleasePayload.class;
             } else if (event.getType().equals(GitEvent.GIT_CREATE_EVENT)) {
                 payloadClass = GitCreatePayload.class;
+            } else if (event.getType().equals(GitEvent.GIT_ISSUE_COMMENT_EVENT)) {
+                payloadClass = GitIssueCommentPayload.class;
+            } else if (event.getType().equals(GitEvent.GIT_PULL_REQUEST_EVENT)) {
+                payloadClass = GitPullRequestPayload.class;
             } else {
                 payloadClass = GitPayload.class;
             }

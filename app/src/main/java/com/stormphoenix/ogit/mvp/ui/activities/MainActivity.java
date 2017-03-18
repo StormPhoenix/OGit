@@ -114,9 +114,16 @@ public class MainActivity extends TabPagerActivity<FragmentsAdapter> implements 
     protected FragmentsAdapter createAdapter() {
         String[] titleList = {"Event", "Starred", "Repos"};
         List<BaseFragment> fragmentList = new ArrayList<>();
-        fragmentList.add(EventsFragment.newInstance(new UserEventsPresenter(this)));
-        fragmentList.add(StaredFragment.newInstance(PreferenceUtils.getString(this, PreferenceUtils.USERNAME)));
-        fragmentList.add(ReposFragment.newInstance(new UserReposPresenter(this)));
+        EventsFragment eventsFragment = EventsFragment.newInstance(new UserEventsPresenter(this));
+        eventsFragment.setOnScrollListener(NotifyMenuManager.getInstance());
+        StaredFragment staredFragment = StaredFragment.newInstance(PreferenceUtils.getString(this, PreferenceUtils.USERNAME));
+        staredFragment.setOnScrollListener(NotifyMenuManager.getInstance());
+        ReposFragment reposFragment = ReposFragment.newInstance(new UserReposPresenter(this));
+        reposFragment.setOnScrollListener(NotifyMenuManager.getInstance());
+
+        fragmentList.add(eventsFragment);
+        fragmentList.add(staredFragment);
+        fragmentList.add(reposFragment);
 
         mAdapter = new FragmentsAdapter(this.getSupportFragmentManager());
         mAdapter.setFragmentList(fragmentList, titleList);

@@ -1,5 +1,7 @@
 package com.stormphoenix.httpknife.github;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,15 +20,20 @@ public class GitIssue implements Serializable {
     private Date updatedAt;
     private int comments;
     private int number;
-    private List<GitLabel> gitLabels;
+    private List<GitLabel> labels;
     private String body;
     private String bodyHtml;
     private String bodyText;
     private String htmlUrl;
+    // 该问题的状态，是关闭（close）还是开放（open）的
     private String state;
     private String title;
     private String url;
+    private boolean locked;
+    @SerializedName("pull_request")
+    private GitPullRequest pullRequest;
     private GitUser assignee;
+    private List<GitUser> assignees;
     private GitUser user;
 
     public GitIssue() {
@@ -77,12 +84,12 @@ public class GitIssue implements Serializable {
         return this;
     }
 
-    public List<GitLabel> getGitLabels() {
-        return this.gitLabels;
+    public List<GitLabel> getLabels() {
+        return this.labels;
     }
 
-    public GitIssue setGitLabels(List<GitLabel> gitLabels) {
-        this.gitLabels = gitLabels != null?new ArrayList(gitLabels):null;
+    public GitIssue setLabels(List<GitLabel> labels) {
+        this.labels = labels != null?new ArrayList(labels):null;
         return this;
     }
 
@@ -178,5 +185,29 @@ public class GitIssue implements Serializable {
 
     public String toString() {
         return "GitIssue " + this.number;
+    }
+
+    public List<GitUser> getAssignees() {
+        return assignees;
+    }
+
+    public void setAssignees(List<GitUser> assignees) {
+        this.assignees = assignees;
+    }
+
+    public boolean isLocked() {
+        return locked;
+    }
+
+    public void setLocked(boolean locked) {
+        this.locked = locked;
+    }
+
+    public GitPullRequest getPullRequest() {
+        return pullRequest;
+    }
+
+    public void setPullRequest(GitPullRequest pullRequest) {
+        this.pullRequest = pullRequest;
     }
 }

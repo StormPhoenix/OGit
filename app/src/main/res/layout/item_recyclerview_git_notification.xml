@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/item_event_card_margin"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:minHeight="72dp"
+    android:paddingLeft="16dp">
+
+    <View
+        android:id="@+id/divider_line"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="72dp"
+        android:background="@color/colorDivider" />
+
+    <ImageView
+        android:id="@+id/img_notification"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="16dp"
+        tools:src="@drawable/ic_issue_opened_24dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="80dp"
+        android:orientation="vertical"
+        android:paddingBottom="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="16dp">
+
+        <TextView
+            android:id="@+id/text_notify_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:minLines="1"
+            tools:text="tiagohm/MarkdownView" />
+
+        <TextView
+            android:id="@+id/text_notify_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/colorPrimaryText"
+            tools:text="Markdown Feature request" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/text_notify_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:maxLines="1"
+                android:textSize="14sp"
+                tools:text="刚刚" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

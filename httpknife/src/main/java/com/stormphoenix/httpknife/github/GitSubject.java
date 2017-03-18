@@ -10,6 +10,8 @@ import com.google.gson.annotations.SerializedName;
 public class GitSubject {
     public static final String SUBJECT_TYPE_ISSUE = "Issue";
     public static final String SUBJECT_TYPE_RELEASE = "Release";
+    public static final String SUBJECT_TYPE_PULL_REQUEST = "PullRequest";
+    public static final String SUBJECT_TYPE_COMMIT = "Commit";
 
     private String title;
     private String url;

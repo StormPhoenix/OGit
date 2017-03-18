@@ -30,7 +30,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     app:key_text="@string/star"
-                    app:value_text="10" />
+                    app:value_text="0" />
 
                 <com.stormphoenix.ogit.widget.KeyValueLabel
                     android:id="@+id/label_user_followers"
@@ -38,7 +38,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     app:key_text="@string/followers"
-                    app:value_text="10" />
+                    app:value_text="0" />
 
                 <com.stormphoenix.ogit.widget.KeyValueLabel
                     android:id="@+id/label_user_following"
@@ -46,7 +46,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     app:key_text="@string/followings"
-                    app:value_text="10" />
+                    app:value_text="0" />
             </LinearLayout>
         </android.support.v7.widget.CardView>
 

@@ -14,8 +14,10 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.stormphoenix.httpknife.github.GitEvent;
 import com.stormphoenix.httpknife.github.payload.GitCreatePayload;
+import com.stormphoenix.httpknife.github.payload.GitIssueCommentPayload;
 import com.stormphoenix.httpknife.github.payload.GitIssuePayload;
 import com.stormphoenix.httpknife.github.payload.GitMemberPayload;
+import com.stormphoenix.httpknife.github.payload.GitPullRequestPayload;
 import com.stormphoenix.httpknife.github.payload.GitPushPayload;
 import com.stormphoenix.httpknife.github.payload.GitReleasePayload;
 import com.stormphoenix.ogit.R;
@@ -54,6 +56,7 @@ public class GitEventsAdapter extends BaseRecyclerAdapter<GitEvent> {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
+        holder.setIsRecyclable(false);
         GitEventViewHolder viewHolder = (GitEventViewHolder) holder;
         viewHolder.bind(data.get(position));
     }
@@ -87,10 +90,14 @@ public class GitEventsAdapter extends BaseRecyclerAdapter<GitEvent> {
         TextView mTextEventHappenTime;
         @BindView(R.id.text_commit_nums)
         TextView mTextCommitNums;
-        @BindView(R.id.text_commit_one)
-        TextView mTextCommitOne;
-        @BindView(R.id.text_commit_two)
-        TextView mTextCommitTwo;
+        @BindView(R.id.text_commit1_ref)
+        TextView mTextCommit1;
+        @BindView(R.id.text_commit1_content)
+        TextView mTextCommit1Content;
+        @BindView(R.id.text_commit2_ref)
+        TextView mTextCommit2;
+        @BindView(R.id.text_commit2_content)
+        TextView mTextCommit2Content;
 
         public GitEventViewHolder(View itemView) {
             super(itemView);
@@ -121,7 +128,11 @@ public class GitEventsAdapter extends BaseRecyclerAdapter<GitEvent> {
                 }
 //                BitmapUtils.setIconFont(context, img, OctIcon.REPO, R.color.theme_color);
             } else if (eventType.equals(model.GIT_PULL_REQUEST_EVENT)) {
-                mTextEventInfo.setText(Html.fromHtml(HtmlUtils.bold(model.getActor().getLogin()) + " opened pull request " + HtmlUtils.bold(model.getRepo().getName())));
+                GitPullRequestPayload payload = (GitPullRequestPayload) model.getPayload();
+                mTextEventInfo.setText(Html.fromHtml(HtmlUtils.bold(model.getActor().getLogin()) + " " + payload.getAction() + " pull request " + HtmlUtils.bold(model.getRepo().getName())));
+                mTextCommit1Content.setVisibility(View.VISIBLE);
+                mTextCommit1Content.setText(payload.getPullRequest().getTitle());
+                mEventImage.setImageResource(R.drawable.ic_pull_request_black_24dp);
 //                BitmapUtils.setIconFont(context, img, OctIcon.PUSH, R.color.theme_color);
             } else if (eventType.equals(model.GIT_MEMBER_EVENT)) {
                 GitMemberPayload payload = (GitMemberPayload) model.getPayload();
@@ -149,12 +160,27 @@ public class GitEventsAdapter extends BaseRecyclerAdapter<GitEvent> {
                 mTextCommitNums.setVisibility(View.VISIBLE);
                 mTextCommitNums.setText(String.valueOf(pushPayload.getCommits().size()) + " new commits");
 
-                mTextCommitOne.setVisibility(View.VISIBLE);
-                mTextCommitOne.setText(pushPayload.getCommits().get(0).getSha().substring(0, 6) + " " + pushPayload.getCommits().get(0).getMessage());
+                mTextCommit1.setVisibility(View.VISIBLE);
+                mTextCommit1.setText(pushPayload.getCommits().get(0).getSha().substring(0, 7) + " ");
+                mTextCommit1Content.setVisibility(View.VISIBLE);
+                mTextCommit1Content.setText(pushPayload.getCommits().get(0).getMessage());
+
+                if (pushPayload.getCommits().size() > 1) {
+                    mTextCommit2.setVisibility(View.VISIBLE);
+                    mTextCommit2.setText(pushPayload.getCommits().get(1).getSha().substring(0, 7) + " ");
+                    mTextCommit2Content.setVisibility(View.VISIBLE);
+                    mTextCommit2Content.setText(pushPayload.getCommits().get(1).getMessage());
+                }
             } else if (eventType.equals(GitEvent.GIT_RELEASE_EVENT)) {
                 GitReleasePayload payload = (GitReleasePayload) model.getPayload();
                 mTextEventInfo.setText(Html.fromHtml(HtmlUtils.bold(model.getActor().getLogin()) + " released to " + HtmlUtils.bold(payload.getRelease().getTagName()) + " at " + HtmlUtils.bold(model.getRepo().getName())));
                 mEventImage.setImageResource(R.drawable.ic_tag_black_24dp);
+            } else if (eventType.equals(GitEvent.GIT_ISSUE_COMMENT_EVENT)) {
+                GitIssueCommentPayload payload = (GitIssueCommentPayload) model.getPayload();
+                mTextEventInfo.setText(Html.fromHtml(HtmlUtils.bold(model.getActor().getLogin()) + " commented on pull request " + HtmlUtils.bold(model.getRepo().getName())));
+                mEventImage.setImageResource(R.drawable.ic_issue_comment_event_black_24dp);
+                mTextCommit1Content.setVisibility(View.VISIBLE);
+                mTextCommit1Content.setText(payload.getComment().getBody());
             } else {
                 mTextEventInfo.setText("Unknown event type");   // I will add more eventtype later
             }

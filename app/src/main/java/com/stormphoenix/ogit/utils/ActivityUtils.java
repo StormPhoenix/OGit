@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewCompat;
 import android.view.View;
@@ -15,9 +16,13 @@ import android.view.View;
 
 public class ActivityUtils {
     public static void startActivity(Context context, Intent intent) {
-        if (context instanceof Activity) {
-            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((Activity) context, null);
-            context.startActivity(intent, options.toBundle());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (context instanceof Activity) {
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((Activity) context, null);
+                context.startActivity(intent, options.toBundle());
+            } else {
+                context.startActivity(intent);
+            }
         } else {
             context.startActivity(intent);
         }

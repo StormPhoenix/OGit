@@ -15,7 +15,7 @@ public class GitNotification {
     private GitSubject subject;
     private String reason;
     private boolean unread;
-    @SerializedName("update_at")
+    @SerializedName("updated_at")
     private Date updatedAt;
     @SerializedName("last_read_at")
     private Date lastReadAt;

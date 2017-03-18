@@ -106,6 +106,9 @@ public abstract class ListWithPresenterFragment<T> extends ListFragment<T> imple
         mRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorAccent);
         mRefreshLayout.setOnRefreshListener(() -> getListItemPresetner().loadNewlyListItem());
 
+        if (mScrollListener != null) {
+            mRecyclerView.addOnScrollListener(mScrollListener);
+        }
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             int lastVisibleItem = 0;
 

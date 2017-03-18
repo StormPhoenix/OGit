@@ -1,14 +1,19 @@
 package com.stormphoenix.ogit.mvp.ui.fragments.base;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.adapters.base.BaseRecyclerAdapter;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by StormPhoenix on 17-2-28.
@@ -32,10 +37,15 @@ public abstract class ListFragment<T> extends BaseFragment {
     protected BaseRecyclerAdapter mAdapter;
 
     protected View rootView = null;
+    protected RecyclerView.OnScrollListener mScrollListener;
 
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_refresh_recyclerview;
+    }
+
+    public void setOnScrollListener(RecyclerView.OnScrollListener onScrollListener) {
+        this.mScrollListener = onScrollListener;
     }
 
     public abstract BaseRecyclerAdapter<T> getAdapter();

@@ -2,6 +2,7 @@ package com.stormphoenix.ogit.widget.manager;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -18,7 +19,7 @@ import com.stormphoenix.ogit.widget.menu.NotifyMenu;
  * StormPhoenix is a intelligent Android developer.
  */
 
-public class NotifyMenuManager implements View.OnAttachStateChangeListener {
+public class NotifyMenuManager extends RecyclerView.OnScrollListener implements View.OnAttachStateChangeListener {
     private NotifyMenu menuView = null;
 
     private static NotifyMenuManager instance;
@@ -139,5 +140,20 @@ public class NotifyMenuManager implements View.OnAttachStateChangeListener {
     public void onViewDetachedFromWindow(View v) {
         Log.e(NotifyMenuManager.class.getSimpleName(), "onViewDetachedFromWindow: detach");
         menuView = null;
+    }
+
+    @Override
+    public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+        Log.e(NotifyMenuManager.class.getSimpleName(), "onScrollStateChanged: ");
+        super.onScrollStateChanged(recyclerView, newState);
+    }
+
+    @Override
+    public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+        Log.e(NotifyMenuManager.class.getSimpleName(), "onScrolled: dddd");
+        if (menuView != null) {
+            hideMenu();
+            menuView.setTranslationY(menuView.getTranslationY() - dy);
+        }
     }
 }

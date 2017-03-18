@@ -20,6 +20,7 @@ public class GitEvent {
     public final static String GIT_MEMBER_EVENT = "MemberEvent";
     public final static String GIT_ISSUES_EVENT = "IssuesEvent";
     public final static String GIT_PUBLIC_EVENT = "PublicEvent";
+    public final static String GIT_ISSUE_COMMENT_EVENT = "IssueCommentEvent";
 
 
     private String id;

@@ -28,6 +28,7 @@ public class ToolbarActivity extends BaseActivity {
     public static int TYPE_CONTRIBUTOR = 1;
     public static int TYPE_CODE = 2;
     public static int TYPE_ORGANIZATION = 3;
+    public static int TYPE_NOTIFICATION = 4;
     private int type;
 
     // Toolbar 设置的标题
