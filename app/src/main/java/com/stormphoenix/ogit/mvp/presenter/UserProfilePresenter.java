@@ -7,14 +7,15 @@ import android.util.Log;
 
 import com.stormphoenix.httpknife.github.GitRepository;
 import com.stormphoenix.httpknife.github.GitUser;
+import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.mvp.model.interactor.UserInteractor;
-import com.stormphoenix.ogit.mvp.presenter.base.BasePresenter;
 import com.stormphoenix.ogit.mvp.view.UserDetailsView;
 import com.stormphoenix.ogit.shares.rx.RxHttpLog;
 import com.stormphoenix.ogit.shares.rx.RxJavaCustomTransformer;
 import com.stormphoenix.ogit.utils.ImageUtils;
 import com.stormphoenix.ogit.utils.TextTools;
 import com.stormphoenix.ogit.utils.TimeUtils;
+import com.stormphoenix.ogit.widget.ImageVerticalKeyValueLabel;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -32,17 +33,15 @@ import rx.Subscriber;
  * StormPhoenix is a intelligent Android developer.
  */
 
-public class UserDetailsPresenter extends BasePresenter<UserDetailsView> {
-    public static final String TAG = UserDetailsPresenter.class.getSimpleName();
+public class UserProfilePresenter extends OwnerProfilePresenter<UserDetailsView> {
+    public static final String TAG = UserProfilePresenter.class.getSimpleName();
 
     private UserInteractor mInteractor = null;
-    private Context mContext;
     private GitUser mUser;
 
     @Inject
-    public UserDetailsPresenter(Context context) {
-        super();
-        mContext = context;
+    public UserProfilePresenter(Context context) {
+        super(context);
         mInteractor = new UserInteractor(mContext);
     }
 
@@ -107,9 +106,55 @@ public class UserDetailsPresenter extends BasePresenter<UserDetailsView> {
     private void setUpUserInfo() {
         mView.setFollowers(String.valueOf(mUser.getFollowers()));
         mView.setFollowings(String.valueOf(mUser.getFollowing()));
-        mView.setEmail(mUser.getEmail());
-        mView.setLocation(mUser.getLocation());
-        mView.setJoinTime(TimeUtils.defaultTimeFormat(mUser.getCreatedAt()));
+        String key, value;
+
+        if (!TextUtils.isEmpty(mUser.getBlog())) {
+            ImageVerticalKeyValueLabel label = new ImageVerticalKeyValueLabel(mContext);
+            label.setKeyName(mContext.getString(R.string.blob));
+            label.setValueName(mUser.getBlog());
+            label.setImageDrawableResourceId(R.drawable.ic_link_black_24dp);
+            mView.addBaseLabel(label);
+        }
+
+        if (!TextUtils.isEmpty(mUser.getEmail())) {
+            ImageVerticalKeyValueLabel label = new ImageVerticalKeyValueLabel(mContext);
+            label.setKeyName(mContext.getString(R.string.email));
+            label.setValueName(mUser.getEmail());
+            label.setImageDrawableResourceId(R.drawable.ic_email_black_24dp);
+            mView.addBaseLabel(label);
+        }
+
+        if (!TextUtils.isEmpty(mUser.getCompany())) {
+            ImageVerticalKeyValueLabel label = new ImageVerticalKeyValueLabel(mContext);
+            label.setKeyName(mContext.getString(R.string.company));
+            label.setValueName(mUser.getCompany());
+            label.setImageDrawableResourceId(R.drawable.ic_home_black_24dp);
+            mView.addBaseLabel(label);
+        }
+        if (!TextUtils.isEmpty(mUser.getLocation())) {
+            ImageVerticalKeyValueLabel label = new ImageVerticalKeyValueLabel(mContext);
+            label.setKeyName(mContext.getString(R.string.location));
+            label.setValueName(mUser.getLocation());
+            label.setImageDrawableResourceId(R.drawable.ic_location_black_24dp);
+            mView.addBaseLabel(label);
+        }
+        if (mUser.getCreatedAt() != null) {
+            ImageVerticalKeyValueLabel label = new ImageVerticalKeyValueLabel(mContext);
+            label.setKeyName(mContext.getString(R.string.join));
+            label.setValueName(TimeUtils.defaultTimeFormat(mUser.getCreatedAt()));
+            label.setImageDrawableResourceId(R.drawable.ic_exit_to_app_black_24dp);
+            mView.addBaseLabel(label);
+        }
+
+        if (mUser.getHtmlUrl() != null) {
+            ImageVerticalKeyValueLabel label = new ImageVerticalKeyValueLabel(mContext);
+            key = mContext.getString(R.string.person_page);
+            value = mUser.getHtmlUrl();
+            label.setImageDrawableResourceId(R.drawable.ic_exit_to_app_black_24dp);
+            mView.addBaseLabel(createBaseLabel(key, value, R.drawable.ic_exit_to_app_black_24dp));
+        }
+        mView.addDynamicLabel(createDynamicLabel(mContext.getString(R.string.public_repos), String.valueOf(mUser.getPublicRepos()), R.drawable.ic_created_event_black_24dp));
+        mView.addDynamicLabel(createDynamicLabel(mContext.getString(R.string.public_gists), String.valueOf(mUser.getPublicGists()), R.drawable.ic_created_event_black_24dp));
     }
 
     @Override
@@ -119,7 +164,7 @@ public class UserDetailsPresenter extends BasePresenter<UserDetailsView> {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
-    public void onMainEvent(GitUser user) {
+    public void onMainThreadEvent(GitUser user) {
         this.mUser = user;
         EventBus.getDefault().unregister(this);
         mView.setUpToolbar(mUser.getLogin());

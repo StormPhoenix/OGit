@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -136,6 +137,10 @@ public class RepositoryActivity extends BaseActivity implements RepositoryView {
 
     @Override
     public void loadReadmeHtml(String readmeText, String repoHtmlUrl, String defaultBranch) {
+        if (TextUtils.isEmpty(readmeText)) {
+            mTextReadme.setText(getString(R.string.no_readme));
+            return;
+        }
         HtmlImageGetter imageGetter = new HtmlImageGetter(mTextReadme, this,
                 repoHtmlUrl + "/raw/" + defaultBranch);
         TextTools.showReadmeHtml(mTextReadme, readmeText, imageGetter);

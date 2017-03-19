@@ -44,6 +44,7 @@ public class CommitsPresenter extends ListItemPresenter<GitCommit, List<GitCommi
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void onMainThreadEvent(GitRepository repository) {
+        // 一定要注意EventBus的广播性质，一个不完整的 GitRepository 极有可能会传播到这个地方
         this.repository = repository;
         EventBus.getDefault().unregister(this);
         loadNewlyListItem();

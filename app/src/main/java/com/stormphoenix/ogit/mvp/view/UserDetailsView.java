@@ -3,6 +3,8 @@ package com.stormphoenix.ogit.mvp.view;
 import android.widget.ImageView;
 
 import com.stormphoenix.ogit.mvp.view.base.BaseView;
+import com.stormphoenix.ogit.widget.ImageHorizontalKeyValueLabel;
+import com.stormphoenix.ogit.widget.ImageVerticalKeyValueLabel;
 
 /**
  * Created by StormPhoenix on 17-3-5.
@@ -10,17 +12,13 @@ import com.stormphoenix.ogit.mvp.view.base.BaseView;
  */
 
 public interface UserDetailsView extends BaseView {
+    void addBaseLabel(ImageVerticalKeyValueLabel label);
+
     void setUpToolbar(String title);
 
     void setFollowers(String followers);
 
     void setFollowings(String followings);
-
-    void setEmail(String email);
-
-    void setLocation(String location);
-
-    void setJoinTime(String joinTime);
 
     void stopProgress();
 
@@ -31,4 +29,6 @@ public interface UserDetailsView extends BaseView {
     ImageView getHeadImageView();
 
     void setStaredCount(String count);
+
+    void addDynamicLabel(ImageHorizontalKeyValueLabel dynamicLabel);
 }

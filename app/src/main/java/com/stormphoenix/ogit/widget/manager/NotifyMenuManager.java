@@ -155,7 +155,6 @@ public class NotifyMenuManager extends RecyclerView.OnScrollListener implements 
 
     @Override
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-        Log.e(NotifyMenuManager.class.getSimpleName(), "onScrolled: dddd");
         if (menuView != null) {
             hideMenu();
             menuView.setTranslationY(menuView.getTranslationY() - dy);

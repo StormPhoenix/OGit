@@ -3,61 +3,41 @@ package com.stormphoenix.ogit.mvp.ui.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.MenuItem;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.dagger2.component.DaggerActivityComponent;
 import com.stormphoenix.ogit.dagger2.module.ContextModule;
-import com.stormphoenix.ogit.mvp.presenter.UserDetailsPresenter;
-import com.stormphoenix.ogit.mvp.ui.activities.base.BaseActivity;
+import com.stormphoenix.ogit.mvp.presenter.UserProfilePresenter;
+import com.stormphoenix.ogit.mvp.ui.activities.base.OwnerProfileActivity;
 import com.stormphoenix.ogit.mvp.view.UserDetailsView;
 import com.stormphoenix.ogit.utils.ActivityUtils;
-import com.stormphoenix.ogit.widget.KeyValueLabel;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
-
-public class UserProfileActivity extends BaseActivity implements UserDetailsView {
+public class UserProfileActivity extends OwnerProfileActivity implements UserDetailsView {
 
     public static final Intent getIntent(Context context) {
         Intent intent = new Intent(context, UserProfileActivity.class);
         return intent;
     }
 
-    @BindView(R.id.img_user_header)
-    ImageView mImgUserHeader;
-    @BindView(R.id.toolbar)
-    Toolbar mToolbar;
-    @BindView(R.id.text_email)
-    TextView mTextEmail;
-    @BindView(R.id.text_location)
-    TextView mTextLocation;
-    @BindView(R.id.text_join)
-    TextView mTextJoinTime;
-    @BindView(R.id.fab)
-    FloatingActionButton fab;
-
-    @BindView(R.id.label_user_star)
-    KeyValueLabel mLabelStarredNum;
-    @BindView(R.id.label_user_followers)
-    KeyValueLabel mLabelFollowersNum;
-    @BindView(R.id.label_user_following)
-    KeyValueLabel mLabelFollowingsNum;
-
     @Inject
-    public UserDetailsPresenter mPresenter;
+    public UserProfilePresenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPresenter.onAttachView(this);
         mPresenter.onCreate(savedInstanceState);
+        setupLabels();
+    }
+
+    private void setupLabels() {
+        mLabel3.setKeyName(getString(R.string.followings));
+        mLabel1.setKeyName(getString(R.string.star));
+        mLabel2.setKeyName(getString(R.string.followers));
     }
 
     @Override
@@ -83,30 +63,12 @@ public class UserProfileActivity extends BaseActivity implements UserDetailsView
 
     @Override
     public void setFollowers(String followers) {
-        mLabelFollowersNum.setValueName(followers);
+        mLabel2.setValueName(followers);
     }
 
     @Override
     public void setFollowings(String followings) {
-        mLabelFollowingsNum.setValueName(followings);
-    }
-
-    @Override
-    public void setEmail(String email) {
-        if (TextUtils.isEmpty(email)) {
-            mTextEmail.setText(getResources().getString(R.string.unknown));
-        }
-        mTextEmail.setText(email);
-    }
-
-    @Override
-    public void setLocation(String location) {
-        mTextLocation.setText(location);
-    }
-
-    @Override
-    public void setJoinTime(String joinTime) {
-        mTextJoinTime.setText(joinTime);
+        mLabel3.setValueName(followings);
     }
 
     @Override
@@ -119,22 +81,17 @@ public class UserProfileActivity extends BaseActivity implements UserDetailsView
 
     @Override
     public void showMessage(String message) {
-        ActivityUtils.ViewUtils.showMessage(mImgUserHeader, message);
+        ActivityUtils.ViewUtils.showMessage(mImgAppBar, message);
     }
 
     @Override
     public ImageView getHeadImageView() {
-        return mImgUserHeader;
+        return mImgAppBar;
     }
 
     @Override
     public void setStaredCount(String count) {
-        mLabelStarredNum.setValueName(count);
-    }
-
-    @Override
-    protected int getLayoutId() {
-        return R.layout.activity_user_details;
+        mLabel1.setValueName(count);
     }
 
     @Override

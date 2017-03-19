@@ -95,8 +95,8 @@ public class GitCommitsAdapter extends BaseRecyclerAdapter<GitCommit> {
             DisplayImageOptions options = null;
             options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true)
                     .considerExifParams(true).build();
-            committerImage.setTag(model.getAuthor().getAvatarUrl());
-            ImageUtils.getInstance().displayImage(model.getAuthor().getAvatarUrl(), committerImage, options);
+            committerImage.setTag(model.getCommit().getAuthor().getAvatarUrl());
+            ImageUtils.getInstance().displayImage(model.getCommit().getAuthor().getAvatarUrl(), committerImage, options);
         }
     }
 }

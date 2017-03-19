@@ -10,7 +10,6 @@ import com.stormphoenix.httpknife.github.GitOrganization;
 import com.stormphoenix.httpknife.github.GitUser;
 import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.mvp.model.interactor.OrgInteractor;
-import com.stormphoenix.ogit.mvp.presenter.base.BasePresenter;
 import com.stormphoenix.ogit.mvp.ui.activities.OrgDetailsActivity;
 import com.stormphoenix.ogit.mvp.view.OrgDetailsView;
 import com.stormphoenix.ogit.mvp.view.base.BaseUIView;
@@ -37,15 +36,13 @@ import retrofit2.Response;
  * StormPhoenix is a intelligent Android developer.
  */
 
-public class OrgProfilePresenter extends BasePresenter<OrgDetailsView> {
+public class OrgProfilePresenter extends OwnerProfilePresenter<OrgDetailsView> {
     private OrgInteractor mInteractor = null;
-    private Context mContext;
     private GitOrganization organization = null;
 
     @Inject
     public OrgProfilePresenter(Context context) {
-        super();
-        mContext = context;
+        super(context);
         mInteractor = new OrgInteractor(mContext);
     }
 
@@ -150,22 +147,6 @@ public class OrgProfilePresenter extends BasePresenter<OrgDetailsView> {
 
         mView.addDynamicLabel(createDynamicLabel(mContext.getString(R.string.public_repos), String.valueOf(organization.getPublicRepos()), R.drawable.ic_created_event_black_24dp));
         mView.addDynamicLabel(createDynamicLabel(mContext.getString(R.string.public_gists), String.valueOf(organization.getPublicGists()), R.drawable.ic_created_event_black_24dp));
-    }
-
-    private ImageHorizontalKeyValueLabel createDynamicLabel(String key, String value, int resId) {
-        ImageHorizontalKeyValueLabel label = new ImageHorizontalKeyValueLabel(mContext);
-        label.setValueName(value);
-        label.setKeyName(key);
-        label.setImageDrawableResourceId(resId);
-        return label;
-    }
-
-    private ImageVerticalKeyValueLabel createBaseLabel(String key, String value, int resId) {
-        ImageVerticalKeyValueLabel label = new ImageVerticalKeyValueLabel(mContext);
-        label.setKeyName(key);
-        label.setValueName(value);
-        label.setImageDrawableResourceId(resId);
-        return label;
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)

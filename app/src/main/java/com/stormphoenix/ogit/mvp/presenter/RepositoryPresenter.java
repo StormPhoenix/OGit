@@ -28,6 +28,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import retrofit2.Response;
+import rx.Subscriber;
 
 /**
  * Created by StormPhoenix on 17-2-27.
@@ -97,7 +98,16 @@ public class RepositoryPresenter extends BasePresenter<RepositoryView> {
                 mRepository.getName(),
                 mRepository.getDefaultBranch()
         ).compose(RxJavaCustomTransformer.defaultSchedulers())
-                .subscribe(new DefaultUiSubscriber<String, BaseUIView>(mView, mContext.getString(R.string.network_error)) {
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mView.loadReadmeHtml(null, null, null);
+                    }
+
                     @Override
                     public void onNext(String readmeText) {
                         Log.e(TAG, readmeText);
@@ -221,7 +231,7 @@ public class RepositoryPresenter extends BasePresenter<RepositoryView> {
     }
 
     public void startCommitsActivity() {
-//        EventBus.getDefault().postSticky(mRepository);
+        EventBus.getDefault().postSticky(mRepository);
         Bundle bundle = new Bundle();
         bundle.putInt(ToolbarActivity.TYPE, ToolbarActivity.TYPE_COMMITS);
         bundle.putString(ToolbarActivity.SUB_TITLE, mRepository.getName());

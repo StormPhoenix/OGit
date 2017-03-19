@@ -140,4 +140,6 @@
     <string name="unread_message">unread messages</string>
     <string name="no_unread_messages">no read message</string>
     <string name="commits">commits</string>
+    <string name="no_readme">no readme</string>
+    <string name="person_page">person page</string>
 </resources>

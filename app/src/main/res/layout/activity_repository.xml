@@ -76,7 +76,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             app:key_text="@string/star"
-                            app:value_text="10">
+                            app:value_text="0">
 
                         </com.stormphoenix.ogit.widget.KeyValueLabel>
 
@@ -86,7 +86,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             app:key_text="@string/fork"
-                            app:value_text="10">
+                            app:value_text="0">
 
                         </com.stormphoenix.ogit.widget.KeyValueLabel>
 
@@ -96,7 +96,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             app:key_text="@string/watcher"
-                            app:value_text="10">
+                            app:value_text="0">
 
                         </com.stormphoenix.ogit.widget.KeyValueLabel>
                     </LinearLayout>
