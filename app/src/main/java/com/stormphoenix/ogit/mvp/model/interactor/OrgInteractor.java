@@ -41,6 +41,10 @@ public class OrgInteractor {
         return api.loadMembersCount(org);
     }
 
+    public Observable<Response<List<GitUser>>> loadMembers(String org, int pageId) {
+        return api.loadMembers(org, pageId);
+    }
+
     public Observable<Response<List<GitEvent>>> loadOwnerOrgEvents(String username, String org, int page) {
         return api.loadOwnerOrgEvents(username, org, page);
     }

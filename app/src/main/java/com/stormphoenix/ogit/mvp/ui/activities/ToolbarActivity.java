@@ -9,13 +9,14 @@ import android.view.MenuItem;
 
 import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.mvp.presenter.CommitsPresenter;
+import com.stormphoenix.ogit.mvp.presenter.list.ContributorsPresenter;
 import com.stormphoenix.ogit.mvp.presenter.list.NotifyPresenter;
 import com.stormphoenix.ogit.mvp.ui.activities.base.BaseActivity;
 import com.stormphoenix.ogit.mvp.ui.fragments.CodeFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.CommitsFragment;
-import com.stormphoenix.ogit.mvp.ui.fragments.ContributorsFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.NotifyFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.OrgFragment;
+import com.stormphoenix.ogit.mvp.ui.fragments.PersonsFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.base.BaseFragment;
 import com.stormphoenix.ogit.utils.PreferenceUtils;
 
@@ -61,7 +62,8 @@ public class ToolbarActivity extends BaseActivity {
 
         if (type == TYPE_CONTRIBUTOR) {
             title = getString(R.string.contributor);
-            currentFragment = ContributorsFragment.getInstance();
+            ContributorsPresenter presenter = new ContributorsPresenter(this);
+            currentFragment = PersonsFragment.newInstance(presenter);
         } else if (type == TYPE_CODE) {
             String owner = bundle.getString(OWNER);
             String repo = bundle.getString(REPO);

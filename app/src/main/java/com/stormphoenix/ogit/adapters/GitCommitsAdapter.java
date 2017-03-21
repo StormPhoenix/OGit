@@ -5,6 +5,7 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 
 public class GitCommitsAdapter extends BaseRecyclerAdapter<GitCommit> {
+
+    public static final String TAG = GitCommitsAdapter.class.getSimpleName();
 
     public GitCommitsAdapter(List<GitCommit> dataList) {
         this(null, dataList);
@@ -95,8 +98,8 @@ public class GitCommitsAdapter extends BaseRecyclerAdapter<GitCommit> {
             DisplayImageOptions options = null;
             options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true)
                     .considerExifParams(true).build();
-            committerImage.setTag(model.getCommit().getAuthor().getAvatarUrl());
-            ImageUtils.getInstance().displayImage(model.getCommit().getAuthor().getAvatarUrl(), committerImage, options);
+            committerImage.setTag(model.getAuthor().getAvatarUrl());
+            ImageUtils.getInstance().displayImage(model.getAuthor().getAvatarUrl(), committerImage, options);
         }
     }
 }

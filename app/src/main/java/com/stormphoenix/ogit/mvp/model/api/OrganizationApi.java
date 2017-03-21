@@ -33,8 +33,7 @@ public interface OrganizationApi {
 
     @Headers("Cache-Control: public, max-age=600")
     @GET("/orgs/{org}/members")
-    Observable<List<GitUser>> loadMembers(@Header("Authorization") String authm,
-                                          @Path("org") String org,
+    Observable<Response<List<GitUser>>> loadMembers(@Path("org") String org,
                                           @Query("page") int pageId);
 
     @GET("orgs/{org}")

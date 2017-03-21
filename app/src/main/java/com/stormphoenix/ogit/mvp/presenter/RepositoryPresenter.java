@@ -196,7 +196,7 @@ public class RepositoryPresenter extends BasePresenter<RepositoryView> {
     }
 
     public void startContributorActivity() {
-//        EventBus.getDefault().postSticky(mRepository);
+        EventBus.getDefault().postSticky(mRepository);
         Bundle bundle = new Bundle();
         bundle.putInt(ToolbarActivity.TYPE, ToolbarActivity.TYPE_CONTRIBUTOR);
         ActivityUtils.startActivity(mContext, ToolbarActivity.newIntent(mContext, bundle));

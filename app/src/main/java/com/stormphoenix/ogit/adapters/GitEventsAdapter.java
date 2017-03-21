@@ -143,9 +143,9 @@ public class GitEventsAdapter extends BaseRecyclerAdapter<GitEvent> {
                 GitIssuePayload payload = (GitIssuePayload) model.getPayload();
                 mTextEventInfo.setText(Html.fromHtml(HtmlUtils.bold(model.getActor().getLogin()) + " " + payload.getAction() + " issue " + model.getRepo().getName() + "#" + payload.getIssue().getNumber()));
                 if (payload.getAction().equals("opened")) {
-//                    BitmapUtils.setIconFont(context, img, OctIcon.ISSUE_OPNE, R.color.theme_color);
+                    mEventImage.setImageResource(R.drawable.ic_issue_opened_24dp);
                 } else if (payload.getAction().equals("closed")) {
-//                    BitmapUtils.setIconFont(context, img, OctIcon.ISSUE_CLOSE, R.color.theme_color);
+                    mEventImage.setImageResource(R.drawable.ic_issue_closed_24dp);
                 }
             } else if (eventType.equals(GitEvent.GIT_PUBLIC_EVENT)) {
                 mTextEventInfo.setText(Html.fromHtml(HtmlUtils.bold(model.getActor().getLogin()) + "<strong> made </strong>" + HtmlUtils.bold(model.getRepo().getName()) + " <strong> public </strong>"));

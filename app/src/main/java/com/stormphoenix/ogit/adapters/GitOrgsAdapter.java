@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,7 +78,10 @@ public class GitOrgsAdapter extends BaseRecyclerAdapter<GitOrganization> {
         public void bind(GitOrganization org) {
             ImageUtils.getInstance().displayImage(org.getAvatarUrl(), mHeaderImage);
             mTextUserName.setText(org.getLogin());
-            mTextOtherInfo.setText(org.getDescription());
+            if (!TextUtils.isEmpty(org.getDescription())) {
+                mTextOtherInfo.setVisibility(View.VISIBLE);
+                mTextOtherInfo.setText(org.getDescription());
+            }
         }
     }
 }
