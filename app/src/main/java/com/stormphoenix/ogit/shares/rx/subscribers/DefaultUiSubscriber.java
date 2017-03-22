@@ -30,7 +30,7 @@ public abstract class DefaultUiSubscriber<T, V extends BaseUIView> extends Subsc
 
     @Override
     public void onError(Throwable e) {
-        Log.e(TAG, "onError: " + e.toString());
+        Log.e(TAG, "onError: ");
         ui.hideProgress();
         ui.showMessage(e.toString());
     }

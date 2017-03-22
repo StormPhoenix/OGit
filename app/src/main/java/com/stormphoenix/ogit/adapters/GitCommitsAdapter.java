@@ -9,16 +9,22 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.stormphoenix.httpknife.github.GitCommit;
+import com.stormphoenix.httpknife.github.GitCommitMessage;
+import com.stormphoenix.httpknife.github.GitUser;
+import com.stormphoenix.ogit.OGitApplication;
 import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.adapters.base.BaseRecyclerAdapter;
 import com.stormphoenix.ogit.utils.HtmlUtils;
 import com.stormphoenix.ogit.utils.ImageUtils;
 import com.stormphoenix.ogit.utils.TimeUtils;
+import com.stormphoenix.ogit.utils.UserUtils;
 
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -90,16 +96,57 @@ public class GitCommitsAdapter extends BaseRecyclerAdapter<GitCommit> {
 
         public void bind(GitCommit model) {
             textCommitInfo.setText(Html.fromHtml(HtmlUtils.bold(model.getCommit().getMessage())));
-            textCommitHappenTime.setText(TimeUtils.getRelativeTime(model.getCommit().getAuthor().getDate()));
-            setUpHeaderImage(model);
+            textCommitHappenTime.setText(TimeUtils.getRelativeTime(getAuthorDate(model)));
+            bindAuthorImage(model, committerImage);
         }
 
-        private void setUpHeaderImage(GitCommit model) {
+        private static Date getAuthorDate(GitCommit commit) {
+            GitCommitMessage commitMessage = commit.getCommit();
+            if (commitMessage == null) {
+                return null;
+            }
+            GitUser author = commitMessage.getAuthor();
+            return author != null ? author.getDate() : null;
+        }
+
+        private static String getAuthorName(GitCommit model) {
+            GitUser author = model.getAuthor();
+            if (author != null) {
+                return author.getLogin();
+            }
+
+            GitCommitMessage commit = model.getCommit();
+            if (commit == null) {
+                return null;
+            }
+
+            GitUser commitAuthor = commit.getAuthor();
+            return commitAuthor != null ? commitAuthor.getName() : null;
+        }
+
+        private static void bindAuthorImage(GitCommit model, ImageView imageView) {
             DisplayImageOptions options = null;
             options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true)
                     .considerExifParams(true).build();
+            GitUser author = model.getAuthor();
+            if (author != null) {
+                Log.e(TAG, "AuthorImage: " + model.getAuthor().getAvatarUrl());
+                ImageUtils.getInstance().displayImage(model.getAuthor().getAvatarUrl(), imageView, options);
+            } else {
+                imageView.setColorFilter(OGitApplication.instance.getResources().getColor(R.color.colorDefaultHeader));
+            }
+        }
+
+        private static String getAvatarUrl(GitUser author) {
+            if (author == null) {
+                return null;
+            }
+            return UserUtils.getAvatarUrl(UserUtils.getHash(author.getEmail()));
+        }
+
+
+        private void setUpHeaderImage(GitCommit model) {
             committerImage.setTag(model.getAuthor().getAvatarUrl());
-            ImageUtils.getInstance().displayImage(model.getAuthor().getAvatarUrl(), committerImage, options);
         }
     }
 }

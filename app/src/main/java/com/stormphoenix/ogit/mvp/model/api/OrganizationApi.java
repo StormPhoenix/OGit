@@ -20,7 +20,6 @@ import rx.Observable;
  */
 
 public interface OrganizationApi {
-    //    @Header("Authorization")
     @Headers("Cache-Control: public, max-age=600")
     @GET("/user/orgs?per_page=10?per_page=100")
     Observable<Response<List<GitOrganization>>> loadOwnerOrgs(@Query("page") int page);

@@ -53,6 +53,7 @@ public abstract class ListItemPresenter<T, R, V extends ListItemView<T>> extends
                         if (response.isSuccessful()) {
                             mView.loadNewlyListItem(transformBody(response.body()));
                         } else if (response.code() == 401) {
+                            Log.e(TAG, "onNext: " + response.code());
                             mView.reLogin();
                         } else {
                             Log.e(TAG, "onNext: " + response.code() + " " + response.message());
