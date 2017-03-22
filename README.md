@@ -1,37 +1,40 @@
 OGit
-===
-OGit is a github client for Android, and needs lots of improvements.
----------------------
-![pic4](https://github.com/StormPhoenix/OGit/raw/master/screenshot/device-2017-03-16-154618.png)
-![pic1](https://github.com/StormPhoenix/OGit/raw/master/screenshot/device-2017-03-16-153852.png)
-![pic2](https://github.com/StormPhoenix/OGit/raw/master/screenshot/device-2017-03-16-154201.png)
-![pic3](https://github.com/StormPhoenix/OGit/raw/master/screenshot/device-2017-03-16-154438.png)
-![pic4](https://github.com/StormPhoenix/OGit/raw/master/screenshot/device-2017-03-16-154450.png)
-![pic4](https://github.com/StormPhoenix/OGit/raw/master/screenshot/device-2017-03-16-154509.png)
-![pic4](https://github.com/StormPhoenix/OGit/raw/master/screenshot/device-2017-03-16-162708.png)
-![pic4](https://github.com/StormPhoenix/OGit/raw/master/screenshot/device-2017-03-16-162757.png)
-![pic4](https://github.com/StormPhoenix/OGit/raw/master/screenshot/device-2017-03-16-162829.png)
----------------------
-欢迎任何方式的与StormPhoenix的合作。
+=
 
-### Thanks for the authors below
+OGit started off as a fork of the personal Android app from WeGit, and has since seen lots of improvements. You can see a comprehensive list of changes in the change log.
 
-*	[TimePickerDialog](https://github.com/JZXiang/TimePickerDialog) 一个时间选择器框架
-*	[GreenDao](https://github.com/greenrobot/greenDAO) GreenDao的ORM映射框架
-* [Retrofit](https://github.com/square/retrofit) Square公司的网络请求框架
-* [Material-dialogs](https://github.com/afollestad/material-dialogs) 一个优秀的Material-Design 风格的对话框
-*	[Gson](https://github.com/google/gson) Google的JSON转化框架
-* [RxJava](https://github.com/ReactiveX/RxJava) RxJava，谁用谁知道
-* [ButterKnife] (https://github.com/JakeWharton/butterknife) JakeWharton的注解框架
+Please see the [issues][1] section to report any bugs or feature requests and to see the list of known issues.
 
--------
+##Display
+![ ][6]
 
+##Acknowledgements
 
-###关于我：
-我是个学生，酷爱开发，擅长Android、Java，如果您手头有适合我的实习或者工作机会，欢迎邮件联系我:  [hzau.cs.wangcheng@gmail.com]
+This project uses the [GitHub Java API][4] built on top of API v3.
+It also uses many other open source libraries such as:
 
-* [华中农业大学](http://www.hzau.edu.cn/2014/ch）
-* [Email](hzau.cs.wangcheng@gmail.com)
+* [Gson](https://github.com/google/gson)
 
-欢迎Follow我，我会关注和开源一些Android、Java、Python相关项目。
+* [RxJava](https://github.com/ReactiveX/RxJava)
 
+* [Retrofit](https://github.com/square/retrofit)
+
+* [GreenDao](https://github.com/greenrobot/greenDAO)
+
+These are just a few of the major dependencies, the entire list of dependencies is listed in the app's [Gradle file][0].
+
+##Contributing
+Please fork this repository and contribute back using [pull requests][2].
+<p>Any contributions, large or small, major features, bug fixes, additional
+language translations, unit/integration tests are welcomed and appreciated
+but will be thoroughly reviewed and discussed.</p>
+##License
+
+<a href="">[Apache Version 2.0][3]
+[0]:https://github.com/jonan/ForkHub/blob/master/app/build.gradle
+[1]:https://github.com/jonan/ForkHub/issues
+[2]:https://github.com/jonan/ForkHub/pulls
+[3]:http://www.apache.org/licenses/LICENSE-2.0.html
+[4]:https://github.com/eclipse/egit-github/tree/master/org.eclipse.egit.github.core
+[5]:https://developer.github.com/v3/
+[6]:https://raw.githubusercontent.com/StormPhoenix/OGit/master/screenshot/device-2017-03-16-154618.png "mainpage"
