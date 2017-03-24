@@ -5,13 +5,16 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.stormphoenix.httpknife.github.GitEmpty;
 import com.stormphoenix.httpknife.github.GitRepository;
 import com.stormphoenix.httpknife.github.GitUser;
 import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.mvp.model.interactor.UserInteractor;
 import com.stormphoenix.ogit.mvp.view.UserDetailsView;
+import com.stormphoenix.ogit.mvp.view.base.BaseUIView;
 import com.stormphoenix.ogit.shares.rx.RxHttpLog;
 import com.stormphoenix.ogit.shares.rx.RxJavaCustomTransformer;
+import com.stormphoenix.ogit.shares.rx.subscribers.DefaultUiSubscriber;
 import com.stormphoenix.ogit.utils.ImageUtils;
 import com.stormphoenix.ogit.utils.TextTools;
 import com.stormphoenix.ogit.utils.TimeUtils;
@@ -103,6 +106,62 @@ public class UserProfilePresenter extends OwnerProfilePresenter<UserDetailsView>
                 });
     }
 
+    public void hasFollowed() {
+        if (mUser == null) {
+            return;
+        }
+        mInteractor.hasFollowed(mUser.getLogin())
+                .compose(RxJavaCustomTransformer.defaultSchedulers())
+                .subscribe(new DefaultUiSubscriber<Response<GitEmpty>, BaseUIView>(mView, mContext.getString(R.string.network_error)) {
+                    @Override
+                    public void onNext(Response<GitEmpty> response) {
+                        if (response.code() == 204) {
+                            mView.setIsFollow(true);
+                        } else if (response.code() == 404) {
+                            mView.setIsFollow(false);
+                        } else {
+                            mView.showMessage(response.message());
+                        }
+                    }
+                });
+    }
+
+    public void unFollow() {
+        if (mUser == null) {
+            return;
+        }
+        mInteractor.unFollow(mUser.getLogin())
+                .compose(RxJavaCustomTransformer.defaultSchedulers())
+                .subscribe(new DefaultUiSubscriber<Response<GitEmpty>, BaseUIView>(mView, mContext.getString(R.string.network_error)) {
+                    @Override
+                    public void onNext(Response<GitEmpty> response) {
+                        if (response.isSuccessful()) {
+                            mView.setIsFollow(false);
+                        } else {
+                            mView.showMessage(response.message());
+                        }
+                    }
+                });
+    }
+
+    public void follow() {
+        if (mUser == null) {
+            return;
+        }
+        mInteractor.follow(mUser.getLogin())
+                .compose(RxJavaCustomTransformer.defaultSchedulers())
+                .subscribe(new DefaultUiSubscriber<Response<GitEmpty>, BaseUIView>(mView, mContext.getString(R.string.network_error)) {
+                    @Override
+                    public void onNext(Response<GitEmpty> response) {
+                        if (response.isSuccessful()) {
+                            mView.setIsFollow(true);
+                        } else {
+                            mView.showMessage(response.message());
+                        }
+                    }
+                });
+    }
+
     private void setUpUserInfo() {
         mView.setFollowers(String.valueOf(mUser.getFollowers()));
         mView.setFollowings(String.valueOf(mUser.getFollowing()));
@@ -170,5 +229,6 @@ public class UserProfilePresenter extends OwnerProfilePresenter<UserDetailsView>
         mView.setUpToolbar(mUser.getLogin());
         loadUserInfo();
         ImageUtils.getInstance().displayImage(mUser.getAvatarUrl(), mView.getHeadImageView());
+        hasFollowed();
     }
 }

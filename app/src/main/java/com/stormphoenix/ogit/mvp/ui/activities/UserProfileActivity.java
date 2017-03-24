@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.stormphoenix.ogit.R;
@@ -32,6 +33,20 @@ public class UserProfileActivity extends OwnerProfileActivity implements UserDet
         mPresenter.onAttachView(this);
         mPresenter.onCreate(savedInstanceState);
         setupLabels();
+        setFabListener();
+    }
+
+    private void setFabListener() {
+        mFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isFollowed == IsFollowed.follewed) {
+                    mPresenter.unFollow();
+                } else {
+                    mPresenter.follow();
+                }
+            }
+        });
     }
 
     private void setupLabels() {
@@ -80,6 +95,11 @@ public class UserProfileActivity extends OwnerProfileActivity implements UserDet
     }
 
     @Override
+    public void hideProgress() {
+
+    }
+
+    @Override
     public void showMessage(String message) {
         ActivityUtils.ViewUtils.showMessage(mImgAppBar, message);
     }
@@ -92,6 +112,17 @@ public class UserProfileActivity extends OwnerProfileActivity implements UserDet
     @Override
     public void setStaredCount(String count) {
         mLabel1.setValueName(count);
+    }
+
+    @Override
+    public void setIsFollow(boolean isFollow) {
+        if (isFollow) {
+            isFollowed = IsFollowed.follewed;
+            mFab.setImageResource(R.drawable.ic_person_delete_24dp);
+        } else {
+            isFollowed = IsFollowed.unfollewd;
+            mFab.setImageResource(R.drawable.ic_person_add_white_24dp);
+        }
     }
 
     @Override

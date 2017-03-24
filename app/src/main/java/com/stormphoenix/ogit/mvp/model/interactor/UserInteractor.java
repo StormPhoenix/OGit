@@ -2,6 +2,7 @@ package com.stormphoenix.ogit.mvp.model.interactor;
 
 import android.content.Context;
 
+import com.stormphoenix.httpknife.github.GitEmpty;
 import com.stormphoenix.httpknife.github.GitEvent;
 import com.stormphoenix.httpknife.github.GitRepository;
 import com.stormphoenix.httpknife.github.GitUser;
@@ -52,5 +53,17 @@ public class UserInteractor {
 
     public Observable<Response<List<GitRepository>>> loadStaredCount(String user) {
         return userApi.loadStaredCount(user);
+    }
+
+    public Observable<Response<GitEmpty>> follow(final String user) {
+        return userApi.follow(user);
+    }
+
+    public Observable<Response<GitEmpty>> hasFollowed(final String user) {
+        return userApi.hasFollow(user);
+    }
+
+    public Observable<Response<GitEmpty>> unFollow(final String user) {
+        return userApi.unFollow(user);
     }
 }

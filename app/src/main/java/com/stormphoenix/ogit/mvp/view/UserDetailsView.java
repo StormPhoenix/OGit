@@ -2,6 +2,7 @@ package com.stormphoenix.ogit.mvp.view;
 
 import android.widget.ImageView;
 
+import com.stormphoenix.ogit.mvp.view.base.BaseUIView;
 import com.stormphoenix.ogit.mvp.view.base.BaseView;
 import com.stormphoenix.ogit.widget.ImageHorizontalKeyValueLabel;
 import com.stormphoenix.ogit.widget.ImageVerticalKeyValueLabel;
@@ -11,7 +12,7 @@ import com.stormphoenix.ogit.widget.ImageVerticalKeyValueLabel;
  * StormPhoenix is a intelligent Android developer.
  */
 
-public interface UserDetailsView extends BaseView {
+public interface UserDetailsView extends BaseUIView {
     void addBaseLabel(ImageVerticalKeyValueLabel label);
 
     void setUpToolbar(String title);
@@ -31,4 +32,6 @@ public interface UserDetailsView extends BaseView {
     void setStaredCount(String count);
 
     void addDynamicLabel(ImageHorizontalKeyValueLabel dynamicLabel);
+
+    void setIsFollow(boolean isFollow);
 }

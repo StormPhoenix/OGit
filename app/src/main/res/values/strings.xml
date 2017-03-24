@@ -142,4 +142,6 @@
     <string name="commits">commits</string>
     <string name="no_readme">no readme</string>
     <string name="person_page">person page</string>
+    <string name="edited">edit</string>
+    <string name="no_code_file">No code file</string>
 </resources>

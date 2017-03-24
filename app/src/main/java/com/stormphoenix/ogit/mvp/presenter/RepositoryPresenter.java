@@ -188,7 +188,7 @@ public class RepositoryPresenter extends BasePresenter<RepositoryView> {
     }
 
     public void startCodeActivity() {
-//        EventBus.getDefault().postSticky(mRepository);
+        EventBus.getDefault().postSticky(mRepository);
         Bundle bundle = new Bundle();
         bundle.putString(BreadcrumbTreeActivity.TITLE, mRepository.getName());
         bundle.putString(BreadcrumbTreeActivity.SUB_TITLE, mRepository.getDefaultBranch());

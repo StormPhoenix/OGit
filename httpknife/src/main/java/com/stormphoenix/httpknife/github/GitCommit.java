@@ -24,6 +24,8 @@ public class GitCommit {
     private GitUser author;
     private GitUser committer;
     private List<GitCommitParent> parents;
+    private GitCommitStats stats;
+    private List<GitCommitFile> files;
 
     public String getSha() {
         return sha;
@@ -87,6 +89,22 @@ public class GitCommit {
 
     public void setParents(List<GitCommitParent> parents) {
         this.parents = parents;
+    }
+
+    public GitCommitStats getStats() {
+        return stats;
+    }
+
+    public void setStats(GitCommitStats stats) {
+        this.stats = stats;
+    }
+
+    public List<GitCommitFile> getFiles() {
+        return files;
+    }
+
+    public void setFiles(List<GitCommitFile> files) {
+        this.files = files;
     }
 
     public static class GitCommitParent {

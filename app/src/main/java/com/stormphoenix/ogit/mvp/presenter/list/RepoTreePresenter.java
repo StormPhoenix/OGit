@@ -7,6 +7,7 @@ import android.util.Log;
 import com.stormphoenix.httpknife.github.GitRepository;
 import com.stormphoenix.httpknife.github.GitTree;
 import com.stormphoenix.httpknife.github.GitTreeItem;
+import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.mvp.model.interactor.RepoInteractor;
 import com.stormphoenix.ogit.mvp.ui.activities.BreadcrumbTreeActivity;
 import com.stormphoenix.ogit.mvp.ui.activities.ToolbarActivity;
@@ -101,6 +102,8 @@ public class RepoTreePresenter extends ListItemPresenter<GitTreeItem, List<GitTr
                             mView.loadNewlyListItem(treeItems);
                         } else if (response.code() == 401) {
                             mView.reLogin();
+                        } else if (response.code() == 409) {
+                            mView.showMessage(mContext.getString(R.string.no_code_file));
                         } else {
                             mView.showMessage(response.message());
                         }

@@ -1,6 +1,7 @@
 package com.stormphoenix.ogit.mvp.ui.activities.base;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,6 +37,14 @@ public abstract class OwnerProfileActivity extends BaseActivity {
     protected KeyValueLabel mLabel3;
     @BindView(R.id.dynamic_label_wrapper)
     LinearLayout mDynamicLabelWrapper;
+    @BindView(R.id.fab)
+    protected FloatingActionButton mFab;
+
+    protected enum IsFollowed {
+        follewed, unfollewd
+    }
+
+    protected IsFollowed isFollowed = IsFollowed.unfollewd;
 
     @Override
     protected int getLayoutId() {
