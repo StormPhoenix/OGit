@@ -8,7 +8,7 @@ Please see the [issues][1] section to report any bugs or feature requests and to
 Display
 =
 
-![image](https://github.com/StormPhoenix/OGit/blob/master/img/display.gif)
+![image](https://github.com/StormPhoenix/OGit/blob/master/img/display_1.gif)
 
 Acknowledgements
 ==
