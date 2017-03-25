@@ -2,35 +2,49 @@ package com.stormphoenix.ogit.shares;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.text.Html;
-import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.stormphoenix.ogit.R;
-import com.stormphoenix.ogit.utils.FileUtils;
 import com.stormphoenix.ogit.utils.ImageUtils;
-import com.stormphoenix.ogit.widget.URLDrawable;
-import com.umeng.analytics.MobclickAgent;
+import com.stormphoenix.ogit.utils.SystemUtils;
 
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
-import pl.droidsonroids.gif.GifDrawable;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
+import static java.lang.Integer.MAX_VALUE;
 
 
 public class HtmlImageGetter implements Html.ImageGetter {
+
+    private static class LoadingImageGetter implements Html.ImageGetter {
+
+        private final Drawable image;
+
+        private LoadingImageGetter(final Context context, final int size) {
+            int imageSize = SystemUtils.getIntPixels(context, size);
+            image = context.getResources().getDrawable(R.drawable.ic_loading_img);
+            image.setBounds(0, 0, imageSize, imageSize);
+        }
+
+        @Override
+        public Drawable getDrawable(String source) {
+            return image;
+        }
+    }
+
+    private final LoadingImageGetter loading;
+
     private final String TAG = getClass().getName();
 
     private Context context;
@@ -41,7 +55,7 @@ public class HtmlImageGetter implements Html.ImageGetter {
     private int width;
     private int height;
 
-    public static final int maxMemory = (int) Constants.MAX_MEMORY / 1024;
+    public static final int maxMemory = (int) OGitConstants.MAX_MEMORY / 1024;
     private static final LruCache<String, File> cache = new LruCache<String, File>(maxMemory / 8) {
         @Override
         protected int sizeOf(String key, File value) {
@@ -53,6 +67,7 @@ public class HtmlImageGetter implements Html.ImageGetter {
         this.context = c;
         this.container = t;
         this.baseUrl = baseUrl;
+        loading = new LoadingImageGetter(context, 24);
 
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         final Point size;
@@ -71,122 +86,19 @@ public class HtmlImageGetter implements Html.ImageGetter {
 
     @Override
     public Drawable getDrawable(String source) {
-        final URLDrawable urlDrawable = new URLDrawable();
+        try {
+            Request request = new Request.Builder().url(source).build();
+            OkHttpClient client = new OkHttpClient();
+            Response response = client.newCall(request).execute();
 
-        ImageGetterAsyncTask asyncTask =
-                new ImageGetterAsyncTask(urlDrawable);
-
-        asyncTask.execute(source);
-
-        return urlDrawable;
-    }
-
-    public class ImageGetterAsyncTask extends AsyncTask<String, Void, Drawable> {
-        URLDrawable urlDrawable;
-
-        public ImageGetterAsyncTask(URLDrawable d) {
-            this.urlDrawable = d;
-        }
-
-        @Override
-        protected Drawable doInBackground(String... params) {
-            String source = params[0];
-            Drawable drawable = fetchDrawable(source);
+            Bitmap bitmap = ImageUtils.getBitmap(response.body().bytes(), width, MAX_VALUE);
+            if (bitmap == null)
+                return loading.getDrawable(source);
+            BitmapDrawable drawable = new BitmapDrawable(context.getResources(), bitmap);
+            drawable.setBounds(0, 0, bitmap.getWidth(), bitmap.getHeight());
             return drawable;
-        }
-
-        @Override
-        protected void onPostExecute(Drawable result) {
-            if (result != null) {
-                // set the correct bound according to the result from HTTP call
-                urlDrawable.setBounds(0, 0, result.getIntrinsicWidth(), result.getIntrinsicHeight());
-
-                // change the reference of the current drawable to the result
-                // from the HTTP call
-                urlDrawable.drawable = result;
-
-                // redraw the image by invalidating the container
-                HtmlImageGetter.this.container.invalidate();
-
-                HtmlImageGetter.this.container.setHeight((HtmlImageGetter.this.container.getMeasuredHeight()
-                        + result.getIntrinsicHeight()));
-
-                HtmlImageGetter.this.container.setEllipsize(null);
-            } else {
-                Log.i(getClass().getName(), "result == null in post");
-            }
-        }
-
-        public Drawable fetchDrawable(String urlString) {
-            String url;
-            if (urlString.startsWith("/")) {
-                url = baseUrl + urlString;
-            } else if (urlString.startsWith("./") || urlString.startsWith("*/")) {
-                url = baseUrl + urlString.substring(1);
-            } else if (!urlString.startsWith("http")) {
-                url = baseUrl + "/" + urlString;
-            } else {
-                url = urlString;
-            }
-            File imageFile;
-            try {
-                URL aURL = new URL(url);
-                final HttpURLConnection conn = (HttpURLConnection) aURL.openConnection();
-                Log.i(TAG, url);
-                if ((imageFile = cache.get(url)) == null || cache.get(url).length() == 0) {
-                    conn.connect();
-                    BufferedInputStream bis;
-                    int state = conn.getResponseCode();
-                    if (state > 400) {
-                        bis = new BufferedInputStream(conn.getErrorStream());
-                    } else {
-                        bis = new BufferedInputStream(conn.getInputStream());
-                    }
-                    imageFile = File.createTempFile("image", ".tmp", fileDir);
-                    FileUtils.save(imageFile, bis);
-                    cache.put(url, imageFile);
-                    if (cache.get(url) == null) {
-                        Log.i(TAG, "cache failed");
-                    }
-                }
-                if (conn.getContentType().startsWith("image/svg")) {
-                    Bitmap bitmap = ImageUtils.renderSvgToBitmap(context.getResources(),
-                            new FileInputStream(imageFile), width, height);
-                    if (bitmap == null) {
-                        return returnErrorDrawable();
-                    }
-                    Drawable drawable = new BitmapDrawable(context.getResources(), bitmap);
-                    drawable.setBounds(0, 0, bitmap.getWidth(), bitmap.getHeight());
-                    return drawable;
-                }
-                if (conn.getContentType().startsWith("image/gif")) {
-                    GifDrawable gifDrawable = new GifDrawable(imageFile);
-                    if (gifDrawable == null) {
-                        return returnErrorDrawable();
-                    }
-                    gifDrawable.setBounds(0, 0, gifDrawable.getIntrinsicWidth(), gifDrawable.getIntrinsicHeight());
-                    return gifDrawable;
-                } else {
-                    Bitmap bm = ImageUtils.getBitmap(imageFile, width, height);
-                    if (bm == null) {
-                        return returnErrorDrawable();
-                    }
-                    Drawable drawable = new BitmapDrawable(context.getResources(), bm);
-                    drawable.setBounds(0, 0, bm.getWidth(), bm.getHeight());
-                    return drawable;
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-                MobclickAgent.reportError(context, e);
-                return returnErrorDrawable();
-            }
-        }
-
-        private Drawable returnErrorDrawable() {
-            Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_image_error);
-            BitmapDrawable bd = new BitmapDrawable(bitmap);
-            bd.setBounds(0, 0, bitmap.getWidth(), bitmap.getHeight());
-            return bd;
+        } catch (IOException e) {
+            return loading.getDrawable(source);
         }
     }
 }

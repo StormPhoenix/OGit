@@ -12,7 +12,7 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 
 import com.stormphoenix.httpknife.github.GitNotification;
-import com.stormphoenix.ogit.utils.UiUtils;
+import com.stormphoenix.ogit.utils.SystemUtils;
 import com.stormphoenix.ogit.widget.menu.NotifyMenu;
 
 import java.util.List;
@@ -131,7 +131,7 @@ public class NotifyMenuManager extends RecyclerView.OnScrollListener implements 
     private void setupMenuInitialPostion(View openView) {
         final int[] openingViewLocation = new int[2];
         openView.getLocationOnScreen(openingViewLocation);
-        int additionalBottomMargin = UiUtils.dpToPx(16);
+        int additionalBottomMargin = SystemUtils.dpToPx(16);
 
         menuView.setTranslationX(openingViewLocation[0] - menuView.getWidth() + openView.getWidth() / 2);
         menuView.setTranslationY(openingViewLocation[1] + openView.getHeight() / 2);

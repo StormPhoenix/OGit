@@ -2,6 +2,7 @@ package com.stormphoenix.ogit.mvp.presenter;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.stormphoenix.httpknife.github.GitBlob;
@@ -70,24 +71,25 @@ public class CodePresenter extends BasePresenter<CodeView> {
                     public void onNext(GitBlob blob) {
                         Log.e(TAG, "onNext: success");
                         mBlob = blob;
-                        loadCode();
+                        loadContent();
                     }
                 });
     }
 
-    private void loadCode() {
-        if (mBlob != null) {
-            mInteractor.loadCodeContent(mBlob.getDownloadUrl())
-                    .compose(RxJavaCustomTransformer.defaultSchedulers())
-                    .subscribe(new DefaultUiSubscriber<String, BaseUIView>(mView, mContext.getString(R.string.network_error)) {
-                        @Override
-                        public void onNext(String code) {
-                            Log.e(TAG, "onNext: " + code);
-                            mView.hideProgress();
-                            mView.loadCodeContent(code);
-                        }
-                    });
-        }
+    public void loadContent() {
+        mView.setMarkdown(false);
+        mView.setSource(getFileName(path), mBlob);
+    }
+
+    public String getFileName(final String path) {
+        if (TextUtils.isEmpty(path))
+            return path;
+
+        int lastSlash = path.lastIndexOf('/');
+        if (lastSlash != -1 && lastSlash + 1 < path.length())
+            return path.substring(lastSlash + 1);
+        else
+            return path;
     }
 
     public void setOwner(String owner) {

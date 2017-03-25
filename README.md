@@ -8,7 +8,7 @@ Please see the [issues][1] section to report any bugs or feature requests and to
 Display
 =
 
-![ ](https://raw.githubusercontent.com/StormPhoenix/OGit/master/screenshot/display.gif "mainpage")
+![image](https://raw.githubusercontent.com/StormPhoenix/Ogit/master/img/display.gif)
 
 Acknowledgements
 ==
@@ -34,7 +34,8 @@ Please fork this repository and contribute back using [pull requests][2].
 language translations, unit/integration tests are welcomed and appreciated
 but will be thoroughly reviewed and discussed.</p>
 
-##License
+License
+=
 
 [Apache Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
 

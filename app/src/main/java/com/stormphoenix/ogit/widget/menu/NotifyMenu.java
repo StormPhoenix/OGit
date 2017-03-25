@@ -13,7 +13,7 @@ import com.stormphoenix.httpknife.github.GitNotification;
 import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.mvp.ui.activities.ToolbarActivity;
 import com.stormphoenix.ogit.utils.ActivityUtils;
-import com.stormphoenix.ogit.utils.UiUtils;
+import com.stormphoenix.ogit.utils.SystemUtils;
 import com.stormphoenix.ogit.widget.manager.NotifyMenuManager;
 
 import org.greenrobot.eventbus.EventBus;
@@ -26,7 +26,7 @@ import java.util.List;
  */
 
 public class NotifyMenu extends LinearLayout {
-    private static final int CONTEXT_MENU_WIDTH = UiUtils.dpToPx(240);
+    private static final int CONTEXT_MENU_WIDTH = SystemUtils.dpToPx(240);
 
     public NotifyMenu(Context context) {
         super(context);

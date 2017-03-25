@@ -8,7 +8,10 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class GitBlob {
-//    public static final String TYPE_FILE = "file";
+    public static final String ENCODING_BASE64 = "base64";
+    public static final String ENCODING_UTF8 = "utf-8";
+    public static final String TYPE_FILE = "file";
+    public static final String TYPE_DIR = "dir";
 
     private String name;
     private String path;

@@ -9,15 +9,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 
+import com.stormphoenix.httpknife.github.GitBlob;
 import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.dagger2.component.DaggerActivityComponent;
 import com.stormphoenix.ogit.dagger2.module.ContextModule;
 import com.stormphoenix.ogit.mvp.presenter.CodePresenter;
 import com.stormphoenix.ogit.mvp.ui.fragments.base.BaseFragment;
 import com.stormphoenix.ogit.mvp.view.CodeView;
+import com.stormphoenix.ogit.utils.PreferenceUtils;
+import com.stormphoenix.ogit.utils.SourceEditor;
 
 import javax.inject.Inject;
 
@@ -30,6 +32,7 @@ import butterknife.ButterKnife;
  */
 
 public class CodeFragment extends BaseFragment implements CodeView {
+    private static final String TAG = CodeFragment.class.getSimpleName();
     // 该代码文件的所有者
     private String owner;
     // 该仓库名字
@@ -38,11 +41,11 @@ public class CodeFragment extends BaseFragment implements CodeView {
     private String path;
     // 分支
     private String branch;
-    // 代码内容
-    private String content;
 
     @BindView(R.id.webview)
     WebView mWebview;
+
+    private SourceEditor editor;
 
     @Inject
     public CodePresenter mPresenter;
@@ -93,10 +96,9 @@ public class CodeFragment extends BaseFragment implements CodeView {
 
     @Override
     public void initWebView() {
-        WebSettings settings = mWebview.getSettings();
-        settings.setBuiltInZoomControls(true);
-        settings.setJavaScriptEnabled(true);
-        mWebview.addJavascriptInterface(new JavaScriptInterface(), "bitbeaker");
+        editor = new SourceEditor(mWebview);
+        editor.setWrap(PreferenceUtils.getCodePreferences(this.getActivity()).getBoolean(
+                PreferenceUtils.WRAP, false));
     }
 
     @Override
@@ -110,9 +112,13 @@ public class CodeFragment extends BaseFragment implements CodeView {
     }
 
     @Override
-    public void loadCodeContent(String codeContent) {
-        content = codeContent;
-        mWebview.loadUrl("file:///android_asset/source.html");
+    public void setMarkdown(boolean isMarkdown) {
+        editor.setMarkdown(isMarkdown);
+    }
+
+    @Override
+    public void setSource(String name, GitBlob blob) {
+        editor.setSource(name, blob);
     }
 
     @Override
@@ -134,27 +140,5 @@ public class CodeFragment extends BaseFragment implements CodeView {
 
     public void setBranch(String branch) {
         this.branch = branch;
-    }
-
-    protected class JavaScriptInterface {
-        @JavascriptInterface
-        public String getCode() {
-            return TextUtils.htmlEncode(content.replace("\t", "    "));
-        }
-
-        @JavascriptInterface
-        public String getRawCode() {
-            return content;
-        }
-
-        @JavascriptInterface
-        public String getFilename() {
-            return path;
-        }
-
-        @JavascriptInterface
-        public int getLineHighlight() {
-            return 0;
-        }
     }
 }

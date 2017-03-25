@@ -1,7 +1,7 @@
 package com.stormphoenix.ogit.mvp.view;
 
+import com.stormphoenix.httpknife.github.GitBlob;
 import com.stormphoenix.ogit.mvp.view.base.BaseUIView;
-import com.stormphoenix.ogit.mvp.view.base.BaseView;
 
 /**
  * Created by StormPhoenix on 17-3-4.
@@ -10,5 +10,7 @@ import com.stormphoenix.ogit.mvp.view.base.BaseView;
 public interface CodeView extends BaseUIView {
     void initWebView();
 
-    void loadCodeContent(String codeContent);
+    void setMarkdown(boolean isMarkdown);
+
+    void setSource(String name, GitBlob blob);
 }

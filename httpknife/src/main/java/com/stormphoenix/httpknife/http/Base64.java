@@ -1,6 +1,8 @@
 package com.stormphoenix.httpknife.http;
 
 import java.io.UnsupportedEncodingException;
+import java.text.MessageFormat;
+import java.util.Arrays;
 
 public class Base64 {
 
@@ -10,19 +12,30 @@ public class Base64 {
     /** Preferred encoding. */
     private final static String PREFERRED_ENCODING = "US-ASCII";
 
-    /** The 64 valid Base64 values. */
-    private final static byte[] _STANDARD_ALPHABET = { (byte) 'A', (byte) 'B',
-        (byte) 'C', (byte) 'D', (byte) 'E', (byte) 'F', (byte) 'G', (byte) 'H',
-        (byte) 'I', (byte) 'J', (byte) 'K', (byte) 'L', (byte) 'M', (byte) 'N',
-        (byte) 'O', (byte) 'P', (byte) 'Q', (byte) 'R', (byte) 'S', (byte) 'T',
-        (byte) 'U', (byte) 'V', (byte) 'W', (byte) 'X', (byte) 'Y', (byte) 'Z',
-        (byte) 'a', (byte) 'b', (byte) 'c', (byte) 'd', (byte) 'e', (byte) 'f',
-        (byte) 'g', (byte) 'h', (byte) 'i', (byte) 'j', (byte) 'k', (byte) 'l',
-        (byte) 'm', (byte) 'n', (byte) 'o', (byte) 'p', (byte) 'q', (byte) 'r',
-        (byte) 's', (byte) 't', (byte) 'u', (byte) 'v', (byte) 'w', (byte) 'x',
-        (byte) 'y', (byte) 'z', (byte) '0', (byte) '1', (byte) '2', (byte) '3',
-        (byte) '4', (byte) '5', (byte) '6', (byte) '7', (byte) '8', (byte) '9',
-        (byte) '+', (byte) '/' };
+    private static final byte[] ENC;
+    private static final byte[] DEC;
+
+    static {
+        try {
+            ENC = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".getBytes("UTF-8");
+        } catch (UnsupportedEncodingException var1) {
+            throw new RuntimeException(var1.getMessage(), var1);
+        }
+
+        DEC = new byte[128];
+        Arrays.fill(DEC, (byte) -3);
+
+        for(int i = 0; i < 64; ++i) {
+            DEC[ENC[i]] = (byte)i;
+        }
+
+        DEC[61] = -1;
+        DEC[9] = -2;
+        DEC[10] = -2;
+        DEC[13] = -2;
+        DEC[32] = -2;
+    }
+
 
     /** Defeats instantiation. */
     private Base64() {
@@ -58,40 +71,37 @@ public class Base64 {
      * @return the <var>destination</var> array
      * @since 1.3
      */
-    private static byte[] encode3to4(byte[] source, int srcOffset,
-        int numSigBytes, byte[] destination, int destOffset) {
+    private static void encode3to4(byte[] source, int srcOffset, int numSigBytes, byte[] destination, int destOffset) {
+        int inBuff = 0;
+        switch(numSigBytes) {
+            case 3:
+                inBuff |= source[srcOffset + 2] << 24 >>> 24;
+            case 2:
+                inBuff |= source[srcOffset + 1] << 24 >>> 16;
+            case 1:
+                inBuff |= source[srcOffset] << 24 >>> 8;
+            default:
+                switch(numSigBytes) {
+                    case 1:
+                        destination[destOffset] = ENC[inBuff >>> 18];
+                        destination[destOffset + 1] = ENC[inBuff >>> 12 & 63];
+                        destination[destOffset + 2] = 61;
+                        destination[destOffset + 3] = 61;
+                        break;
+                    case 2:
+                        destination[destOffset] = ENC[inBuff >>> 18];
+                        destination[destOffset + 1] = ENC[inBuff >>> 12 & 63];
+                        destination[destOffset + 2] = ENC[inBuff >>> 6 & 63];
+                        destination[destOffset + 3] = 61;
+                        break;
+                    case 3:
+                        destination[destOffset] = ENC[inBuff >>> 18];
+                        destination[destOffset + 1] = ENC[inBuff >>> 12 & 63];
+                        destination[destOffset + 2] = ENC[inBuff >>> 6 & 63];
+                        destination[destOffset + 3] = ENC[inBuff & 63];
+                }
 
-      byte[] ALPHABET = _STANDARD_ALPHABET;
-
-      int inBuff = (numSigBytes > 0 ? ((source[srcOffset] << 24) >>> 8) : 0)
-          | (numSigBytes > 1 ? ((source[srcOffset + 1] << 24) >>> 16) : 0)
-          | (numSigBytes > 2 ? ((source[srcOffset + 2] << 24) >>> 24) : 0);
-
-      switch (numSigBytes) {
-      case 3:
-        destination[destOffset] = ALPHABET[(inBuff >>> 18)];
-        destination[destOffset + 1] = ALPHABET[(inBuff >>> 12) & 0x3f];
-        destination[destOffset + 2] = ALPHABET[(inBuff >>> 6) & 0x3f];
-        destination[destOffset + 3] = ALPHABET[(inBuff) & 0x3f];
-        return destination;
-
-      case 2:
-        destination[destOffset] = ALPHABET[(inBuff >>> 18)];
-        destination[destOffset + 1] = ALPHABET[(inBuff >>> 12) & 0x3f];
-        destination[destOffset + 2] = ALPHABET[(inBuff >>> 6) & 0x3f];
-        destination[destOffset + 3] = EQUALS_SIGN;
-        return destination;
-
-      case 1:
-        destination[destOffset] = ALPHABET[(inBuff >>> 18)];
-        destination[destOffset + 1] = ALPHABET[(inBuff >>> 12) & 0x3f];
-        destination[destOffset + 2] = EQUALS_SIGN;
-        destination[destOffset + 3] = EQUALS_SIGN;
-        return destination;
-
-      default:
-        return destination;
-      }
+        }
     }
 
     /**
@@ -212,5 +222,68 @@ public class Base64 {
       } else
         return outBuff;
     }
-  }
+
+    public static byte[] decode(String s) {
+        byte[] bytes;
+        try {
+            bytes = s.getBytes("UTF-8");
+        } catch (UnsupportedEncodingException var2) {
+            bytes = s.getBytes();
+        }
+
+        return decode(bytes, 0, bytes.length);
+    }
+
+    public static byte[] decode(byte[] source, int off, int len) {
+        byte[] outBuff = new byte[len * 3 / 4];
+        int outBuffPosn = 0;
+        byte[] b4 = new byte[4];
+        int b4Posn = 0;
+
+        for(int out = off; out < off + len; ++out) {
+            byte sbiCrop = (byte)(source[out] & 127);
+            byte sbiDecode = DEC[sbiCrop];
+            if(-1 <= sbiDecode) {
+                b4[b4Posn++] = sbiCrop;
+                if(b4Posn > 3) {
+                    outBuffPosn += decode4to3(b4, 0, outBuff, outBuffPosn);
+                    b4Posn = 0;
+                    if(sbiCrop == 61) {
+                        break;
+                    }
+                }
+            } else if(sbiDecode != -2) {
+                throw new IllegalArgumentException(MessageFormat.format("Bad Base64 input character at {0} : {1} (decimal)", new Object[]{Integer.valueOf(out), Integer.valueOf(source[out] & 255)}));
+            }
+        }
+
+        if(outBuff.length == outBuffPosn) {
+            return outBuff;
+        } else {
+            byte[] var10 = new byte[outBuffPosn];
+            System.arraycopy(outBuff, 0, var10, 0, outBuffPosn);
+            return var10;
+        }
+    }
+
+    private static int decode4to3(byte[] source, int srcOffset, byte[] destination, int destOffset) {
+        int outBuff;
+        if(source[srcOffset + 2] == 61) {
+            outBuff = (DEC[source[srcOffset]] & 255) << 18 | (DEC[source[srcOffset + 1]] & 255) << 12;
+            destination[destOffset] = (byte)(outBuff >>> 16);
+            return 1;
+        } else if(source[srcOffset + 3] == 61) {
+            outBuff = (DEC[source[srcOffset]] & 255) << 18 | (DEC[source[srcOffset + 1]] & 255) << 12 | (DEC[source[srcOffset + 2]] & 255) << 6;
+            destination[destOffset] = (byte)(outBuff >>> 16);
+            destination[destOffset + 1] = (byte)(outBuff >>> 8);
+            return 2;
+        } else {
+            outBuff = (DEC[source[srcOffset]] & 255) << 18 | (DEC[source[srcOffset + 1]] & 255) << 12 | (DEC[source[srcOffset + 2]] & 255) << 6 | DEC[source[srcOffset + 3]] & 255;
+            destination[destOffset] = (byte)(outBuff >> 16);
+            destination[destOffset + 1] = (byte)(outBuff >> 8);
+            destination[destOffset + 2] = (byte)outBuff;
+            return 3;
+        }
+    }
+}
 

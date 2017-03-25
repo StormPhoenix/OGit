@@ -138,6 +138,62 @@ public class ImageUtils {
         return getBitmap(imagePath, scale);
     }
 
+    /**
+     * Get bitmap with maximum height or width
+     *
+     * @param image
+     * @param width
+     * @param height
+     * @return image
+     */
+    public static Bitmap getBitmap(final byte[] image, int width, int height) {
+        Point size = getSize(image);
+        return getBitmap(image, getScale(size, width, height));
+    }
+
+    /**
+     * Get a bitmap from the image
+     *
+     * @param image
+     * @param sampleSize
+     * @return bitmap or null if read fails
+     */
+    public static Bitmap getBitmap(final byte[] image, int sampleSize) {
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inDither = false;
+        options.inSampleSize = sampleSize;
+        return BitmapFactory.decodeByteArray(image, 0, image.length, options);
+    }
+
+    /**
+     * Get size of image
+     *
+     * @param image
+     * @return size
+     */
+    public static Point getSize(final byte[] image) {
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeByteArray(image, 0, image.length, options);
+        return new Point(options.outWidth, options.outHeight);
+    }
+
+    /**
+     * Get scale for image of size and max height/width
+     *
+     * @param size
+     * @param width
+     * @param height
+     * @return scale
+     */
+    public static int getScale(Point size, int width, int height) {
+        if (size.x > width || size.y > height)
+            return Math.max(Math.round((float) size.y / (float) height),
+                    Math.round((float) size.x / (float) width));
+        else
+            return 1;
+    }
+
     public static Bitmap renderSvgToBitmap(Resources res, InputStream is,
                                            int maxWidth, int maxHeight) {
         try {

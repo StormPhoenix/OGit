@@ -7,7 +7,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.stormphoenix.httpknife.GitEventParser;
 import com.stormphoenix.httpknife.github.GitEvent;
-import com.stormphoenix.ogit.shares.Constants;
+import com.stormphoenix.ogit.shares.OGitConstants;
 import com.stormphoenix.ogit.shares.rx.converter.StringConverterFactory;
 import com.stormphoenix.ogit.utils.PreferenceUtils;
 
@@ -61,7 +61,7 @@ public class RetrofitCreator {
 //                    builder.setLenient();
         gson = builder.create();
         retrofit = new Retrofit.Builder()
-                .baseUrl(Constants.BASE_URL)
+                .baseUrl(OGitConstants.BASE_URL)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(client)
@@ -95,7 +95,7 @@ public class RetrofitCreator {
                     builder.registerTypeAdapter(GitEvent.class, new GitEventParser());
                     gson = builder.create();
                     jsonRetrofitWithoutTokent = new Retrofit.Builder()
-                            .baseUrl(Constants.BASE_URL)
+                            .baseUrl(OGitConstants.BASE_URL)
                             .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                             .addConverterFactory(GsonConverterFactory.create(gson))
                             .client(client)
@@ -136,7 +136,7 @@ public class RetrofitCreator {
 //                    builder.setLenient();
         gson = builder.create();
         retrofit = new Retrofit.Builder()
-                .baseUrl(Constants.BASE_URL)
+                .baseUrl(OGitConstants.BASE_URL)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(client)
@@ -170,7 +170,7 @@ public class RetrofitCreator {
 
                     Gson gson = new Gson();
                     stringRetrofit = new Retrofit.Builder()
-                            .baseUrl(Constants.BASE_URL)
+                            .baseUrl(OGitConstants.BASE_URL)
                             .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                             .addConverterFactory(new StringConverterFactory())
                             .client(client)
