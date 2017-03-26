@@ -10,7 +10,7 @@ import java.util.Date;
  * StormPhoenix is a intelligent Android developer.
  */
 
-public class GitComment {
+public class GitIssueComment {
     private String url;
     @SerializedName("html_url")
     private String htmlUrl;

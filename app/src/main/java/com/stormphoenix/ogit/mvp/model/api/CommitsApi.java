@@ -15,6 +15,28 @@ import rx.Observable;
  */
 
 public interface CommitsApi {
+    /**
+     * 获取一个仓库中所有提交的信息
+     *
+     * @param owner
+     * @param repo
+     * @return
+     */
     @GET("repos/{owner}/{repo}/commits")
     Observable<Response<List<GitCommit>>> loadRepoCommits(@Path("owner") String owner, @Path("repo") String repo);
+
+    /**
+     * 获取某个提交的详细信息
+     *
+     * @param owner
+     * @param repo
+     * @param sha
+     * @return
+     */
+    @GET("repos/{owner}/{repo}/commits/{sha}")
+    Observable<Response<GitCommit>> loadSingleCommit(
+            @Path("owner") String owner,
+            @Path("repo") String repo,
+            @Path("sha") String sha
+    );
 }

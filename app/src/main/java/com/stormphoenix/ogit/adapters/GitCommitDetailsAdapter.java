@@ -1,10 +1,21 @@
 package com.stormphoenix.ogit.adapters;
 
-import android.content.Context;
-import android.support.v7.widget.RecyclerView;
-import android.view.ViewGroup;
+import android.content.res.Resources;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
 
+import com.stormphoenix.httpknife.github.GitCommitComment;
+import com.stormphoenix.httpknife.github.GitCommitFile;
+import com.stormphoenix.httpknife.github.GitFullCommitFile;
+import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.adapters.base.MultiTypeAdapter;
+import com.stormphoenix.ogit.mvp.ui.fragments.commits.DiffStyler;
+import com.stormphoenix.ogit.shares.StyledText;
+import com.stormphoenix.ogit.shares.ViewUpdater;
+import com.stormphoenix.ogit.utils.TimeUtils;
+import com.stormphoenix.ogit.utils.ViewUtils;
+
+import java.util.List;
 
 /**
  * Created by StormPhoenix on 17-3-23.
@@ -12,57 +23,166 @@ import com.stormphoenix.ogit.adapters.base.MultiTypeAdapter;
  */
 
 public class GitCommitDetailsAdapter extends MultiTypeAdapter {
-    private static final int TYPE_HEADER = 0;
+    /**
+     * 一个commit信息，必然有提交人、提交总记录信息。
+     * TYPE_FILE_HEADER 用于表示以上所说的类型
+     */
+    private static final int TYPE_FILE_HEADER = 0;
 
-    private static final int TYPE_LINE_CONTENT = 1;
+    /**
+     * 代表该 itemView 是一行代码
+     */
+    private static final int TYPE_FILE_LINE_CODE = 1;
 
-    private static final int TYPE_LINE_CONTENT_COMMENT = 2;
+    /**
+     * 代表该 itemView 是一行评论
+     */
+    private static final int TYPE_FILE_LINE_COMMENT = 2;
 
-    private static final int TYPE_COMMENT = 3;
+    /**
+     * 代表该 itemView 一段评论
+     */
+    private static final int TYPE_FILE_COMMENT = 3;
 
-    private static int[] types = new int[]{
-            TYPE_HEADER,
-            TYPE_LINE_CONTENT,
-            TYPE_LINE_CONTENT_COMMENT,
-            TYPE_COMMENT
-    };
+    private final DiffStyler diffStyler;
 
-    public GitCommitDetailsAdapter(Context context) {
-        super(context);
+    private final int addedLineColor;
+
+    private final int removedLineColor;
+
+    @Override
+    protected int[] getItemTypes() {
+        return new int[]{
+                TYPE_FILE_HEADER,
+                TYPE_FILE_LINE_CODE,
+                TYPE_FILE_LINE_COMMENT,
+                TYPE_FILE_COMMENT
+        };
+    }
+
+    public GitCommitDetailsAdapter(final LayoutInflater inflater,
+                                   final DiffStyler diffStyler) {
+        super(inflater);
+        this.diffStyler = diffStyler;
+        Resources resources = inflater.getContext().getResources();
+        addedLineColor = resources.getColor(R.color.diff_add_text);
+        removedLineColor = resources.getColor(R.color.diff_remove_text);
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return null;
+    public long getItemId(int position) {
+        switch (getItemType(position)) {
+            case TYPE_FILE_HEADER:
+                String sha = ((GitCommitFile) getItem(position)).getSha();
+                if (!TextUtils.isEmpty(sha)) {
+                    return sha.hashCode();
+                } else {
+                    return super.getItemId(position);
+                }
+            case TYPE_FILE_COMMENT:
+            case TYPE_FILE_LINE_COMMENT:
+                return ((GitCommitComment) getItem(position)).getId();
+            default:
+                return super.getItemId(position);
+        }
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    protected void update(int position, Object item, int type) {
+        switch (type) {
+            case TYPE_FILE_HEADER:
+                GitCommitFile file = (GitCommitFile) item;
+                String path = file.getFilename();
+                int lastSlash = path.lastIndexOf('/');
+                if (lastSlash != -1) {
+                    setText(0, path.substring(lastSlash + 1));
+                    ViewUtils.setGone(setText(1, path.substring(0, lastSlash + 1)),
+                            false);
+                } else {
+                    setText(0, path);
+                    setGone(1, true);
+                }
 
+                StyledText stats = new StyledText();
+                stats.foreground('+', addedLineColor);
+                stats.foreground(ViewUpdater.FORMAT_INT.format(file.getAdditions()),
+                        addedLineColor);
+                stats.append(' ').append(' ').append(' ');
+                stats.foreground('-', removedLineColor);
+                stats.foreground(ViewUpdater.FORMAT_INT.format(file.getDeletions()),
+                        removedLineColor);
+                setText(2, stats);
+                return;
+            case TYPE_FILE_LINE_CODE:
+                CharSequence text = (CharSequence) item;
+                diffStyler.updateColors((CharSequence) item, setText(0, text));
+                return;
+            case TYPE_FILE_LINE_COMMENT:
+            case TYPE_FILE_COMMENT:
+                GitCommitComment comment = (GitCommitComment) item;
+//                    avatars.bind(imageView(1), comment.getUser());
+                setText(2, comment.getUser().getLogin());
+                setText(3, TimeUtils.getRelativeTime(comment.getUpdatedAt()));
+//                imageGetter.bind(textView(0), comment.getBodyHtml(), comment.getId());
+                return;
+        }
+    }
+
+    public void addFullCommitFile(GitFullCommitFile file) {
+        addItem(TYPE_FILE_HEADER, file.getCommitFile());
+        List<CharSequence> lines = diffStyler.get(file.getCommitFile().getFilename());
+        int num = 0;
+        for (CharSequence line : lines) {
+            addItem(TYPE_FILE_LINE_CODE, line);
+            for (GitCommitComment comment : file.get(num)) {
+                addItem(TYPE_FILE_LINE_COMMENT, comment);
+                num++;
+            }
+        }
+    }
+
+    public void addCommitFile(GitCommitFile file) {
+        addItem(TYPE_FILE_HEADER, file);
+        addItems(TYPE_FILE_LINE_CODE, diffStyler.get(file.getFilename()));
+    }
+
+    public void addComment(final GitCommitComment comment) {
+        addItem(TYPE_FILE_COMMENT, comment);
     }
 
     @Override
-    public int getItemCount() {
-        return 0;
+    protected int[] getChildrentIds(int type) {
+        switch (type) {
+            case TYPE_FILE_HEADER:
+                return new int[]{R.id.tv_name, R.id.tv_folder, R.id.tv_stats};
+            case TYPE_FILE_LINE_CODE:
+                return new int[]{R.id.tv_diff};
+            case TYPE_FILE_LINE_COMMENT:
+            case TYPE_FILE_COMMENT:
+                return new int[]{
+                        R.id.tv_comment_body,
+                        R.id.iv_avatar,
+                        R.id.tv_comment_author,
+                        R.id.tv_comment_date
+                };
+            default:
+                return null;
+        }
     }
 
     @Override
-    public int getItemViewType(int position) {
-        return super.getItemViewType(position);
-    }
-
-    @Override
-    protected int getTypeCount() {
-        return types.length;
-    }
-
-    @Override
-    protected int getLayoutId(int type) {
-        return 0;
-    }
-
-    @Override
-    protected int[] getTypes() {
-        return types;
+    protected int getLayoutId(final int type) {
+        switch (type) {
+            case TYPE_FILE_HEADER:
+                return R.layout.commit_diff_file_header;
+            case TYPE_FILE_LINE_CODE:
+                return R.layout.commit_diff_line;
+            case TYPE_FILE_LINE_COMMENT:
+                return R.layout.diff_comment_item;
+            case TYPE_FILE_COMMENT:
+                return R.layout.commit_comment_item;
+            default:
+                return -1;
+        }
     }
 }

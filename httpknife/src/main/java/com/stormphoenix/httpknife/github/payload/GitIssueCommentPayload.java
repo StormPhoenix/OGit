@@ -1,6 +1,6 @@
 package com.stormphoenix.httpknife.github.payload;
 
-import com.stormphoenix.httpknife.GitComment;
+import com.stormphoenix.httpknife.GitIssueComment;
 import com.stormphoenix.httpknife.github.GitIssue;
 
 /**
@@ -11,7 +11,7 @@ import com.stormphoenix.httpknife.github.GitIssue;
 public class GitIssueCommentPayload extends GitPayload {
     private String action;
     private GitIssue issue;
-    private GitComment comment;
+    private GitIssueComment comment;
 
     public String getAction() {
         return action;
@@ -29,11 +29,11 @@ public class GitIssueCommentPayload extends GitPayload {
         this.issue = issue;
     }
 
-    public GitComment getComment() {
+    public GitIssueComment getComment() {
         return comment;
     }
 
-    public void setComment(GitComment comment) {
+    public void setComment(GitIssueComment comment) {
         this.comment = comment;
     }
 }
