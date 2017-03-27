@@ -8,6 +8,7 @@ import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 
 import com.stormphoenix.ogit.utils.ActivityUtils;
+import com.stormphoenix.ogit.utils.ViewUtils;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -156,7 +157,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
             }
             mLastPosition = position;
         } else {
-            ActivityUtils.ViewUtils.clear(holder.itemView);
+            ViewUtils.clear(holder.itemView);
         }
     }
 

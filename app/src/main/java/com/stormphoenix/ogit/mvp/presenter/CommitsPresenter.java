@@ -2,12 +2,17 @@ package com.stormphoenix.ogit.mvp.presenter;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
 
 import com.stormphoenix.httpknife.github.GitCommit;
 import com.stormphoenix.httpknife.github.GitRepository;
+import com.stormphoenix.ogit.R;
+import com.stormphoenix.ogit.adapters.base.BaseRecyclerAdapter;
 import com.stormphoenix.ogit.mvp.model.interactor.CommitsInteractor;
 import com.stormphoenix.ogit.mvp.presenter.list.ListItemPresenter;
+import com.stormphoenix.ogit.mvp.ui.activities.ToolbarActivity;
 import com.stormphoenix.ogit.mvp.view.base.ListItemView;
+import com.stormphoenix.ogit.shares.OGitConstants;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -25,7 +30,7 @@ import rx.Observable;
  * StormPhoenix is a intelligent Android developer.
  */
 
-public class CommitsPresenter extends ListItemPresenter<GitCommit, List<GitCommit>, ListItemView<GitCommit>> {
+public class CommitsPresenter extends ListItemPresenter<GitCommit, List<GitCommit>, ListItemView<GitCommit>> implements BaseRecyclerAdapter.OnInternalViewClickListener<GitCommit> {
 
     private GitRepository repository;
     private CommitsInteractor interactor;
@@ -61,5 +66,21 @@ public class CommitsPresenter extends ListItemPresenter<GitCommit, List<GitCommi
             return null;
         }
         return interactor.loadReposCommits(repository.getOwner().getLogin(), repository.getName());
+    }
+
+    @Override
+    public void onClick(View parentV, View v, Integer position, GitCommit values) {
+        Bundle bundle = new Bundle();
+        bundle.putInt(ToolbarActivity.TYPE, ToolbarActivity.TYPE_COMMIT_DETAILS);
+        bundle.putString(OGitConstants.REPO_NAME, repository.getName());
+        bundle.putString(OGitConstants.OWNER_NAME, repository.getOwner().getLogin());
+//        bundle.putString(ToolbarActivity.SUB_TITLE, mContext.getString(R.string.commit_details));
+        bundle.putString(OGitConstants.SHA, values.getSha());
+        mContext.startActivity(ToolbarActivity.newIntent(mContext, bundle));
+    }
+
+    @Override
+    public boolean onLongClick(View parentV, View v, Integer position, GitCommit values) {
+        return false;
     }
 }

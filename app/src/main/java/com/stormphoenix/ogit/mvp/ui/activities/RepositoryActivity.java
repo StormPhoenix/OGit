@@ -154,6 +154,7 @@ public class RepositoryActivity extends BaseActivity implements RepositoryView {
     @Override
     public void setIsForked(boolean isFork) {
         this.isForked = isFork;
+        // 此处会报告 NullPointerException 异常，原因是 Presenter.setIsFork(boolean) 会先于 onCreateOptionsMenu() 调用
         MenuItem item = mMenu.findItem(R.id.action_fork);
         if (isFork) {
             item.setTitle(getString(R.string.forked));

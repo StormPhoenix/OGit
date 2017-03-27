@@ -13,11 +13,13 @@ import com.stormphoenix.ogit.mvp.presenter.list.ContributorsPresenter;
 import com.stormphoenix.ogit.mvp.presenter.list.NotifyPresenter;
 import com.stormphoenix.ogit.mvp.ui.activities.base.BaseActivity;
 import com.stormphoenix.ogit.mvp.ui.fragments.CodeFragment;
+import com.stormphoenix.ogit.mvp.ui.fragments.CommitDetailsFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.CommitsFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.NotifyFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.OrgFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.PersonsFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.base.BaseFragment;
+import com.stormphoenix.ogit.shares.OGitConstants;
 import com.stormphoenix.ogit.utils.PreferenceUtils;
 
 import butterknife.BindView;
@@ -36,6 +38,7 @@ public class ToolbarActivity extends BaseActivity {
     public static final int TYPE_ORGANIZATION = 3;
     public static final int TYPE_NOTIFICATION = 4;
     public static final int TYPE_COMMITS = 5;
+    public static final int TYPE_COMMIT_DETAILS = 6;
     private int type;
 
     // Toolbar 设置的标题
@@ -60,6 +63,15 @@ public class ToolbarActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         parseIntent();
 
+        resolveCurrentFragment();
+        setUpToolbar();
+        // 根据Type设置内容
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_wrapper, currentFragment)
+                .commit();
+    }
+
+    private void resolveCurrentFragment() {
         if (type == TYPE_CONTRIBUTOR) {
             title = getString(R.string.contributor);
             ContributorsPresenter presenter = new ContributorsPresenter(this);
@@ -83,12 +95,14 @@ public class ToolbarActivity extends BaseActivity {
         } else if (type == TYPE_COMMITS) {
             title = getString(R.string.commits);
             currentFragment = CommitsFragment.newInstance(new CommitsPresenter(this));
+        } else if (type == TYPE_COMMIT_DETAILS) {
+            title = getString(R.string.commit_details);
+            currentFragment = CommitDetailsFragment.newInstance(
+                    bundle.getString(OGitConstants.OWNER_NAME),
+                    bundle.getString(OGitConstants.REPO_NAME),
+                    bundle.getString(OGitConstants.SHA)
+            );
         }
-        setUpToolbar();
-        // 根据Type设置内容
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_wrapper, currentFragment)
-                .commit();
     }
 
     /**

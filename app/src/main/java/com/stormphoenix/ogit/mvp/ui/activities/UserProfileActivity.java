@@ -14,6 +14,7 @@ import com.stormphoenix.ogit.mvp.presenter.UserProfilePresenter;
 import com.stormphoenix.ogit.mvp.ui.activities.base.OwnerProfileActivity;
 import com.stormphoenix.ogit.mvp.view.UserDetailsView;
 import com.stormphoenix.ogit.utils.ActivityUtils;
+import com.stormphoenix.ogit.utils.ViewUtils;
 
 import javax.inject.Inject;
 
@@ -101,7 +102,7 @@ public class UserProfileActivity extends OwnerProfileActivity implements UserDet
 
     @Override
     public void showMessage(String message) {
-        ActivityUtils.ViewUtils.showMessage(mImgAppBar, message);
+        ViewUtils.showMessage(mImgAppBar, message);
     }
 
     @Override

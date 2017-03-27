@@ -2,6 +2,7 @@ package com.stormphoenix.ogit.adapters.base;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,11 +20,13 @@ import java.util.Map;
  */
 
 public abstract class MultiTypeAdapter extends TypeAdapter {
+    public static final String TAG = MultiTypeAdapter.class.getSimpleName();
     private final LayoutInflater inflater;
     // 存放所有的数据
     private final List<Item> items;
     // 存放所有的ViewType类型
     private final Map<Integer, ViewType> viewTypeMap;
+    private final Map<Integer, View> viewPosMap;
 
     public MultiTypeAdapter(Activity activity) {
         this(activity.getLayoutInflater());
@@ -38,6 +41,7 @@ public abstract class MultiTypeAdapter extends TypeAdapter {
         this.items = new LinkedList<>();
         int[] viewItemTypes = getItemTypes();
         viewTypeMap = new HashMap<>();
+        viewPosMap = new HashMap<>();
         int[] empty = new int[0];
 
         for (int i = 0; i < viewItemTypes.length; i++) {
@@ -111,11 +115,11 @@ public abstract class MultiTypeAdapter extends TypeAdapter {
     }
 
     public Object getItem(int position) {
-        return ((Item) this.items.get(position).item);
+        return this.items.get(position).item;
     }
 
     public long getItemId(int position) {
-        return (long) ((Item) this.items.get(position)).hashCode();
+        return (long) this.items.get(position).hashCode();
     }
 
     /**
@@ -128,7 +132,13 @@ public abstract class MultiTypeAdapter extends TypeAdapter {
         return this.items.get(position).type;
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return getItemType(position);
+    }
+
     protected void update(int position, View view, Object item, int type) {
+        Log.e(TAG, "update: " + Integer.toHexString(view.getId()) + " " + type);
         this.setCurrentView(view);
         this.update(position, item, type);
     }
@@ -139,11 +149,27 @@ public abstract class MultiTypeAdapter extends TypeAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        int type = this.getItemType(position);
+        int type = getItemViewType(position);
+        /** *************** **/
+//        if (viewPosMap.get(position) == null) {
+//            convertView = this.initialize(type, this.inflater.inflate(viewTypeMap.get(type).layout, null));
+//            viewPosMap.put(position, convertView);
+//        } else {
+//            convertView = viewPosMap.get(position);
+//        }
+        /** *************** **/
         if (convertView == null) {
             convertView = this.initialize(type, this.inflater.inflate(viewTypeMap.get(type).layout, null));
         }
 
+        View[] childrentViews = (View[]) convertView.getTag();
+        Log.e(TAG, "getView: size " + childrentViews.length);
+        for (View v : childrentViews) {
+            Log.e(TAG, "getView: " + Integer.toHexString(v.getId()));
+        }
+        Log.e(TAG, "getView: type " + type);
+        Log.e(TAG, "getView: convertViewId " + Integer.toHexString(convertView.getId()));
+        Log.e(TAG, "getView: position " + position);
         this.update(position, convertView, this.getItem(position), type);
         return convertView;
     }
@@ -152,6 +178,7 @@ public abstract class MultiTypeAdapter extends TypeAdapter {
      * 当 update(int, Object, int) 被调用的时候，可以保证这个 position 对应的itemView
      * 就是本函数里面操作的 View。
      * update(int, Object, int) 函数用户当前的 itemView 进行更新。
+     *
      * @param position
      * @param item
      * @param type

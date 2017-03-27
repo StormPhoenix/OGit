@@ -26,7 +26,7 @@ import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.adapters.FragmentsAdapter;
 import com.stormphoenix.ogit.dagger2.component.DaggerActivityComponent;
 import com.stormphoenix.ogit.dagger2.module.ContextModule;
-import com.stormphoenix.ogit.mvp.model.UserReposPresenter;
+import com.stormphoenix.ogit.mvp.presenter.UserReposPresenter;
 import com.stormphoenix.ogit.mvp.presenter.MainPresenter;
 import com.stormphoenix.ogit.mvp.presenter.list.UserEventsPresenter;
 import com.stormphoenix.ogit.mvp.ui.activities.base.TabPagerActivity;

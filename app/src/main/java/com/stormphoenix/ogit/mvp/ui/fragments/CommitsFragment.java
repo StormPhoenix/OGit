@@ -1,6 +1,7 @@
 package com.stormphoenix.ogit.mvp.ui.fragments;
 
 import com.stormphoenix.httpknife.github.GitCommit;
+import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.adapters.GitCommitsAdapter;
 import com.stormphoenix.ogit.adapters.base.BaseRecyclerAdapter;
 import com.stormphoenix.ogit.mvp.presenter.CommitsPresenter;
@@ -27,6 +28,7 @@ public class CommitsFragment extends ListWithPresenterFragment<GitCommit> {
     @Override
     public BaseRecyclerAdapter<GitCommit> getAdapter() {
         GitCommitsAdapter adapter = new GitCommitsAdapter(getActivity(), new ArrayList<>());
+        adapter.addOnViewClickListener(R.id.text_commit_info, presenter);
         return adapter;
     }
 

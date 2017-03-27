@@ -10,4 +10,7 @@ public interface OGitConstants {
     String BASE_URL = "https://api.github.com/";
     String CHARSET_UTF8 = "UTF-8";
     String HOST_DEFAULT = "github.com";
+    String REPO_NAME = "repo_name";
+    String OWNER_NAME = "owner_name";
+    String SHA = "sha";
 }

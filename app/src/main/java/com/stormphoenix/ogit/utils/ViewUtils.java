@@ -6,6 +6,8 @@ package com.stormphoenix.ogit.utils;
  */
 
 import android.graphics.Rect;
+import android.support.design.widget.Snackbar;
+import android.support.v4.view.ViewCompat;
 import android.util.DisplayMetrics;
 import android.view.TouchDelegate;
 import android.view.View;
@@ -16,6 +18,25 @@ import android.view.TouchDelegate;
 import android.view.View;
 
 public class ViewUtils {
+
+    public static void clear(View v) {
+        ViewCompat.setAlpha(v, 1);
+        ViewCompat.setScaleY(v, 1);
+        ViewCompat.setScaleX(v, 1);
+        ViewCompat.setTranslationY(v, 0);
+        ViewCompat.setTranslationX(v, 0);
+        ViewCompat.setRotation(v, 0);
+        ViewCompat.setRotationY(v, 0);
+        ViewCompat.setRotationX(v, 0);
+        v.setPivotY(v.getMeasuredHeight() / 2);
+        ViewCompat.setPivotX(v, v.getMeasuredWidth() / 2);
+        ViewCompat.animate(v).setInterpolator(null);
+    }
+
+    public static void showMessage(View view, String message) {
+        Snackbar.make(view, message, Snackbar.LENGTH_LONG).show();
+    }
+
     public static <V extends View> V setGone(V view, boolean gone) {
         if(view != null) {
             if(gone) {

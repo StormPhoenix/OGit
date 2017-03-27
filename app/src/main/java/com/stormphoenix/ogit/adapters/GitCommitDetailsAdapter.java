@@ -23,6 +23,7 @@ import java.util.List;
  */
 
 public class GitCommitDetailsAdapter extends MultiTypeAdapter {
+    public static final String TAG = GitCommitDetailsAdapter.class.getSimpleName();
     /**
      * 一个commit信息，必然有提交人、提交总记录信息。
      * TYPE_FILE_HEADER 用于表示以上所说的类型
@@ -70,8 +71,13 @@ public class GitCommitDetailsAdapter extends MultiTypeAdapter {
     }
 
     @Override
+    public int getViewTypeCount() {
+        return 4;
+    }
+
+    @Override
     public long getItemId(int position) {
-        switch (getItemType(position)) {
+        switch (getItemViewType(position)) {
             case TYPE_FILE_HEADER:
                 String sha = ((GitCommitFile) getItem(position)).getSha();
                 if (!TextUtils.isEmpty(sha)) {
