@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.stormphoenix.httpknife.github.GitTreeItem;
 import com.stormphoenix.ogit.R;
+import com.stormphoenix.ogit.adapters.GitFoldersAdapter.GitTreeItemViewHolder;
 import com.stormphoenix.ogit.adapters.base.BaseRecyclerAdapter;
 
 import java.util.List;
@@ -24,7 +25,7 @@ import butterknife.ButterKnife;
  * StormPhoenix is a intelligent Android developer.
  */
 
-public class GitFoldersAdapter extends BaseRecyclerAdapter<GitTreeItem> {
+public class GitFoldersAdapter extends BaseRecyclerAdapter<GitTreeItem, GitTreeItemViewHolder> {
     public GitFoldersAdapter(List<GitTreeItem> dataList) {
         this(null, dataList);
     }
@@ -47,15 +48,15 @@ public class GitFoldersAdapter extends BaseRecyclerAdapter<GitTreeItem> {
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public GitTreeItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View viewItem = LayoutInflater.from(mContext).inflate(R.layout.item_recyclerview_git_file, parent, false);
         return new GitTreeItemViewHolder(viewItem);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(GitTreeItemViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
-        ((GitTreeItemViewHolder) holder).bind(data.get(position));
+        holder.bind(data.get(position));
     }
 
     public static class GitTreeItemViewHolder extends RecyclerView.ViewHolder {

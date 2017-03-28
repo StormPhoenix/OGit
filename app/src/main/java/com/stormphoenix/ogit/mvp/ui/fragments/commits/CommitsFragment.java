@@ -1,9 +1,11 @@
-package com.stormphoenix.ogit.mvp.ui.fragments;
+package com.stormphoenix.ogit.mvp.ui.fragments.commits;
+
+import android.support.v7.widget.RecyclerView;
 
 import com.stormphoenix.httpknife.github.GitCommit;
 import com.stormphoenix.ogit.R;
-import com.stormphoenix.ogit.adapters.GitCommitsAdapter;
 import com.stormphoenix.ogit.adapters.base.BaseRecyclerAdapter;
+import com.stormphoenix.ogit.adapters.commits.GitCommitsAdapter;
 import com.stormphoenix.ogit.mvp.presenter.CommitsPresenter;
 import com.stormphoenix.ogit.mvp.presenter.list.ListItemPresenter;
 import com.stormphoenix.ogit.mvp.ui.fragments.base.ListWithPresenterFragment;
@@ -26,10 +28,10 @@ public class CommitsFragment extends ListWithPresenterFragment<GitCommit> {
     }
 
     @Override
-    public BaseRecyclerAdapter<GitCommit> getAdapter() {
-        GitCommitsAdapter adapter = new GitCommitsAdapter(getActivity(), new ArrayList<>());
-        adapter.addOnViewClickListener(R.id.text_commit_info, presenter);
-        return adapter;
+    public BaseRecyclerAdapter<GitCommit, RecyclerView.ViewHolder> getAdapter() {
+        mAdapter = new GitCommitsAdapter(getActivity(), new ArrayList<>());
+        mAdapter.addOnViewClickListener(R.id.text_commit_info, presenter);
+        return mAdapter;
     }
 
     @Override

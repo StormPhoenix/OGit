@@ -1,5 +1,6 @@
 package com.stormphoenix.ogit.mvp.ui.fragments;
 
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.stormphoenix.httpknife.github.GitUser;
@@ -35,9 +36,9 @@ public class PersonsFragment extends ListWithPresenterFragment<GitUser> {
     }
 
     @Override
-    public BaseRecyclerAdapter<GitUser> getAdapter() {
-        GitUserAdapter adapter = new GitUserAdapter(getActivity(), new ArrayList<>());
-        adapter.addOnViewClickListener(R.id.owner_wrapper, new BaseRecyclerAdapter.OnInternalViewClickListener<GitUser>() {
+    public BaseRecyclerAdapter<GitUser, RecyclerView.ViewHolder> getAdapter() {
+        mAdapter = new GitUserAdapter(getActivity(), new ArrayList<>());
+        mAdapter.addOnViewClickListener(R.id.owner_wrapper, new BaseRecyclerAdapter.OnInternalViewClickListener<GitUser>() {
             @Override
             public void onClick(View parentV, View v, Integer position, GitUser values) {
                 EventBus.getDefault().postSticky(values);
@@ -49,7 +50,7 @@ public class PersonsFragment extends ListWithPresenterFragment<GitUser> {
                 return false;
             }
         });
-        return adapter;
+        return mAdapter;
     }
 
     @Override

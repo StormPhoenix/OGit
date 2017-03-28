@@ -3,10 +3,9 @@ package com.stormphoenix.ogit.mvp.ui.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.view.PagerAdapter;
 import android.view.MenuItem;
 
-import com.stormphoenix.ogit.adapters.FragmentsAdapter;
+import com.stormphoenix.ogit.adapters.base.FragmentsAdapter;
 import com.stormphoenix.ogit.mvp.ui.activities.base.TabPagerActivity;
 import com.stormphoenix.ogit.mvp.ui.fragments.search.SearchRepoFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.search.SearchUsersFragment;

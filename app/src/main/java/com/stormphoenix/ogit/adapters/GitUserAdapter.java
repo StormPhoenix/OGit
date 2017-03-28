@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.stormphoenix.httpknife.github.GitUser;
 import com.stormphoenix.ogit.R;
+import com.stormphoenix.ogit.adapters.GitUserAdapter.GitUserViewHolder;
 import com.stormphoenix.ogit.adapters.base.BaseRecyclerAdapter;
 import com.stormphoenix.ogit.utils.ImageUtils;
 
@@ -26,7 +27,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * StormPhoenix is a intelligent Android developer.
  */
 
-public class GitUserAdapter extends BaseRecyclerAdapter<GitUser> {
+public class GitUserAdapter extends BaseRecyclerAdapter<GitUser, GitUserViewHolder> {
 
     public GitUserAdapter(List<GitUser> dataList) {
         this(null, dataList);
@@ -50,16 +51,15 @@ public class GitUserAdapter extends BaseRecyclerAdapter<GitUser> {
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public GitUserViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View viewItem = LayoutInflater.from(mContext).inflate(R.layout.item_recyclerview_git_owner, parent, false);
         return new GitUserViewHolder(viewItem);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(GitUserViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
-        GitUserViewHolder viewHolder = (GitUserViewHolder) holder;
-        ((GitUserViewHolder) holder).bind(data.get(position));
+        holder.bind(data.get(position));
     }
 
     public static class GitUserViewHolder extends RecyclerView.ViewHolder {

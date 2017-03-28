@@ -7,8 +7,7 @@ import android.support.annotation.Nullable;
 import android.view.MenuItem;
 
 import com.stormphoenix.httpknife.github.GitOrganization;
-import com.stormphoenix.ogit.adapters.FragmentsAdapter;
-import com.stormphoenix.ogit.mvp.presenter.base.PersonsPresenter;
+import com.stormphoenix.ogit.adapters.base.FragmentsAdapter;
 import com.stormphoenix.ogit.mvp.presenter.list.OrgEventsPresenter;
 import com.stormphoenix.ogit.mvp.presenter.list.OrgMembersPresenter;
 import com.stormphoenix.ogit.mvp.ui.activities.base.TabPagerActivity;

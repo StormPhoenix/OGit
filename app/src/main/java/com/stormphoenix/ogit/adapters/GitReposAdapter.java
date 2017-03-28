@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.stormphoenix.httpknife.github.GitRepository;
 import com.stormphoenix.ogit.R;
+import com.stormphoenix.ogit.adapters.GitReposAdapter.GitRepositoryHolder;
 import com.stormphoenix.ogit.adapters.base.BaseRecyclerAdapter;
 
 import java.util.List;
@@ -24,7 +25,7 @@ import butterknife.ButterKnife;
  * StormPhoenix is a intelligent Android developer.
  */
 
-public class GitReposAdapter extends BaseRecyclerAdapter<GitRepository> {
+public class GitReposAdapter extends BaseRecyclerAdapter<GitRepository, GitRepositoryHolder> {
     public GitReposAdapter(List<GitRepository> dataList) {
         this(null, dataList);
     }
@@ -40,10 +41,9 @@ public class GitReposAdapter extends BaseRecyclerAdapter<GitRepository> {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(GitRepositoryHolder holder, int position) {
         super.onBindViewHolder(holder, position);
-        GitRepositoryHolder viewHolder = (GitRepositoryHolder) holder;
-        viewHolder.bind(data.get(position));
+        holder.bind(data.get(position));
     }
 
     @Override

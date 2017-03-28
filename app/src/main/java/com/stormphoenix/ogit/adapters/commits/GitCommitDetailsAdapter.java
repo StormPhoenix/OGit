@@ -1,5 +1,6 @@
-package com.stormphoenix.ogit.adapters;
+package com.stormphoenix.ogit.adapters.commits;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -61,18 +62,13 @@ public class GitCommitDetailsAdapter extends MultiTypeAdapter {
         };
     }
 
-    public GitCommitDetailsAdapter(final LayoutInflater inflater,
+    public GitCommitDetailsAdapter(final Context context, final LayoutInflater inflater,
                                    final DiffStyler diffStyler) {
-        super(inflater);
+        super(context, inflater);
         this.diffStyler = diffStyler;
         Resources resources = inflater.getContext().getResources();
         addedLineColor = resources.getColor(R.color.diff_add_text);
         removedLineColor = resources.getColor(R.color.diff_remove_text);
-    }
-
-    @Override
-    public int getViewTypeCount() {
-        return 4;
     }
 
     @Override

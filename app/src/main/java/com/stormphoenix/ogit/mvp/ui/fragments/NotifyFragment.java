@@ -1,5 +1,7 @@
 package com.stormphoenix.ogit.mvp.ui.fragments;
 
+import android.support.v7.widget.RecyclerView;
+
 import com.stormphoenix.httpknife.github.GitNotification;
 import com.stormphoenix.ogit.adapters.GitNotificationsAdapter;
 import com.stormphoenix.ogit.adapters.base.BaseRecyclerAdapter;
@@ -24,8 +26,9 @@ public class NotifyFragment extends ListWithPresenterFragment<GitNotification> {
     }
 
     @Override
-    public BaseRecyclerAdapter<GitNotification> getAdapter() {
-        return new GitNotificationsAdapter(getActivity(), new ArrayList<>());
+    public BaseRecyclerAdapter<GitNotification, RecyclerView.ViewHolder> getAdapter() {
+        mAdapter = new GitNotificationsAdapter(getActivity(), new ArrayList<>());
+        return mAdapter;
     }
 
     @Override

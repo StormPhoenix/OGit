@@ -28,10 +28,10 @@ import butterknife.ButterKnife;
  */
 public abstract class ListFragment<T> extends BaseFragment {
     @BindView(R.id.recycler_view)
-    RecyclerView mRecyclerView;
+    protected RecyclerView mRecyclerView;
 
     @BindView(R.id.refresh_layout)
-    SwipeRefreshLayout mRefreshLayout;
+    protected SwipeRefreshLayout mRefreshLayout;
 
     protected LinearLayoutManager mLayoutManager;
     protected BaseRecyclerAdapter mAdapter;
@@ -44,9 +44,17 @@ public abstract class ListFragment<T> extends BaseFragment {
         return R.layout.fragment_refresh_recyclerview;
     }
 
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        rootView = super.onCreateView(inflater, container, savedInstanceState);
+        ButterKnife.bind(this, rootView);
+        return rootView;
+    }
+
     public void setOnScrollListener(RecyclerView.OnScrollListener onScrollListener) {
         this.mScrollListener = onScrollListener;
     }
 
-    public abstract BaseRecyclerAdapter<T> getAdapter();
+    public abstract BaseRecyclerAdapter<T, RecyclerView.ViewHolder> getAdapter();
 }

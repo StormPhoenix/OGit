@@ -1,11 +1,15 @@
 package com.stormphoenix.ogit.adapters.base;
 
+import android.animation.Animator;
 import android.app.Activity;
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.stormphoenix.ogit.adapters.base.MultiTypeAdapter.MultiTypeViewHolder;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -15,30 +19,35 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by StormPhoenix on 17-3-26.
+ * Created by StormPhoenix on 17-3-28.
  * StormPhoenix is a intelligent Android developer.
  */
 
-public abstract class MultiTypeAdapter extends TypeAdapter {
+public abstract class MultiTypeAdapter extends TypeAdapter<MultiTypeAdapter.Item, MultiTypeViewHolder> {
     public static final String TAG = MultiTypeAdapter.class.getSimpleName();
     private final LayoutInflater inflater;
     // 存放所有的数据
-    private final List<Item> items;
+//    private final List<MultiTypeAdapter.Item> items;
     // 存放所有的ViewType类型
-    private final Map<Integer, ViewType> viewTypeMap;
+    private final Map<Integer, MultiTypeAdapter.ViewType> viewTypeMap;
     private final Map<Integer, View> viewPosMap;
 
+    @Override
+    protected Animator[] getAnimators(View itemView) {
+        return new Animator[0];
+    }
+
     public MultiTypeAdapter(Activity activity) {
-        this(activity.getLayoutInflater());
+        this(activity, activity.getLayoutInflater());
     }
 
     public MultiTypeAdapter(Context context) {
-        this(LayoutInflater.from(context));
+        this(context, LayoutInflater.from(context));
     }
 
-    public MultiTypeAdapter(LayoutInflater inflater) {
+    public MultiTypeAdapter(Context context, LayoutInflater inflater) {
+        super(context, new LinkedList<>());
         this.inflater = inflater;
-        this.items = new LinkedList<>();
         int[] viewItemTypes = getItemTypes();
         viewTypeMap = new HashMap<>();
         viewPosMap = new HashMap<>();
@@ -53,19 +62,27 @@ public abstract class MultiTypeAdapter extends TypeAdapter {
                 layoutChildrenIds = empty;
             }
 
-            ViewType viewType = new ViewType(type, layoutId, layoutChildrenIds);
+            MultiTypeAdapter.ViewType viewType = new MultiTypeAdapter.ViewType(type, layoutId, layoutChildrenIds);
             viewTypeMap.put(new Integer(type), viewType);
         }
     }
 
     public MultiTypeAdapter clear() {
-        this.items.clear();
+        this.data.clear();
         this.notifyDataSetChanged();
         return this;
     }
 
+    /**
+     * 获取到所有类型对应的 View 的子View的id
+     *
+     * @param type
+     * @return
+     */
+    protected abstract int[] getChildrentIds(int type);
+
     public MultiTypeAdapter addItem(int type, Object item) {
-        this.items.add(new Item(type, item));
+        this.data.add(new MultiTypeAdapter.Item(type, item));
         this.notifyDataSetChanged();
         return this;
     }
@@ -76,7 +93,7 @@ public abstract class MultiTypeAdapter extends TypeAdapter {
 
             for (int i = 0; i < len; i++) {
                 Object item = items[i];
-                this.items.add(new Item(type, item));
+                this.data.add(new MultiTypeAdapter.Item(type, item));
             }
 
             this.notifyDataSetChanged();
@@ -92,7 +109,7 @@ public abstract class MultiTypeAdapter extends TypeAdapter {
 
             while (iterator.hasNext()) {
                 Object item = iterator.next();
-                this.items.add(new Item(type, item));
+                this.data.add(new MultiTypeAdapter.Item(type, item));
             }
 
             this.notifyDataSetChanged();
@@ -103,24 +120,53 @@ public abstract class MultiTypeAdapter extends TypeAdapter {
     }
 
     public MultiTypeAdapter removeItem(int position) {
-        if (position > 0 && position < this.items.size() && this.items.remove(position) != null) {
+        if (position > 0 && position < this.data.size() && this.data.remove(position) != null) {
             this.notifyDataSetChanged();
         }
-
         return this;
     }
 
+    @Override
     public int getItemCount() {
-        return items.size();
+        return this.data.size();
+    }
+
+    @Override
+    public MultiTypeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = this.initialize(viewType, this.inflater.inflate(viewTypeMap.get(viewType).layout, null));
+        MultiTypeViewHolder viewHolder = new MultiTypeViewHolder(itemView);
+        return viewHolder;
+    }
+
+    @Override
+    public void onBindViewHolder(MultiTypeViewHolder holder, int position) {
+        View itemView = holder.itemView;
+        this.update(position, itemView, this.getItem(position), getItemViewType(position));
     }
 
     public Object getItem(int position) {
-        return this.items.get(position).item;
+        return this.data.get(position).item;
     }
 
+    @Override
     public long getItemId(int position) {
-        return (long) this.items.get(position).hashCode();
+        return (long) this.data.get(position).hashCode();
     }
+
+    /**
+     * 获取到所有类型对应的 View 的id
+     *
+     * @param type
+     * @return
+     */
+    protected abstract int getLayoutId(int type);
+
+    /**
+     * 获取所有的View的类型
+     *
+     * @return
+     */
+    protected abstract int[] getItemTypes();
 
     /**
      * 获取position位置的类型
@@ -128,50 +174,15 @@ public abstract class MultiTypeAdapter extends TypeAdapter {
      * @param position
      * @return
      */
-    public int getItemType(int position) {
-        return this.items.get(position).type;
-    }
-
     @Override
     public int getItemViewType(int position) {
-        return getItemType(position);
+        return this.data.get(position).type;
     }
 
     protected void update(int position, View view, Object item, int type) {
         Log.e(TAG, "update: " + Integer.toHexString(view.getId()) + " " + type);
         this.setCurrentView(view);
         this.update(position, item, type);
-    }
-
-    protected View initialize(int type, View view) {
-        return super.initialize(view, viewTypeMap.get(type).layoutChildrenIds);
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        int type = getItemViewType(position);
-        /** *************** **/
-//        if (viewPosMap.get(position) == null) {
-//            convertView = this.initialize(type, this.inflater.inflate(viewTypeMap.get(type).layout, null));
-//            viewPosMap.put(position, convertView);
-//        } else {
-//            convertView = viewPosMap.get(position);
-//        }
-        /** *************** **/
-        if (convertView == null) {
-            convertView = this.initialize(type, this.inflater.inflate(viewTypeMap.get(type).layout, null));
-        }
-
-        View[] childrentViews = (View[]) convertView.getTag();
-        Log.e(TAG, "getView: size " + childrentViews.length);
-        for (View v : childrentViews) {
-            Log.e(TAG, "getView: " + Integer.toHexString(v.getId()));
-        }
-        Log.e(TAG, "getView: type " + type);
-        Log.e(TAG, "getView: convertViewId " + Integer.toHexString(convertView.getId()));
-        Log.e(TAG, "getView: position " + position);
-        this.update(position, convertView, this.getItem(position), type);
-        return convertView;
     }
 
     /**
@@ -185,31 +196,55 @@ public abstract class MultiTypeAdapter extends TypeAdapter {
      */
     protected abstract void update(int position, Object item, final int type);
 
-    /**
-     * 获取所有的View的类型
-     *
-     * @return
-     */
-    protected abstract int[] getItemTypes();
+    @Override
+    public void addAll(List<Item> models) {
+        // 默认覆盖上层方法
+    }
 
-    /**
-     * 获取到所有类型对应的 View 的子View的id
-     *
-     * @param type
-     * @return
-     */
-    protected abstract int[] getChildrentIds(int type);
+    @Override
+    public void add(Item model) {
+        // 默认覆盖上层方法
+    }
 
-    /**
-     * 获取到所有类型对应的 View 的id
-     *
-     * @param type
-     * @return
-     */
-    protected abstract int getLayoutId(int type);
+    @Override
+    public void swap(int srcIndex, int targetIndex) {
+        // 默认覆盖上层方法
+    }
 
-    public int getCount() {
-        return this.items.size();
+    @Override
+    public void update(Item model) {
+        // 默认覆盖上层方法
+    }
+
+    @Override
+    public void setData(List<Item> data) {
+        // 默认覆盖上层方法
+    }
+
+    @Override
+    public void remove(Item model) {
+        // 默认覆盖上层方法
+    }
+
+    @Override
+    public void update(Item model, int removedIndex) {
+        // 默认覆盖上层方法
+    }
+
+    @Override
+    public void update(Item model, int removedIndex, int insertIndex) {
+        // 默认覆盖上层方法
+    }
+
+    protected View initialize(int type, View view) {
+        return super.initialize(view, viewTypeMap.get(type).layoutChildrenIds);
+    }
+
+    public static class MultiTypeViewHolder extends RecyclerView.ViewHolder {
+
+        public MultiTypeViewHolder(View itemView) {
+            super(itemView);
+        }
     }
 
     private static class ViewType {
@@ -224,7 +259,7 @@ public abstract class MultiTypeAdapter extends TypeAdapter {
         }
     }
 
-    private static class Item {
+    public static class Item {
         public final int type;
         public final Object item;
 

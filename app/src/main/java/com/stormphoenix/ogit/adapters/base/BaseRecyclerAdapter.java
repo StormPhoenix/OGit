@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 
-import com.stormphoenix.ogit.utils.ActivityUtils;
 import com.stormphoenix.ogit.utils.ViewUtils;
 
 import java.util.Collections;
@@ -19,7 +18,7 @@ import java.util.List;
  * Wang Cheng is a intelligent Android developer.
  */
 
-public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public abstract class BaseRecyclerAdapter<T, VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
     protected Context mContext;
     protected List<T> data = null;
 
@@ -99,7 +98,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(VH holder, int position) {
         if (holder != null) {
             addInternalViewClickListener(holder.itemView, position, data.get(position));
         }
@@ -145,7 +144,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
         mInterpolator = interpolator;
     }
 
-    protected void animate(RecyclerView.ViewHolder holder, int position) {
+    protected void animate(VH holder, int position) {
         if (position > mLastPosition) {
             for (Animator anim : getAnimators(holder.itemView)) {
                 if (anim == null) {

@@ -1,5 +1,6 @@
 package com.stormphoenix.ogit.mvp.ui.fragments;
 
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.stormphoenix.httpknife.github.GitOrganization;
@@ -44,9 +45,9 @@ public class OrgFragment extends ListWithPresenterFragment<GitOrganization> {
     }
 
     @Override
-    public BaseRecyclerAdapter<GitOrganization> getAdapter() {
-        GitOrgsAdapter adapter = new GitOrgsAdapter(getActivity(), new ArrayList<GitOrganization>());
-        adapter.addOnViewClickListener(R.id.owner_wrapper, new BaseRecyclerAdapter.OnInternalViewClickListener<GitOrganization>() {
+    public BaseRecyclerAdapter<GitOrganization, RecyclerView.ViewHolder> getAdapter() {
+        mAdapter = new GitOrgsAdapter(getActivity(), new ArrayList<GitOrganization>());
+        mAdapter.addOnViewClickListener(R.id.owner_wrapper, new BaseRecyclerAdapter.OnInternalViewClickListener<GitOrganization>() {
             @Override
             public void onClick(View parentV, View v, Integer position, GitOrganization values) {
                 EventBus.getDefault().postSticky(values);
@@ -58,7 +59,7 @@ public class OrgFragment extends ListWithPresenterFragment<GitOrganization> {
                 return false;
             }
         });
-        return adapter;
+        return mAdapter;
     }
 
     @Override

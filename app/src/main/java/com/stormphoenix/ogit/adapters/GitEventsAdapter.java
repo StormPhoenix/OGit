@@ -21,6 +21,7 @@ import com.stormphoenix.httpknife.github.payload.GitPullRequestPayload;
 import com.stormphoenix.httpknife.github.payload.GitPushPayload;
 import com.stormphoenix.httpknife.github.payload.GitReleasePayload;
 import com.stormphoenix.ogit.R;
+import com.stormphoenix.ogit.adapters.GitEventsAdapter.GitEventViewHolder;
 import com.stormphoenix.ogit.adapters.base.BaseRecyclerAdapter;
 import com.stormphoenix.ogit.utils.HtmlUtils;
 import com.stormphoenix.ogit.utils.ImageUtils;
@@ -37,7 +38,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * StormPhoenix is a intelligent Android developer.
  */
 
-public class GitEventsAdapter extends BaseRecyclerAdapter<GitEvent> {
+public class GitEventsAdapter extends BaseRecyclerAdapter<GitEvent, GitEventViewHolder> {
 
     public GitEventsAdapter(List<GitEvent> dataList) {
         this(null, dataList);
@@ -54,11 +55,10 @@ public class GitEventsAdapter extends BaseRecyclerAdapter<GitEvent> {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(GitEventViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
         holder.setIsRecyclable(false);
-        GitEventViewHolder viewHolder = (GitEventViewHolder) holder;
-        viewHolder.bind(data.get(position));
+        holder.bind(data.get(position));
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.stormphoenix.ogit.mvp.ui.fragments;
 
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 
 import com.stormphoenix.httpknife.github.GitRepository;
 import com.stormphoenix.ogit.R;
@@ -8,8 +9,8 @@ import com.stormphoenix.ogit.adapters.GitReposAdapter;
 import com.stormphoenix.ogit.adapters.base.BaseRecyclerAdapter;
 import com.stormphoenix.ogit.dagger2.component.DaggerActivityComponent;
 import com.stormphoenix.ogit.dagger2.module.ContextModule;
-import com.stormphoenix.ogit.mvp.presenter.list.StaredPresenter;
 import com.stormphoenix.ogit.mvp.presenter.list.ListItemPresenter;
+import com.stormphoenix.ogit.mvp.presenter.list.StaredPresenter;
 import com.stormphoenix.ogit.mvp.ui.fragments.base.ListWithPresenterFragment;
 
 import java.util.ArrayList;
@@ -46,8 +47,9 @@ public class StaredFragment extends ListWithPresenterFragment<GitRepository> {
     }
 
     @Override
-    public BaseRecyclerAdapter<GitRepository> getAdapter() {
-        return new GitReposAdapter(getActivity(), new ArrayList<>());
+    public BaseRecyclerAdapter<GitRepository, RecyclerView.ViewHolder> getAdapter() {
+        mAdapter = new GitReposAdapter(getActivity(), new ArrayList<>());
+        return mAdapter;
     }
 
     @Override

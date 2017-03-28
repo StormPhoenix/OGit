@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.stormphoenix.httpknife.github.GitNotification;
 import com.stormphoenix.httpknife.github.GitSubject;
 import com.stormphoenix.ogit.R;
+import com.stormphoenix.ogit.adapters.GitNotificationsAdapter.NotifyViewHolder;
 import com.stormphoenix.ogit.adapters.base.BaseRecyclerAdapter;
 import com.stormphoenix.ogit.utils.TimeUtils;
 
@@ -25,7 +26,7 @@ import butterknife.ButterKnife;
  * StormPhoenix is a intelligent Android developer.
  */
 
-public class GitNotificationsAdapter extends BaseRecyclerAdapter<GitNotification> {
+public class GitNotificationsAdapter extends BaseRecyclerAdapter<GitNotification, NotifyViewHolder> {
 
     public GitNotificationsAdapter(List<GitNotification> dataList) {
         this(null, dataList);
@@ -41,17 +42,16 @@ public class GitNotificationsAdapter extends BaseRecyclerAdapter<GitNotification
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public NotifyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(mContext).inflate(R.layout.item_recyclerview_git_notification, parent, false);
         NotifyViewHolder viewHolder = new NotifyViewHolder(itemView);
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(NotifyViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
-        NotifyViewHolder viewHolder = (NotifyViewHolder) holder;
-        viewHolder.bind(data.get(position));
+        holder.bind(data.get(position));
     }
 
     public static class NotifyViewHolder extends RecyclerView.ViewHolder {

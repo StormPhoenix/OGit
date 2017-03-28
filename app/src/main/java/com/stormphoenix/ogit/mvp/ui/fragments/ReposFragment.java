@@ -1,5 +1,7 @@
 package com.stormphoenix.ogit.mvp.ui.fragments;
 
+import android.support.v7.widget.RecyclerView;
+
 import com.stormphoenix.httpknife.github.GitRepository;
 import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.adapters.GitReposAdapter;
@@ -35,8 +37,9 @@ public class ReposFragment extends ListWithPresenterFragment<GitRepository> {
     }
 
     @Override
-    public BaseRecyclerAdapter<GitRepository> getAdapter() {
-        return new GitReposAdapter(getActivity(), new ArrayList<GitRepository>());
+    public BaseRecyclerAdapter<GitRepository, RecyclerView.ViewHolder> getAdapter() {
+        mAdapter = new GitReposAdapter(getActivity(), new ArrayList<GitRepository>());
+        return mAdapter;
     }
 
     @Override

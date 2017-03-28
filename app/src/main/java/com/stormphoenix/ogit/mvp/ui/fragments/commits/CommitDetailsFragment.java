@@ -1,20 +1,22 @@
-package com.stormphoenix.ogit.mvp.ui.fragments;
+package com.stormphoenix.ogit.mvp.ui.fragments.commits;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 
 import com.stormphoenix.httpknife.github.GitCommitFile;
-import com.stormphoenix.ogit.adapters.GitCommitDetailsAdapter;
+import com.stormphoenix.ogit.adapters.base.BaseRecyclerAdapter;
+import com.stormphoenix.ogit.adapters.base.MultiTypeAdapter;
+import com.stormphoenix.ogit.adapters.commits.GitCommitDetailsAdapter;
 import com.stormphoenix.ogit.dagger2.component.DaggerActivityComponent;
 import com.stormphoenix.ogit.dagger2.module.ContextModule;
 import com.stormphoenix.ogit.mvp.presenter.CommitDetailsPresenter;
-import com.stormphoenix.ogit.mvp.ui.fragments.base.List2Fragment;
-import com.stormphoenix.ogit.mvp.ui.fragments.commits.DiffStyler;
+import com.stormphoenix.ogit.mvp.ui.fragments.base.ListFragment;
 import com.stormphoenix.ogit.mvp.view.CommitDetailsView;
 import com.stormphoenix.ogit.utils.ViewUtils;
 
@@ -27,7 +29,7 @@ import javax.inject.Inject;
  * StormPhoenix is a intelligent Android developer.
  */
 
-public class CommitDetailsFragment extends List2Fragment implements CommitDetailsView {
+public class CommitDetailsFragment extends ListFragment<MultiTypeAdapter.Item> implements CommitDetailsView {
     @Inject
     public CommitDetailsPresenter mPresenter;
     private DiffStyler diffStyler;
@@ -77,10 +79,10 @@ public class CommitDetailsFragment extends List2Fragment implements CommitDetail
     }
 
     @Override
-    public BaseAdapter getAdapter() {
+    public BaseRecyclerAdapter<MultiTypeAdapter.Item, RecyclerView.ViewHolder> getAdapter() {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         diffStyler = new DiffStyler(getResources());
-        mAdapter = new GitCommitDetailsAdapter(inflater, diffStyler);
+        mAdapter = new GitCommitDetailsAdapter(getActivity(), inflater, diffStyler);
         return mAdapter;
     }
 
@@ -112,8 +114,19 @@ public class CommitDetailsFragment extends List2Fragment implements CommitDetail
 
     @Override
     public void initListItemView() {
+        if (mAdapter == null) {
+            mAdapter = getAdapter();
+        }
+
+        mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        if (mRecyclerView != null) {
+            mRecyclerView.setLayoutManager(mLayoutManager);
+            mRecyclerView.setHasFixedSize(true);
+            mRecyclerView.setAdapter(mAdapter);
+        }
+
         mAdapter = getAdapter();
-        mListView.setAdapter(mAdapter);
+        mRecyclerView.setAdapter(mAdapter);
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

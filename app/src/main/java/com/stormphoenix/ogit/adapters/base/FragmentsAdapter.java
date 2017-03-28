@@ -1,4 +1,4 @@
-package com.stormphoenix.ogit.adapters;
+package com.stormphoenix.ogit.adapters.base;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

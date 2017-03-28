@@ -1,20 +1,28 @@
 package com.stormphoenix.ogit.adapters.base;
 
+import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.stormphoenix.ogit.shares.ViewUpdater;
 
+import java.util.List;
+
 /**
- * Created by StormPhoenix on 17-3-26.
+ * Created by StormPhoenix on 17-3-28.
  * StormPhoenix is a intelligent Android developer.
  */
 
-public abstract class TypeAdapter extends BaseAdapter {
+public abstract class TypeAdapter<T, VH extends RecyclerView.ViewHolder> extends BaseRecyclerAdapter<T, VH> {
     protected final ViewUpdater updater = new ViewUpdater();
 
-    public TypeAdapter() {
+    public TypeAdapter(List<T> list) {
+        super(list);
+    }
+
+    public TypeAdapter(Context context, List<T> list) {
+        super(context, list);
     }
 
     protected View initialize(View view, int[] children) {

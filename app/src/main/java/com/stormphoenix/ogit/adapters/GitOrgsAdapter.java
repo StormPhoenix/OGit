@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.stormphoenix.httpknife.github.GitOrganization;
 import com.stormphoenix.ogit.R;
+import com.stormphoenix.ogit.adapters.GitOrgsAdapter.OrgViewHolder;
 import com.stormphoenix.ogit.adapters.base.BaseRecyclerAdapter;
 import com.stormphoenix.ogit.utils.ImageUtils;
 
@@ -26,7 +27,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * StormPhoenix is a intelligent Android developer.
  */
 
-public class GitOrgsAdapter extends BaseRecyclerAdapter<GitOrganization> {
+public class GitOrgsAdapter extends BaseRecyclerAdapter<GitOrganization, OrgViewHolder> {
 
     public GitOrgsAdapter(List<GitOrganization> dataList) {
         this(null, dataList);
@@ -50,13 +51,13 @@ public class GitOrgsAdapter extends BaseRecyclerAdapter<GitOrganization> {
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public OrgViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_recyclerview_git_owner, parent, false);
         return new OrgViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(OrgViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
         OrgViewHolder viewHolder = (OrgViewHolder) holder;
         viewHolder.bind(data.get(position));

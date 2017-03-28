@@ -23,7 +23,7 @@ import android.widget.TextView;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.stormphoenix.httpknife.github.GitNotification;
 import com.stormphoenix.ogit.R;
-import com.stormphoenix.ogit.adapters.FragmentsAdapter;
+import com.stormphoenix.ogit.adapters.base.FragmentsAdapter;
 import com.stormphoenix.ogit.dagger2.component.DaggerActivityComponent;
 import com.stormphoenix.ogit.dagger2.module.ContextModule;
 import com.stormphoenix.ogit.mvp.presenter.UserReposPresenter;

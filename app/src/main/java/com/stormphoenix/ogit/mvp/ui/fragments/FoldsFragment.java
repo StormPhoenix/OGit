@@ -2,11 +2,9 @@ package com.stormphoenix.ogit.mvp.ui.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.stormphoenix.httpknife.github.GitTreeItem;
 import com.stormphoenix.ogit.R;
@@ -86,8 +84,9 @@ public class FoldsFragment extends ListWithPresenterFragment<GitTreeItem> implem
     }
 
     @Override
-    public BaseRecyclerAdapter<GitTreeItem> getAdapter() {
-        return new GitFoldersAdapter(getActivity(), new ArrayList<>());
+    public BaseRecyclerAdapter<GitTreeItem, RecyclerView.ViewHolder> getAdapter() {
+        mAdapter = new GitFoldersAdapter(getActivity(), new ArrayList<>());
+        return mAdapter;
     }
 
     @Override

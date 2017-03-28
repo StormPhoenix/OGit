@@ -1,5 +1,6 @@
 package com.stormphoenix.ogit.mvp.ui.fragments;
 
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.stormphoenix.httpknife.github.GitEvent;
@@ -33,7 +34,7 @@ public class EventsFragment extends ListWithPresenterFragment<GitEvent> {
     }
 
     @Override
-    public BaseRecyclerAdapter<GitEvent> getAdapter() {
+    public BaseRecyclerAdapter<GitEvent, RecyclerView.ViewHolder> getAdapter() {
         mAdapter = new GitEventsAdapter(getActivity(), new ArrayList<GitEvent>());
         mAdapter.addOnViewClickListener(R.id.header_image, new BaseRecyclerAdapter.OnInternalViewClickListener<GitEvent>() {
             @Override

@@ -1,4 +1,4 @@
-package com.stormphoenix.ogit.adapters;
+package com.stormphoenix.ogit.adapters.commits;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
@@ -19,6 +19,7 @@ import com.stormphoenix.httpknife.github.GitUser;
 import com.stormphoenix.ogit.OGitApplication;
 import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.adapters.base.BaseRecyclerAdapter;
+import com.stormphoenix.ogit.adapters.commits.GitCommitsAdapter.GitCommitViewHolder;
 import com.stormphoenix.ogit.utils.HtmlUtils;
 import com.stormphoenix.ogit.utils.ImageUtils;
 import com.stormphoenix.ogit.utils.TimeUtils;
@@ -36,7 +37,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * StormPhoenix is a intelligent Android developer.
  */
 
-public class GitCommitsAdapter extends BaseRecyclerAdapter<GitCommit> {
+public class GitCommitsAdapter extends BaseRecyclerAdapter<GitCommit, GitCommitViewHolder> {
 
     public static final String TAG = GitCommitsAdapter.class.getSimpleName();
 
@@ -55,7 +56,7 @@ public class GitCommitsAdapter extends BaseRecyclerAdapter<GitCommit> {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(GitCommitViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
         holder.setIsRecyclable(false);
         GitCommitViewHolder viewHolder = (GitCommitViewHolder) holder;
