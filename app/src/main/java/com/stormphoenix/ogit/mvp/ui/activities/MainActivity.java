@@ -28,7 +28,7 @@ import com.stormphoenix.ogit.dagger2.component.DaggerActivityComponent;
 import com.stormphoenix.ogit.dagger2.module.ContextModule;
 import com.stormphoenix.ogit.mvp.presenter.UserReposPresenter;
 import com.stormphoenix.ogit.mvp.presenter.MainPresenter;
-import com.stormphoenix.ogit.mvp.presenter.list.UserEventsPresenter;
+import com.stormphoenix.ogit.mvp.presenter.list.UserReceivedEventsPresenter;
 import com.stormphoenix.ogit.mvp.ui.activities.base.TabPagerActivity;
 import com.stormphoenix.ogit.mvp.ui.fragments.EventsFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.ReposFragment;
@@ -114,7 +114,7 @@ public class MainActivity extends TabPagerActivity<FragmentsAdapter> implements 
     protected FragmentsAdapter createAdapter() {
         String[] titleList = {"Event", "Starred", "Repos"};
         List<BaseFragment> fragmentList = new ArrayList<>();
-        EventsFragment eventsFragment = EventsFragment.newInstance(new UserEventsPresenter(this));
+        EventsFragment eventsFragment = EventsFragment.newInstance(new UserReceivedEventsPresenter(this));
         eventsFragment.setOnScrollListener(NotifyMenuManager.getInstance());
         StaredFragment staredFragment = StaredFragment.newInstance(PreferenceUtils.getString(this, PreferenceUtils.USERNAME));
         staredFragment.setOnScrollListener(NotifyMenuManager.getInstance());

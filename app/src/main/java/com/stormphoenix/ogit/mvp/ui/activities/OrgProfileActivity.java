@@ -95,8 +95,8 @@ public class OrgProfileActivity extends OwnerProfileActivity implements OrgDetai
     }
 
     @Override
-    protected void onBaseInfoWrapper() {
-        super.onBaseInfoWrapper();
+    protected void onBaseInfoClicked() {
+        super.onBaseInfoClicked();
         mPresenter.startOrgDetailsActivity();
     }
 }

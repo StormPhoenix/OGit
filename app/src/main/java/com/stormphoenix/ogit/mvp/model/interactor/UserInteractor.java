@@ -66,4 +66,8 @@ public class UserInteractor {
     public Observable<Response<GitEmpty>> unFollow(final String user) {
         return userApi.unFollow(user);
     }
+
+    public Observable<Response<List<GitEvent>>> performedEvents(final String username, final int page) {
+        return userApi.performedEvents(username, String.valueOf(page));
+    }
 }

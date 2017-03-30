@@ -133,4 +133,10 @@ public class UserProfileActivity extends OwnerProfileActivity implements UserDet
                 .build()
                 .inject(this);
     }
+
+    @Override
+    protected void onBaseInfoClicked() {
+        super.onBaseInfoClicked();
+        mPresenter.startUserDetailsActivity();
+    }
 }

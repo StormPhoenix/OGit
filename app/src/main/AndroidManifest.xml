@@ -37,6 +37,9 @@
             android:name=".mvp.ui.activities.LoginActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
+            android:name=".mvp.ui.activities.UserDetailsActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
             android:name=".mvp.ui.activities.SplashActivity"
             android:configChanges="orientation|keyboardHidden|screenSize">
             <intent-filter>

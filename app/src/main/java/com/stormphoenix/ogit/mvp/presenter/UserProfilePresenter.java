@@ -1,6 +1,7 @@
 package com.stormphoenix.ogit.mvp.presenter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -10,6 +11,8 @@ import com.stormphoenix.httpknife.github.GitRepository;
 import com.stormphoenix.httpknife.github.GitUser;
 import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.mvp.model.interactor.UserInteractor;
+import com.stormphoenix.ogit.mvp.ui.activities.OrgDetailsActivity;
+import com.stormphoenix.ogit.mvp.ui.activities.UserDetailsActivity;
 import com.stormphoenix.ogit.mvp.view.UserDetailsView;
 import com.stormphoenix.ogit.mvp.view.base.BaseUIView;
 import com.stormphoenix.ogit.shares.rx.RxHttpLog;
@@ -230,5 +233,11 @@ public class UserProfilePresenter extends OwnerProfilePresenter<UserDetailsView>
         loadUserInfo();
         ImageUtils.getInstance().displayImage(mUser.getAvatarUrl(), mView.getHeadImageView());
         hasFollowed();
+    }
+
+    public void startUserDetailsActivity() {
+        EventBus.getDefault().postSticky(mUser);
+        Intent intent = UserDetailsActivity.getIntent(mContext);
+        mContext.startActivity(intent);
     }
 }

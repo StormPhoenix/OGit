@@ -79,7 +79,7 @@ public abstract class OwnerProfileActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.base_info_wrapper:
-                onBaseInfoWrapper();
+                onBaseInfoClicked();
                 break;
             case R.id.dynamic_label_wrapper:
                 onDynamicInfoClicked();
@@ -90,6 +90,6 @@ public abstract class OwnerProfileActivity extends BaseActivity {
     protected void onDynamicInfoClicked() {
     }
 
-    protected void onBaseInfoWrapper() {
+    protected void onBaseInfoClicked() {
     }
 }

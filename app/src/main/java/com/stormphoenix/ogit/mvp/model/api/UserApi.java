@@ -18,7 +18,7 @@ import rx.Observable;
 /**
  * Created by StormPhoenix on 17-3-10.
  * StormPhoenix is a intelligent Android developer.
- *
+ * <p>
  * UserApi 主要用于获取用户个人信息，接收的事件等信息
  */
 
@@ -62,4 +62,7 @@ public interface UserApi {
 
     @DELETE("/user/following/{user}")
     Observable<Response<GitEmpty>> unFollow(@Path("user") String user);
+
+    @GET("/users/{user}/events?per_page=10")
+    Observable<Response<List<GitEvent>>> performedEvents(@Path("user") String user, @Query("page") String page);
 }

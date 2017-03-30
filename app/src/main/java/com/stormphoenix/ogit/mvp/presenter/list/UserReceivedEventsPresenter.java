@@ -23,14 +23,14 @@ import rx.Observable;
  * StormPhoenix is a intelligent Android developer.
  */
 
-public class UserEventsPresenter extends EventsPresenter {
+public class UserReceivedEventsPresenter extends EventsPresenter {
     /**
      * Interactor 用于提交网络请求获取数据
      **/
     private UserInteractor mInfoInfoInteractor;
 
     @Inject
-    public UserEventsPresenter(Context context) {
+    public UserReceivedEventsPresenter(Context context) {
         super(context);
         mInfoInfoInteractor = new UserInteractor(mContext);
     }
