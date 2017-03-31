@@ -3,11 +3,7 @@ package com.stormphoenix.ogit.mvp.ui.activities.base;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.transition.Explode;
-import android.transition.Slide;
-import android.view.Gravity;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.DecelerateInterpolator;
+import android.util.Log;
 
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.stormphoenix.ogit.R;
@@ -21,8 +17,11 @@ import butterknife.ButterKnife;
  */
 
 public abstract class BaseActivity extends AppCompatActivity implements InjectorInitializer {
+    public String TAG = this.getClass().getSimpleName();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        Log.e(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setStatusBar();
         setContentView(getLayoutId());

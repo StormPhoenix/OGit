@@ -99,6 +99,8 @@ public class HtmlImageGetter implements Html.ImageGetter {
             return drawable;
         } catch (IOException e) {
             return loading.getDrawable(source);
+        } catch (Exception e) {
+            return loading.getDrawable(source);
         }
     }
 }

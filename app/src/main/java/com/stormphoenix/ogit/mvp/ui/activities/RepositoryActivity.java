@@ -184,6 +184,11 @@ public class RepositoryActivity extends BaseActivity implements RepositoryView {
     }
 
     @Override
+    public void onBackPressed() {
+        finishView();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
