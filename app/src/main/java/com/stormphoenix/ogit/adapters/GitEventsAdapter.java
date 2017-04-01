@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.stormphoenix.httpknife.github.GitEvent;
+import com.stormphoenix.httpknife.github.payload.GitCommitCommentPayload;
 import com.stormphoenix.httpknife.github.payload.GitCreatePayload;
 import com.stormphoenix.httpknife.github.payload.GitIssueCommentPayload;
 import com.stormphoenix.httpknife.github.payload.GitIssuePayload;
@@ -110,6 +111,14 @@ public class GitEventsAdapter extends BaseRecyclerAdapter<GitEvent, GitEventView
                 mTextEventInfo.setText(Html.fromHtml(HtmlUtils.bold(model.getActor().getLogin()) + " stared " + HtmlUtils.bold(model.getRepo().getName())));
                 mEventImage.setImageResource(R.drawable.ic_starred_event_black_24dp);
 //                BitmapUtils.setIconFont(context, img, OctIcon.STAR, R.color.theme_color);
+            } else if (eventType.equals(GitEvent.GIT_COMMIT_COMMENT_EVENT)) {
+                GitCommitCommentPayload payload = (GitCommitCommentPayload) model.getPayload();
+                mTextEventInfo.setText(Html.fromHtml(HtmlUtils.bold(model.getActor().getLogin()) + " comment on " + HtmlUtils.bold(model.getRepo().getName())));
+                mTextCommit1Content.setVisibility(View.VISIBLE);
+                mTextCommit1Content.setText("Comment in " + payload.getComment().getCommitId().substring(0, 11) + ":");
+                mTextCommit2Content.setVisibility(View.VISIBLE);
+                mTextCommit2Content.setText(payload.getComment().getBody());
+                mEventImage.setImageResource(R.drawable.ic_issue_comment_event_black_24dp);
             } else if (eventType.equals(GitEvent.GIT_FORK_EVENT)) {
                 mTextEventInfo.setText(Html.fromHtml(HtmlUtils.bold(model.getActor().getLogin()) + " forked " + HtmlUtils.bold(model.getRepo().getName())));
                 mEventImage.setImageResource(R.drawable.ic_forked_event_black_24dp);
