@@ -18,10 +18,10 @@ import rx.Observable;
  * StormPhoenix is a intelligent Android developer.
  */
 
-public class UserReposPresenter extends ReposPresenter {
+public class UserOwnReposPresenter extends ReposPresenter {
     private RepoInteractor mInteractor;
 
-    public UserReposPresenter(Context context) {
+    public UserOwnReposPresenter(Context context) {
         super(context);
         mInteractor = new RepoInteractor(context);
     }

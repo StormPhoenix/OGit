@@ -1,36 +1,28 @@
 package com.stormphoenix.ogit.mvp.presenter.user;
 
 import android.content.Context;
-import android.view.View;
 
 import com.stormphoenix.httpknife.github.GitRepository;
-import com.stormphoenix.ogit.adapters.base.BaseRecyclerAdapter;
 import com.stormphoenix.ogit.mvp.model.interactor.user.UserInteractor;
-import com.stormphoenix.ogit.mvp.presenter.base.ListItemPresenter;
+import com.stormphoenix.ogit.mvp.presenter.repository.ReposPresenter;
 import com.stormphoenix.ogit.mvp.ui.activities.RepositoryActivity;
-import com.stormphoenix.ogit.mvp.view.base.ListItemView;
 import com.stormphoenix.ogit.utils.ActivityUtils;
 import com.stormphoenix.ogit.utils.PreferenceUtils;
 
-import org.greenrobot.eventbus.EventBus;
-
 import java.util.List;
-
-import javax.inject.Inject;
 
 import retrofit2.Response;
 import rx.Observable;
 
 /**
- * Created by StormPhoenix on 17-2-27.
+ * Created by StormPhoenix on 17-4-1.
  * StormPhoenix is a intelligent Android developer.
  */
 
-public class UserStaredPresenter extends ListItemPresenter<GitRepository, List<GitRepository>, ListItemView<GitRepository>> implements BaseRecyclerAdapter.OnInternalViewClickListener<GitRepository> {
+public class UserStaredReposPresenter extends ReposPresenter {
     private UserInteractor mInfoInfoInteractor;
 
-    @Inject
-    public UserStaredPresenter(Context context) {
+    public UserStaredReposPresenter(Context context) {
         super(context);
         mInfoInfoInteractor = new UserInteractor(context);
     }
@@ -45,22 +37,12 @@ public class UserStaredPresenter extends ListItemPresenter<GitRepository, List<G
         return mInfoInfoInteractor.loadStarredRepository(PreferenceUtils.getUsername(mContext), page);
     }
 
-    @Override
-    public void onClick(View parentV, View v, Integer position, GitRepository values) {
-        EventBus.getDefault().postSticky(values);
-        startRepositoryActivity();
-    }
-
-    @Override
-    public boolean onLongClick(View parentV, View v, Integer position, GitRepository values) {
-        return false;
-    }
-
     /**
      * 启动RepositoryActivity界面。
      * 讲GitRepository对象传递给此Activity的代码请参见 onItemClick 方法
      */
-    private void startRepositoryActivity() {
+    @Override
+    public void startRepoDetailsActivity() {
         ActivityUtils.startActivity(mContext, RepositoryActivity.getIntent(mContext));
     }
 }

@@ -12,7 +12,7 @@ import com.stormphoenix.ogit.mvp.presenter.organization.OrgEventsPresenter;
 import com.stormphoenix.ogit.mvp.presenter.organization.OrgMembersPresenter;
 import com.stormphoenix.ogit.mvp.ui.activities.base.TabPagerActivity;
 import com.stormphoenix.ogit.mvp.ui.fragments.base.EventsFragment;
-import com.stormphoenix.ogit.mvp.ui.fragments.users.UsersFragment;
+import com.stormphoenix.ogit.mvp.ui.fragments.base.UsersFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.base.BaseFragment;
 import com.stormphoenix.ogit.utils.PreferenceUtils;
 

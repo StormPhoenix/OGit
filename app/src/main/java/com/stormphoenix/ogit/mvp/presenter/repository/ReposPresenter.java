@@ -6,7 +6,9 @@ import android.view.View;
 import com.stormphoenix.httpknife.github.GitRepository;
 import com.stormphoenix.ogit.adapters.base.BaseRecyclerAdapter;
 import com.stormphoenix.ogit.mvp.presenter.base.ListItemPresenter;
+import com.stormphoenix.ogit.mvp.ui.activities.RepositoryActivity;
 import com.stormphoenix.ogit.mvp.view.base.ListItemView;
+import com.stormphoenix.ogit.utils.ActivityUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -40,4 +42,12 @@ public abstract class ReposPresenter extends ListItemPresenter<GitRepository, Li
     }
 
     public abstract void startRepoDetailsActivity();
+
+    /**
+     * 启动RepositoryActivity界面。
+     * 讲GitRepository对象传递给此Activity的代码请参见 onItemClick 方法
+     */
+//    private void startRepositoryActivity() {
+//        ActivityUtils.startActivity(mContext, RepositoryActivity.getIntent(mContext));
+//    }
 }

@@ -16,8 +16,8 @@ import com.stormphoenix.ogit.mvp.ui.fragments.CodeFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.commits.CommitDetailsFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.commits.CommitsFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.users.NotifyFragment;
-import com.stormphoenix.ogit.mvp.ui.fragments.OrgFragment;
-import com.stormphoenix.ogit.mvp.ui.fragments.users.UsersFragment;
+import com.stormphoenix.ogit.mvp.ui.fragments.OrganizationsFragment;
+import com.stormphoenix.ogit.mvp.ui.fragments.base.UsersFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.base.BaseFragment;
 import com.stormphoenix.ogit.shares.OGitConstants;
 import com.stormphoenix.ogit.utils.PreferenceUtils;
@@ -87,7 +87,7 @@ public class ToolbarActivity extends BaseActivity {
         } else if (type == TYPE_ORGANIZATION) {
             title = getString(R.string.organization);
             subTitle = PreferenceUtils.getUsername(this);
-            currentFragment = OrgFragment.getInstance();
+            currentFragment = OrganizationsFragment.getInstance();
         } else if (type == TYPE_NOTIFICATION) {
             title = getString(R.string.notification);
             subTitle = PreferenceUtils.getUsername(this);

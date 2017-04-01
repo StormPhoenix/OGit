@@ -26,14 +26,14 @@ import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.adapters.base.FragmentsAdapter;
 import com.stormphoenix.ogit.dagger2.component.DaggerActivityComponent;
 import com.stormphoenix.ogit.dagger2.module.ContextModule;
-import com.stormphoenix.ogit.mvp.presenter.user.UserReposPresenter;
 import com.stormphoenix.ogit.mvp.presenter.MainPresenter;
 import com.stormphoenix.ogit.mvp.presenter.user.UserReceivedEventsPresenter;
+import com.stormphoenix.ogit.mvp.presenter.user.UserOwnReposPresenter;
+import com.stormphoenix.ogit.mvp.presenter.user.UserStaredReposPresenter;
 import com.stormphoenix.ogit.mvp.ui.activities.base.TabPagerActivity;
-import com.stormphoenix.ogit.mvp.ui.fragments.users.StaredReposFragment;
+import com.stormphoenix.ogit.mvp.ui.fragments.base.BaseFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.base.EventsFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.repository.ReposListFragment;
-import com.stormphoenix.ogit.mvp.ui.fragments.base.BaseFragment;
 import com.stormphoenix.ogit.mvp.view.MainView;
 import com.stormphoenix.ogit.utils.ActivityUtils;
 import com.stormphoenix.ogit.utils.ImageUtils;
@@ -114,14 +114,17 @@ public class MainActivity extends TabPagerActivity<FragmentsAdapter> implements 
     protected FragmentsAdapter createAdapter() {
         String[] titleList = {"Event", "Starred", "Repos"};
         List<BaseFragment> fragmentList = new ArrayList<>();
-        EventsFragment eventsFragment = EventsFragment.newInstance(new UserReceivedEventsPresenter(this));
-        eventsFragment.setOnScrollListener(NotifyMenuManager.getInstance());
-        StaredReposFragment staredReposFragment = StaredReposFragment.newInstance(PreferenceUtils.getString(this, PreferenceUtils.USERNAME));
+
+        EventsFragment receiveEventsFragment = EventsFragment.newInstance(new UserReceivedEventsPresenter(this));
+        receiveEventsFragment.setOnScrollListener(NotifyMenuManager.getInstance());
+
+        ReposListFragment staredReposFragment = ReposListFragment.newInstance(new UserStaredReposPresenter(this));
         staredReposFragment.setOnScrollListener(NotifyMenuManager.getInstance());
-        ReposListFragment reposListFragment = ReposListFragment.newInstance(new UserReposPresenter(this));
+
+        ReposListFragment reposListFragment = ReposListFragment.newInstance(new UserOwnReposPresenter(this));
         reposListFragment.setOnScrollListener(NotifyMenuManager.getInstance());
 
-        fragmentList.add(eventsFragment);
+        fragmentList.add(receiveEventsFragment);
         fragmentList.add(staredReposFragment);
         fragmentList.add(reposListFragment);
 
@@ -278,6 +281,6 @@ public class MainActivity extends TabPagerActivity<FragmentsAdapter> implements 
     public void saveNotificationMessage(List<GitNotification> notifications) {
         this.mNotifications = notifications;
         String notifyMessage = String.valueOf(mNotifications.size()) + " unread messages";
-        NotifyMenuManager.getInstance().setNotifyContent(notifyMessage,notifications);
+        NotifyMenuManager.getInstance().setNotifyContent(notifyMessage, notifications);
     }
 }

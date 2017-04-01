@@ -26,7 +26,7 @@ import javax.inject.Inject;
  * StormPhoenix is a intelligent Android developer.
  */
 
-public class OrgFragment extends ListWithPresenterFragment<GitOrganization> {
+public class OrganizationsFragment extends ListWithPresenterFragment<GitOrganization> {
 
     @Inject
     public OrgListPresenter mPresenter;
@@ -68,6 +68,6 @@ public class OrgFragment extends ListWithPresenterFragment<GitOrganization> {
     }
 
     public static BaseFragment getInstance() {
-        return new OrgFragment();
+        return new OrganizationsFragment();
     }
 }

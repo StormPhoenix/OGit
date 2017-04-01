@@ -1,4 +1,4 @@
-package com.stormphoenix.ogit.mvp.ui.fragments.users;
+package com.stormphoenix.ogit.mvp.ui.fragments.base;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -10,8 +10,6 @@ import com.stormphoenix.ogit.adapters.base.BaseRecyclerAdapter;
 import com.stormphoenix.ogit.mvp.presenter.base.OwnerPresenter;
 import com.stormphoenix.ogit.mvp.presenter.base.ListItemPresenter;
 import com.stormphoenix.ogit.mvp.ui.activities.UserProfileActivity;
-import com.stormphoenix.ogit.mvp.ui.fragments.base.BaseFragment;
-import com.stormphoenix.ogit.mvp.ui.fragments.base.ListWithPresenterFragment;
 
 import org.greenrobot.eventbus.EventBus;
 
