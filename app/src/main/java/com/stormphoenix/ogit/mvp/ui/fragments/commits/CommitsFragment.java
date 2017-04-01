@@ -6,8 +6,8 @@ import com.stormphoenix.httpknife.github.GitCommit;
 import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.adapters.base.BaseRecyclerAdapter;
 import com.stormphoenix.ogit.adapters.commits.GitCommitsAdapter;
-import com.stormphoenix.ogit.mvp.presenter.CommitsPresenter;
-import com.stormphoenix.ogit.mvp.presenter.list.ListItemPresenter;
+import com.stormphoenix.ogit.mvp.presenter.commits.CommitsPresenter;
+import com.stormphoenix.ogit.mvp.presenter.base.ListItemPresenter;
 import com.stormphoenix.ogit.mvp.ui.fragments.base.ListWithPresenterFragment;
 
 import java.util.ArrayList;

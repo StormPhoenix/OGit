@@ -15,7 +15,7 @@ import com.stormphoenix.ogit.adapters.base.MultiTypeAdapter;
 import com.stormphoenix.ogit.adapters.commits.GitCommitDetailsAdapter;
 import com.stormphoenix.ogit.dagger2.component.DaggerActivityComponent;
 import com.stormphoenix.ogit.dagger2.module.ContextModule;
-import com.stormphoenix.ogit.mvp.presenter.CommitDetailsPresenter;
+import com.stormphoenix.ogit.mvp.presenter.commits.CommitDetailsPresenter;
 import com.stormphoenix.ogit.mvp.ui.fragments.base.ListFragment;
 import com.stormphoenix.ogit.mvp.view.CommitDetailsView;
 import com.stormphoenix.ogit.utils.ViewUtils;

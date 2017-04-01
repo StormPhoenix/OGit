@@ -10,9 +10,9 @@ import android.view.MenuItem;
 
 import com.stormphoenix.httpknife.github.GitTreeItem;
 import com.stormphoenix.ogit.R;
-import com.stormphoenix.ogit.mvp.presenter.list.RepoTreePresenter;
+import com.stormphoenix.ogit.mvp.presenter.repository.RepoTreePresenter;
 import com.stormphoenix.ogit.mvp.ui.activities.base.BaseActivity;
-import com.stormphoenix.ogit.mvp.ui.fragments.FoldsFragment;
+import com.stormphoenix.ogit.mvp.ui.fragments.repository.FoldsFragment;
 import com.stormphoenix.ogit.widget.BreadcrumbView;
 
 import butterknife.BindView;

@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.stormphoenix.ogit.mvp.presenter.list.ListItemPresenter;
+import com.stormphoenix.ogit.mvp.presenter.base.ListItemPresenter;
 import com.stormphoenix.ogit.mvp.presenter.search.SearchPresenter;
 import com.stormphoenix.ogit.mvp.ui.activities.SearchActivity;
 import com.stormphoenix.ogit.mvp.ui.fragments.base.ListWithPresenterFragment;

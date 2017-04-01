@@ -8,16 +8,16 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 
 import com.stormphoenix.ogit.R;
-import com.stormphoenix.ogit.mvp.presenter.CommitsPresenter;
-import com.stormphoenix.ogit.mvp.presenter.list.ContributorsPresenter;
-import com.stormphoenix.ogit.mvp.presenter.list.NotifyPresenter;
+import com.stormphoenix.ogit.mvp.presenter.commits.CommitsPresenter;
+import com.stormphoenix.ogit.mvp.presenter.repository.ContributorsPresenter;
+import com.stormphoenix.ogit.mvp.presenter.user.NotifyPresenter;
 import com.stormphoenix.ogit.mvp.ui.activities.base.BaseActivity;
 import com.stormphoenix.ogit.mvp.ui.fragments.CodeFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.commits.CommitDetailsFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.commits.CommitsFragment;
-import com.stormphoenix.ogit.mvp.ui.fragments.NotifyFragment;
+import com.stormphoenix.ogit.mvp.ui.fragments.users.NotifyFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.OrgFragment;
-import com.stormphoenix.ogit.mvp.ui.fragments.PersonsFragment;
+import com.stormphoenix.ogit.mvp.ui.fragments.users.UsersFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.base.BaseFragment;
 import com.stormphoenix.ogit.shares.OGitConstants;
 import com.stormphoenix.ogit.utils.PreferenceUtils;
@@ -75,7 +75,7 @@ public class ToolbarActivity extends BaseActivity {
         if (type == TYPE_CONTRIBUTOR) {
             title = getString(R.string.contributor);
             ContributorsPresenter presenter = new ContributorsPresenter(this);
-            currentFragment = PersonsFragment.newInstance(presenter);
+            currentFragment = UsersFragment.newInstance(presenter);
         } else if (type == TYPE_CODE) {
             String owner = bundle.getString(OWNER);
             String repo = bundle.getString(REPO);

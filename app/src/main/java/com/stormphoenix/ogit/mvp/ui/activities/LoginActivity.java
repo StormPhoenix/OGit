@@ -13,7 +13,7 @@ import android.view.View;
 import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.dagger2.component.DaggerActivityComponent;
 import com.stormphoenix.ogit.dagger2.module.ContextModule;
-import com.stormphoenix.ogit.mvp.presenter.LoginPresenter;
+import com.stormphoenix.ogit.mvp.presenter.user.LoginPresenter;
 import com.stormphoenix.ogit.mvp.ui.activities.base.BaseActivity;
 import com.stormphoenix.ogit.mvp.ui.dialog.ProgressDialogGenerator;
 import com.stormphoenix.ogit.mvp.view.LoginView;

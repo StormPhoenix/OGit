@@ -3,8 +3,8 @@ package com.stormphoenix.ogit.mvp.presenter.search;
 import android.content.Context;
 
 import com.stormphoenix.httpknife.github.GitSearchResult;
-import com.stormphoenix.ogit.mvp.model.interactor.SearchInteractor;
-import com.stormphoenix.ogit.mvp.presenter.list.ListItemPresenter;
+import com.stormphoenix.ogit.mvp.model.interactor.search.SearchInteractor;
+import com.stormphoenix.ogit.mvp.presenter.base.ListItemPresenter;
 import com.stormphoenix.ogit.mvp.view.base.ListItemView;
 
 import java.util.List;

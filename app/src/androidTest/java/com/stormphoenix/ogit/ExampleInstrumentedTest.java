@@ -5,8 +5,7 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.stormphoenix.httpknife.github.GitCommit;
-import com.stormphoenix.ogit.mvp.model.interactor.CommitDetailsInteractor;
-import com.stormphoenix.ogit.shares.rx.RxJavaCustomTransformer;
+import com.stormphoenix.ogit.mvp.model.interactor.commits.CommitDetailsInteractor;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

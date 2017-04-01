@@ -8,11 +8,11 @@ import android.view.MenuItem;
 
 import com.stormphoenix.httpknife.github.GitOrganization;
 import com.stormphoenix.ogit.adapters.base.FragmentsAdapter;
-import com.stormphoenix.ogit.mvp.presenter.list.OrgEventsPresenter;
-import com.stormphoenix.ogit.mvp.presenter.list.OrgMembersPresenter;
+import com.stormphoenix.ogit.mvp.presenter.organization.OrgEventsPresenter;
+import com.stormphoenix.ogit.mvp.presenter.organization.OrgMembersPresenter;
 import com.stormphoenix.ogit.mvp.ui.activities.base.TabPagerActivity;
-import com.stormphoenix.ogit.mvp.ui.fragments.EventsFragment;
-import com.stormphoenix.ogit.mvp.ui.fragments.PersonsFragment;
+import com.stormphoenix.ogit.mvp.ui.fragments.base.EventsFragment;
+import com.stormphoenix.ogit.mvp.ui.fragments.users.UsersFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.base.BaseFragment;
 import com.stormphoenix.ogit.utils.PreferenceUtils;
 
@@ -83,7 +83,7 @@ public class OrgDetailsActivity extends TabPagerActivity<FragmentsAdapter> {
         // create the EventsFragment which is displayed for Organization events
         OrgMembersPresenter membersPresenter = new OrgMembersPresenter(this);
         membersPresenter.setOrgName(organization.getLogin());
-        fragmentList.add(PersonsFragment.newInstance(membersPresenter));
+        fragmentList.add(UsersFragment.newInstance(membersPresenter));
 
         FragmentsAdapter mAdapter = new FragmentsAdapter(this.getSupportFragmentManager());
         mAdapter.setFragmentList(fragmentList, titleList);

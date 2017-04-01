@@ -8,7 +8,7 @@ import android.support.annotation.Nullable;
 import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.dagger2.component.DaggerActivityComponent;
 import com.stormphoenix.ogit.dagger2.module.ContextModule;
-import com.stormphoenix.ogit.mvp.presenter.OrgProfilePresenter;
+import com.stormphoenix.ogit.mvp.presenter.organization.OrgProfilePresenter;
 import com.stormphoenix.ogit.mvp.ui.activities.base.OwnerProfileActivity;
 import com.stormphoenix.ogit.mvp.view.OrgDetailsView;
 import com.stormphoenix.ogit.utils.ImageUtils;

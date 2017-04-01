@@ -3,7 +3,7 @@ package com.stormphoenix.ogit.mvp.presenter.base;
 import android.content.Context;
 
 import com.stormphoenix.httpknife.github.GitEvent;
-import com.stormphoenix.ogit.mvp.presenter.list.ListItemPresenter;
+import com.stormphoenix.ogit.mvp.presenter.base.ListItemPresenter;
 import com.stormphoenix.ogit.mvp.view.base.ListItemView;
 
 import java.util.List;

@@ -8,9 +8,9 @@ import android.view.MenuItem;
 
 import com.stormphoenix.httpknife.github.GitUser;
 import com.stormphoenix.ogit.adapters.base.FragmentsAdapter;
-import com.stormphoenix.ogit.mvp.presenter.list.UserPerformedEventsPresenter;
+import com.stormphoenix.ogit.mvp.presenter.user.UserPerformedEventsPresenter;
 import com.stormphoenix.ogit.mvp.ui.activities.base.TabPagerActivity;
-import com.stormphoenix.ogit.mvp.ui.fragments.EventsFragment;
+import com.stormphoenix.ogit.mvp.ui.fragments.base.EventsFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.base.BaseFragment;
 
 import org.greenrobot.eventbus.EventBus;
@@ -79,7 +79,7 @@ public class UserDetailsActivity extends TabPagerActivity<FragmentsAdapter> {
 
 //        OrgMembersPresenter membersPresenter = new OrgMembersPresenter(this);
 //        membersPresenter.setOrgName(mUser.getLogin());
-//        fragmentList.add(PersonsFragment.newInstance(membersPresenter));
+//        fragmentList.add(UsersFragment.newInstance(membersPresenter));
 
         FragmentsAdapter mAdapter = new FragmentsAdapter(this.getSupportFragmentManager());
         mAdapter.setFragmentList(fragmentList, titleList);
