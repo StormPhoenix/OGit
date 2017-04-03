@@ -65,4 +65,10 @@ public interface UserApi {
 
     @GET("/users/{user}/events?per_page=10")
     Observable<Response<List<GitEvent>>> performedEvents(@Path("user") String user, @Query("page") String page);
+
+    @GET("/users/{username}/followers?per_page=10")
+    Observable<Response<List<GitUser>>> loadFollowers(@Path("username") String username, @Query("page") String page);
+
+    @GET("/users/{username}/following?per_page=10")
+    Observable<Response<List<GitUser>>> loadFollowings(@Path("username") String username, @Query("page") String page);
 }

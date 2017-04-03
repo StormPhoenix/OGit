@@ -70,4 +70,12 @@ public class UserInteractor {
     public Observable<Response<List<GitEvent>>> performedEvents(final String username, final int page) {
         return userApi.performedEvents(username, String.valueOf(page));
     }
+
+    public Observable<Response<List<GitUser>>> loadFollowers(String username, String page) {
+        return userApi.loadFollowers(username, page);
+    }
+
+    public Observable<Response<List<GitUser>>> loadFollowings(String username, String page) {
+        return userApi.loadFollowings(username, page);
+    }
 }

@@ -23,7 +23,7 @@ import java.util.ArrayList;
 public class UsersFragment extends ListWithPresenterFragment<GitUser> {
     private OwnerPresenter presenter;
 
-    public static BaseFragment newInstance(OwnerPresenter ownerPresenter) {
+    public static UsersFragment newInstance(OwnerPresenter ownerPresenter) {
         UsersFragment usersFragment = new UsersFragment();
         usersFragment.setPresenter(ownerPresenter);
         return usersFragment;

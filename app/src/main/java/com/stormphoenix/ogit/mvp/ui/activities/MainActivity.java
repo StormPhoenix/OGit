@@ -27,12 +27,15 @@ import com.stormphoenix.ogit.adapters.base.FragmentsAdapter;
 import com.stormphoenix.ogit.dagger2.component.DaggerActivityComponent;
 import com.stormphoenix.ogit.dagger2.module.ContextModule;
 import com.stormphoenix.ogit.mvp.presenter.MainPresenter;
-import com.stormphoenix.ogit.mvp.presenter.user.UserReceivedEventsPresenter;
+import com.stormphoenix.ogit.mvp.presenter.user.FolloweringsPresenter;
+import com.stormphoenix.ogit.mvp.presenter.user.FollowersPresenter;
 import com.stormphoenix.ogit.mvp.presenter.user.UserOwnReposPresenter;
+import com.stormphoenix.ogit.mvp.presenter.user.UserReceivedEventsPresenter;
 import com.stormphoenix.ogit.mvp.presenter.user.UserStaredReposPresenter;
 import com.stormphoenix.ogit.mvp.ui.activities.base.TabPagerActivity;
 import com.stormphoenix.ogit.mvp.ui.fragments.base.BaseFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.base.EventsFragment;
+import com.stormphoenix.ogit.mvp.ui.fragments.base.UsersFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.repository.ReposListFragment;
 import com.stormphoenix.ogit.mvp.view.MainView;
 import com.stormphoenix.ogit.utils.ActivityUtils;
@@ -112,7 +115,7 @@ public class MainActivity extends TabPagerActivity<FragmentsAdapter> implements 
 
     @Override
     protected FragmentsAdapter createAdapter() {
-        String[] titleList = {"Event", "Starred", "Repos"};
+        String[] titleList = {"Event", "Starred", "Repos", "Followers", "Followings"};
         List<BaseFragment> fragmentList = new ArrayList<>();
 
         EventsFragment receiveEventsFragment = EventsFragment.newInstance(new UserReceivedEventsPresenter(this));
@@ -124,9 +127,17 @@ public class MainActivity extends TabPagerActivity<FragmentsAdapter> implements 
         ReposListFragment reposListFragment = ReposListFragment.newInstance(new UserOwnReposPresenter(this));
         reposListFragment.setOnScrollListener(NotifyMenuManager.getInstance());
 
+        UsersFragment followersFragment = UsersFragment.newInstance(new FollowersPresenter(this));
+        followersFragment.setOnScrollListener(NotifyMenuManager.getInstance());
+
+        UsersFragment followingsFragment = UsersFragment.newInstance(new FolloweringsPresenter(this));
+        followingsFragment.setOnScrollListener(NotifyMenuManager.getInstance());
+
         fragmentList.add(receiveEventsFragment);
         fragmentList.add(staredReposFragment);
         fragmentList.add(reposListFragment);
+        fragmentList.add(followersFragment);
+        fragmentList.add(followingsFragment);
 
         mAdapter = new FragmentsAdapter(this.getSupportFragmentManager());
         mAdapter.setFragmentList(fragmentList, titleList);

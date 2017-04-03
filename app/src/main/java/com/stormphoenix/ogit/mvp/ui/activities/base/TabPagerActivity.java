@@ -76,7 +76,7 @@ public abstract class TabPagerActivity<V extends PagerAdapter> extends BaseActiv
     private void createPager() {
         adapter = createAdapter();
         // 防止Fragment频繁被销毁
-        viewPager.setOffscreenPageLimit(2);
+        viewPager.setOffscreenPageLimit(5);
         viewPager.setAdapter(adapter);
     }
 
