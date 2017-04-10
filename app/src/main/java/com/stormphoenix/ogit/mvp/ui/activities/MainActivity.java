@@ -29,9 +29,9 @@ import com.stormphoenix.ogit.dagger2.module.ContextModule;
 import com.stormphoenix.ogit.mvp.presenter.MainPresenter;
 import com.stormphoenix.ogit.mvp.presenter.user.FolloweringsPresenter;
 import com.stormphoenix.ogit.mvp.presenter.user.FollowersPresenter;
-import com.stormphoenix.ogit.mvp.presenter.user.UserOwnReposPresenter;
+import com.stormphoenix.ogit.mvp.presenter.user.UserOwnRepoListPresenter;
 import com.stormphoenix.ogit.mvp.presenter.user.UserReceivedEventsPresenter;
-import com.stormphoenix.ogit.mvp.presenter.user.UserStaredReposPresenter;
+import com.stormphoenix.ogit.mvp.presenter.user.UserStaredRepoListPresenter;
 import com.stormphoenix.ogit.mvp.ui.activities.base.TabPagerActivity;
 import com.stormphoenix.ogit.mvp.ui.fragments.base.BaseFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.base.EventsFragment;
@@ -121,10 +121,10 @@ public class MainActivity extends TabPagerActivity<FragmentsAdapter> implements 
         EventsFragment receiveEventsFragment = EventsFragment.newInstance(new UserReceivedEventsPresenter(this));
         receiveEventsFragment.setOnScrollListener(NotifyMenuManager.getInstance());
 
-        ReposListFragment staredReposFragment = ReposListFragment.newInstance(new UserStaredReposPresenter(this));
+        ReposListFragment staredReposFragment = ReposListFragment.newInstance(new UserStaredRepoListPresenter(this));
         staredReposFragment.setOnScrollListener(NotifyMenuManager.getInstance());
 
-        ReposListFragment reposListFragment = ReposListFragment.newInstance(new UserOwnReposPresenter(this));
+        ReposListFragment reposListFragment = ReposListFragment.newInstance(new UserOwnRepoListPresenter(this));
         reposListFragment.setOnScrollListener(NotifyMenuManager.getInstance());
 
         UsersFragment followersFragment = UsersFragment.newInstance(new FollowersPresenter(this));
@@ -266,6 +266,10 @@ public class MainActivity extends TabPagerActivity<FragmentsAdapter> implements 
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.nav_home:
+                return true;
+            case R.id.nav_trends:
+                mDrawerLayout.closeDrawers();
+                ActivityUtils.startActivity(this, TrendActivity.newIntent(this));
                 return true;
             case R.id.nav_org:
                 mDrawerLayout.closeDrawers();

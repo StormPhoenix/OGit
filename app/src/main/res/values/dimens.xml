@@ -10,4 +10,6 @@
     <dimen name="app_bar_height">256dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_margin">16dp</dimen>
+    <dimen name="repo_contributor_avatar_size">24dp</dimen>
+    <dimen name="repo_contributor_avatar_margin">8dp</dimen>
 </resources>

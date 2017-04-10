@@ -3,11 +3,14 @@ package com.stormphoenix.ogit.mvp.ui.fragments.repository;
 import android.support.v7.widget.RecyclerView;
 
 import com.stormphoenix.httpknife.github.GitRepository;
+import com.stormphoenix.httpknife.github.GitTrendRepository;
 import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.adapters.GitReposAdapter;
+import com.stormphoenix.ogit.adapters.GitReposAdapter2;
 import com.stormphoenix.ogit.adapters.base.BaseRecyclerAdapter;
 import com.stormphoenix.ogit.mvp.presenter.base.BaseRepoListPresenter;
 import com.stormphoenix.ogit.mvp.presenter.base.ListItemPresenter;
+import com.stormphoenix.ogit.mvp.presenter.trend.TrendReposPresenter;
 import com.stormphoenix.ogit.mvp.ui.fragments.base.ListWithPresenterFragment;
 
 import java.util.ArrayList;
@@ -20,12 +23,12 @@ import java.util.ArrayList;
  * and it can work automately.
  */
 
-public class ReposListFragment extends ListWithPresenterFragment<GitRepository> {
+public class ReposListFragment2 extends ListWithPresenterFragment<GitTrendRepository> {
 
-    private BaseRepoListPresenter presenter;
+    private TrendReposPresenter presenter;
 
-    public static final ReposListFragment newInstance(BaseRepoListPresenter presenter) {
-        ReposListFragment reposListFragment = new ReposListFragment();
+    public static final ReposListFragment2 newInstance(TrendReposPresenter presenter) {
+        ReposListFragment2 reposListFragment = new ReposListFragment2();
         reposListFragment.setPresenter(presenter);
         return reposListFragment;
     }
@@ -33,12 +36,12 @@ public class ReposListFragment extends ListWithPresenterFragment<GitRepository> 
     @Override
     public void initListItemView() {
         super.initListItemView();
-        mAdapter.addOnViewClickListener(R.id.repository_card_wrapper, presenter);
+//        mAdapter.addOnViewClickListener(R.id.repository_card_wrapper, presenter);
     }
 
     @Override
-    public BaseRecyclerAdapter<GitRepository, RecyclerView.ViewHolder> getAdapter() {
-        mAdapter = new GitReposAdapter(getActivity(), new ArrayList<GitRepository>());
+    public BaseRecyclerAdapter<GitTrendRepository, RecyclerView.ViewHolder> getAdapter() {
+        mAdapter = new GitReposAdapter2(getActivity(), new ArrayList<>());
         return mAdapter;
     }
 
@@ -47,7 +50,7 @@ public class ReposListFragment extends ListWithPresenterFragment<GitRepository> 
         return presenter;
     }
 
-    public void setPresenter(BaseRepoListPresenter presenter) {
+    public void setPresenter(TrendReposPresenter presenter) {
         this.presenter = presenter;
     }
 }

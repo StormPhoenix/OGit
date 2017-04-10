@@ -52,6 +52,9 @@
             android:name=".mvp.ui.activities.ToolbarActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
+            android:name=".mvp.ui.activities.TrendActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
             android:name=".mvp.ui.activities.RepositoryActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity

@@ -8,6 +8,7 @@ import com.stormphoenix.httpknife.github.GitRepository;
 import com.stormphoenix.httpknife.github.GitTree;
 import com.stormphoenix.httpknife.github.GitUser;
 import com.stormphoenix.ogit.mvp.model.api.CodeFileApi;
+import com.stormphoenix.ogit.mvp.model.api.GithubApi;
 import com.stormphoenix.ogit.mvp.model.api.RepoApi;
 import com.stormphoenix.ogit.shares.rx.creator.RetrofitCreator;
 

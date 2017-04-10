@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.stormphoenix.httpknife.github.GitRepository;
 import com.stormphoenix.ogit.mvp.model.interactor.user.UserInteractor;
-import com.stormphoenix.ogit.mvp.presenter.repository.ReposPresenter;
+import com.stormphoenix.ogit.mvp.presenter.base.BaseRepoListPresenter;
 import com.stormphoenix.ogit.mvp.ui.activities.RepositoryActivity;
 import com.stormphoenix.ogit.utils.ActivityUtils;
 import com.stormphoenix.ogit.utils.PreferenceUtils;
@@ -19,10 +19,10 @@ import rx.Observable;
  * StormPhoenix is a intelligent Android developer.
  */
 
-public class UserStaredReposPresenter extends ReposPresenter {
+public class UserStaredRepoListPresenter extends BaseRepoListPresenter {
     private UserInteractor mInfoInfoInteractor;
 
-    public UserStaredReposPresenter(Context context) {
+    public UserStaredRepoListPresenter(Context context) {
         super(context);
         mInfoInfoInteractor = new UserInteractor(context);
     }
