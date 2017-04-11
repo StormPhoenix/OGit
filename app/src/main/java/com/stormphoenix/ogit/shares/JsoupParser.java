@@ -41,8 +41,18 @@ public class JsoupParser {
             repository.setLangType("None");
         }
         repository.setStarNum(liElem.getElementsByClass("muted-link mr-3").get(0).text());
-        repository.setForkNum(liElem.getElementsByClass("muted-link mr-3").get(1).text());
-        repository.setStarPerDuration(liElem.getElementsByClass("f6 text-gray mt-2").get(0).getElementsByClass("float-right").get(0).text());
+
+        try {
+            repository.setForkNum(liElem.getElementsByClass("muted-link mr-3").get(1).text());
+        } catch (Exception e) {
+            repository.setForkNum(null);
+        }
+
+        try {
+            repository.setStarPerDuration(liElem.getElementsByClass("f6 text-gray mt-2").get(0).getElementsByClass("float-right").get(0).text());
+        } catch (Exception e) {
+            repository.setStarPerDuration(null);
+        }
         if (liElem.getElementsByClass("no-underline").size() != 0) {
             Elements imgs = liElem.getElementsByClass("no-underline").get(0).getElementsByTag("img");
             for (int i = 0; i < imgs.size(); i++) {

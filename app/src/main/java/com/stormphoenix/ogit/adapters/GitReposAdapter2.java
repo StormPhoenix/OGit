@@ -92,7 +92,11 @@ public class GitReposAdapter2 extends BaseRecyclerAdapter<GitTrendRepository, Gi
         public void bind(GitTrendRepository model) {
             mTrendRepoTitle.setText(model.getOwnerName() + " / " + model.getRepoName());
             mRepoDesc.setText(model.getRepoDesc());
-            mStarPerDuration.setText(model.getStarPerDuration());
+            if (model.getStarPerDuration() == null) {
+                mStarPerDuration.setVisibility(View.INVISIBLE);
+            } else {
+                mStarPerDuration.setText(model.getStarPerDuration());
+            }
             mLangType.setText(model.getLangType());
 
             List<ImageView> imageViewList = new ArrayList<>();

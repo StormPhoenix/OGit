@@ -39,12 +39,17 @@ public class TrendActivity extends TabPagerActivity<FragmentsAdapter> {
     @Override
     protected FragmentsAdapter createAdapter() {
         //        String[] titleList = {"User"};
-        String[] titleList = {"All Language"};
+        String[] titleList = {"All Language", "JavaScript", "Java", "Go", "CSS", "Objective-C", "Python", "Swift", "HTML"};
         List<BaseFragment> fragmentList = new ArrayList<>();
 
-        TrendReposPresenter trendReposPresenter = new TrendReposPresenter(this);
-        trendReposPresenter.setTrendType(TrendReposPresenter.TREND_TYPE_REPOSITORY);
-        fragmentList.add(ReposListFragment2.newInstance(trendReposPresenter));
+        for (String langType : titleList) {
+            TrendReposPresenter trendReposPresenter = new TrendReposPresenter(this);
+            trendReposPresenter.setTrendType(TrendReposPresenter.TREND_TYPE_REPOSITORY);
+            if (!langType.equals("All Language")) {
+                trendReposPresenter.setLanguageType(langType);
+            }
+            fragmentList.add(ReposListFragment2.newInstance(trendReposPresenter));
+        }
 
         FragmentsAdapter mAdapter = new FragmentsAdapter(this.getSupportFragmentManager());
         mAdapter.setFragmentList(fragmentList, titleList);

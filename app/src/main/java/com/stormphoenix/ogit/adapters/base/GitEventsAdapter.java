@@ -168,10 +168,12 @@ public class GitEventsAdapter extends BaseRecyclerAdapter<GitEvent, GitEventView
                 mTextCommitNums.setVisibility(View.VISIBLE);
                 mTextCommitNums.setText(String.valueOf(pushPayload.getCommits().size()) + " new commits");
 
-                mTextCommit1.setVisibility(View.VISIBLE);
-                mTextCommit1.setText(pushPayload.getCommits().get(0).getSha().substring(0, 7) + " ");
-                mTextCommit1Content.setVisibility(View.VISIBLE);
-                mTextCommit1Content.setText(pushPayload.getCommits().get(0).getMessage());
+                if (pushPayload.getCommits().size() > 0) {
+                    mTextCommit1.setVisibility(View.VISIBLE);
+                    mTextCommit1.setText(pushPayload.getCommits().get(0).getSha().substring(0, 7) + " ");
+                    mTextCommit1Content.setVisibility(View.VISIBLE);
+                    mTextCommit1Content.setText(pushPayload.getCommits().get(0).getMessage());
+                }
 
                 if (pushPayload.getCommits().size() > 1) {
                     mTextCommit2.setVisibility(View.VISIBLE);
