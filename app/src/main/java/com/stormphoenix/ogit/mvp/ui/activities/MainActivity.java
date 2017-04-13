@@ -32,6 +32,7 @@ import com.stormphoenix.ogit.mvp.presenter.user.FollowersPresenter;
 import com.stormphoenix.ogit.mvp.presenter.user.UserOwnRepoListPresenter;
 import com.stormphoenix.ogit.mvp.presenter.user.UserReceivedEventsPresenter;
 import com.stormphoenix.ogit.mvp.presenter.user.UserStaredRepoListPresenter;
+import com.stormphoenix.ogit.mvp.ui.activities.base.FeedbackActivity;
 import com.stormphoenix.ogit.mvp.ui.activities.base.TabPagerActivity;
 import com.stormphoenix.ogit.mvp.ui.fragments.base.BaseFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.base.EventsFragment;
@@ -276,6 +277,10 @@ public class MainActivity extends TabPagerActivity<FragmentsAdapter> implements 
                 Bundle bundle = new Bundle();
                 bundle.putInt(ToolbarActivity.TYPE, ToolbarActivity.TYPE_ORGANIZATION);
                 ActivityUtils.startActivity(this, ToolbarActivity.newIntent(this, bundle));
+                return true;
+            case R.id.nav_send:
+                Intent intent = new Intent(this, FeedbackActivity.class);
+                startActivity(intent);
                 return true;
             case R.id.nav_exit:
                 // 退出登录

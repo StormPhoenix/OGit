@@ -2,7 +2,6 @@ package com.stormphoenix.httpknife.github;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -10,11 +9,9 @@ import java.util.List;
 /**
  * Created by Quinn on 10/4/15.
  */
-public class GitIssue implements Serializable {
-
-    private static final long serialVersionUID = 3212003836354165758L;
-
+public class GitIssue {
     private long id;
+    private String url;
     private Date closedAt;
     private Date createdAt;
     private Date updatedAt;
@@ -28,7 +25,6 @@ public class GitIssue implements Serializable {
     // 该问题的状态，是关闭（close）还是开放（open）的
     private String state;
     private String title;
-    private String url;
     private boolean locked;
     @SerializedName("pull_request")
     private GitPullRequest pullRequest;
@@ -89,7 +85,7 @@ public class GitIssue implements Serializable {
     }
 
     public GitIssue setLabels(List<GitLabel> labels) {
-        this.labels = labels != null?new ArrayList(labels):null;
+        this.labels = labels != null ? new ArrayList(labels) : null;
         return this;
     }
 

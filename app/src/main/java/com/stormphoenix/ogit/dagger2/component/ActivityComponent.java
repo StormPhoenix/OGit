@@ -6,9 +6,10 @@ import com.stormphoenix.ogit.mvp.ui.activities.MainActivity;
 import com.stormphoenix.ogit.mvp.ui.activities.OrgProfileActivity;
 import com.stormphoenix.ogit.mvp.ui.activities.RepositoryActivity;
 import com.stormphoenix.ogit.mvp.ui.activities.UserProfileActivity;
+import com.stormphoenix.ogit.mvp.ui.activities.base.FeedbackActivity;
 import com.stormphoenix.ogit.mvp.ui.fragments.CodeFragment;
-import com.stormphoenix.ogit.mvp.ui.fragments.commits.CommitDetailsFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.OrganizationsFragment;
+import com.stormphoenix.ogit.mvp.ui.fragments.commits.CommitDetailsFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.search.SearchRepoFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.search.SearchUsersFragment;
 
@@ -24,6 +25,8 @@ public interface ActivityComponent {
     void inject(OrgProfileActivity activity);
 
     void inject(SearchUsersFragment fragment);
+
+    void inject(FeedbackActivity activity);
 
     void inject(OrganizationsFragment fragment);
 

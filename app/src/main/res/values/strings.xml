@@ -120,7 +120,7 @@
     <string name="loading">loading</string>
     <string name="notification">Notification</string>
     <string name="search">Search</string>
-    <string name="organization">组织</string>
+    <string name="organization">Organization</string>
     <string name="exit">exit</string>
     <string name="search_hint">Search in Github</string>
     <string name="company">Company</string>
@@ -147,4 +147,12 @@
     <string name="avatar">avatar</string>
     <string name="commit_details">commit details</string>
     <string name="built_by">Built by</string>
+    <string name="feedback">feedback</string>
+    <string name="trends">Trends</string>
+    <string name="home">Home</string>
+    <string name="title">Title</string>
+    <string name="content">Content</string>
+    <string name="content_is_empty">input is empty</string>
+    <string name="send_feedback_successful">send feedback successful</string>
+    <string name="send_feedback_failed">send feedback failed</string>
 </resources>

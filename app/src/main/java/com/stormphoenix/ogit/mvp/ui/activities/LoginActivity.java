@@ -84,8 +84,8 @@ public class LoginActivity extends BaseActivity implements LoginView {
     @Override
     public void onLoginSuccess() {
         generator.cancel();
-        startMainActivity();
         finishView();
+        startMainActivity();
     }
 
     @Override
