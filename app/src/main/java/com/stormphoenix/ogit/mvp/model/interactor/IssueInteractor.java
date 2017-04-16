@@ -7,6 +7,8 @@ import com.stormphoenix.httpknife.github.GitIssue;
 import com.stormphoenix.ogit.mvp.model.api.IssueApi;
 import com.stormphoenix.ogit.shares.rx.creator.RetrofitCreator;
 
+import javax.inject.Inject;
+
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import retrofit2.Response;
@@ -21,6 +23,7 @@ public class IssueInteractor {
     private IssueApi issueApi;
     private Context mContext;
 
+    @Inject
     public IssueInteractor(Context context) {
         mContext = context;
         issueApi = RetrofitCreator.getJsonRetrofitWithToken(mContext).create(IssueApi.class);

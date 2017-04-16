@@ -12,4 +12,5 @@
     <dimen name="text_margin">16dp</dimen>
     <dimen name="repo_contributor_avatar_size">24dp</dimen>
     <dimen name="repo_contributor_avatar_margin">8dp</dimen>
+    <dimen name="feedback_tools_text_size">15sp</dimen>
 </resources>

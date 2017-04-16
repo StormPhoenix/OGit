@@ -12,14 +12,18 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.stormphoenix.httpknife.github.GitNotification;
 import com.stormphoenix.ogit.R;
@@ -27,21 +31,24 @@ import com.stormphoenix.ogit.adapters.base.FragmentsAdapter;
 import com.stormphoenix.ogit.dagger2.component.DaggerActivityComponent;
 import com.stormphoenix.ogit.dagger2.module.ContextModule;
 import com.stormphoenix.ogit.mvp.presenter.MainPresenter;
+import com.stormphoenix.ogit.mvp.presenter.issue.IssuePresenter;
 import com.stormphoenix.ogit.mvp.presenter.user.FolloweringsPresenter;
 import com.stormphoenix.ogit.mvp.presenter.user.FollowersPresenter;
 import com.stormphoenix.ogit.mvp.presenter.user.UserOwnRepoListPresenter;
 import com.stormphoenix.ogit.mvp.presenter.user.UserReceivedEventsPresenter;
 import com.stormphoenix.ogit.mvp.presenter.user.UserStaredRepoListPresenter;
-import com.stormphoenix.ogit.mvp.ui.activities.base.FeedbackActivity;
 import com.stormphoenix.ogit.mvp.ui.activities.base.TabPagerActivity;
+import com.stormphoenix.ogit.mvp.ui.dialog.ActionDialogGenerator;
 import com.stormphoenix.ogit.mvp.ui.fragments.base.BaseFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.base.EventsFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.base.UsersFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.repository.ReposListFragment;
+import com.stormphoenix.ogit.mvp.view.IssueView;
 import com.stormphoenix.ogit.mvp.view.MainView;
 import com.stormphoenix.ogit.utils.ActivityUtils;
 import com.stormphoenix.ogit.utils.ImageUtils;
 import com.stormphoenix.ogit.utils.PreferenceUtils;
+import com.stormphoenix.ogit.utils.ViewUtils;
 import com.stormphoenix.ogit.widget.manager.NotifyMenuManager;
 
 import java.util.ArrayList;
@@ -52,7 +59,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MainActivity extends TabPagerActivity<FragmentsAdapter> implements NavigationView.OnNavigationItemSelectedListener, MainView {
+public class MainActivity extends TabPagerActivity<FragmentsAdapter> implements NavigationView.OnNavigationItemSelectedListener, MainView, IssueView {
     private static final String TAG = MainActivity.class.getSimpleName();
     @BindView(R.id.tab_layout)
     SmartTabLayout mTabLayout;
@@ -70,11 +77,16 @@ public class MainActivity extends TabPagerActivity<FragmentsAdapter> implements 
     FragmentsAdapter mAdapter;
     ActionBarDrawerToggle mDrawerToggle;
 
+    ActionDialogGenerator actionDialogGenerator = null;
+
     @BindView(R.id.nav_view)
     NavigationView mNavView;
 
     @Inject
     public MainPresenter mainPresenter;
+    @Inject
+    public IssuePresenter issuePresenter;
+
     private List<GitNotification> mNotifications = null;
 
     public static Intent newIntent(Context context) {
@@ -86,7 +98,9 @@ public class MainActivity extends TabPagerActivity<FragmentsAdapter> implements 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mainPresenter.onAttachView(this);
+        issuePresenter.onAttachView(this);
         mainPresenter.onCreate(savedInstanceState);
+        issuePresenter.onCreate(savedInstanceState);
         initViews();
         loadPagerData();
     }
@@ -279,8 +293,12 @@ public class MainActivity extends TabPagerActivity<FragmentsAdapter> implements 
                 ActivityUtils.startActivity(this, ToolbarActivity.newIntent(this, bundle));
                 return true;
             case R.id.nav_send:
-                Intent intent = new Intent(this, FeedbackActivity.class);
-                startActivity(intent);
+                /* 对话框测试区域 */
+                if (actionDialogGenerator == null) {
+                    createActionDialog();
+                }
+                actionDialogGenerator.show();
+                /*  */
                 return true;
             case R.id.nav_exit:
                 // 退出登录
@@ -290,6 +308,25 @@ public class MainActivity extends TabPagerActivity<FragmentsAdapter> implements 
             default:
                 return false;
         }
+    }
+
+    private void createActionDialog() {
+        actionDialogGenerator = new ActionDialogGenerator(this);
+        actionDialogGenerator.title("Feedback(I will consider your suggestion carefully)");
+        View actionDialogView = (View) getLayoutInflater().inflate(R.layout.ui_empty_background_edit_text, mDrawerLayout, false);
+        AppCompatEditText editText = (AppCompatEditText) actionDialogView.findViewById(R.id.dialog_edit_text);
+        ProgressBar progressBar = (ProgressBar) actionDialogView.findViewById(R.id.dialog_progress);
+
+        actionDialogGenerator.customView(actionDialogView);
+        actionDialogGenerator.onPositive(new MaterialDialog.SingleButtonCallback() {
+            @Override
+            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                issuePresenter.sendAnIssue("An feedback from " + PreferenceUtils.getUsername(MainActivity.this), editText.getText().toString().trim());
+//                progressBar.setVisibility(View.VISIBLE);
+            }
+        });
+        actionDialogGenerator.cancelable(false);
+        actionDialogGenerator.setActionButton(DialogAction.POSITIVE, getString(R.string.send));
     }
 
     @Override
@@ -302,5 +339,25 @@ public class MainActivity extends TabPagerActivity<FragmentsAdapter> implements 
         this.mNotifications = notifications;
         String notifyMessage = String.valueOf(mNotifications.size()) + " unread messages";
         NotifyMenuManager.getInstance().setNotifyContent(notifyMessage, notifications);
+    }
+
+    @Override
+    public void onSendIssueSuccess() {
+        ViewUtils.showMessage(mDrawerLayout, getString(R.string.send_feedback_successful));
+    }
+
+    @Override
+    public void onSendIssueFailed() {
+        ViewUtils.showMessage(mDrawerLayout, getString(R.string.send_feedback_failed));
+    }
+
+    @Override
+    public void showProgress() {
+
+    }
+
+    @Override
+    public void hideProgress() {
+
     }
 }

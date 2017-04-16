@@ -84,7 +84,6 @@
                 android:resource="@xml/searchable_repos_and_users" />
         </activity>
         <activity android:name=".mvp.ui.activities.CommitsDetailActivity" />
-        <activity android:name=".mvp.ui.activities.base.FeedbackActivity"></activity>
     </application>
 
 </manifest>

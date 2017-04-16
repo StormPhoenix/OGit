@@ -155,4 +155,7 @@
     <string name="content_is_empty">input is empty</string>
     <string name="send_feedback_successful">send feedback successful</string>
     <string name="send_feedback_failed">send feedback failed</string>
+    <string name="send">Send</string>
+    <string name="reply">Reply</string>
+    <string name="delete">Delete</string>
 </resources>

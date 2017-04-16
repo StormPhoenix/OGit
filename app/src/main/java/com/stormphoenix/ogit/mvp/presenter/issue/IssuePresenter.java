@@ -32,12 +32,12 @@ public class IssuePresenter extends BasePresenter<IssueView> {
         issueInteractor = new IssueInteractor(context);
     }
 
-    public void sendAnIssue(String owner, String repo) {
-        if (TextUtils.isEmpty(owner) || TextUtils.isEmpty(repo)) {
+    public void sendAnIssue(String title, String content) {
+        if (TextUtils.isEmpty(title) || TextUtils.isEmpty(content)) {
             mView.showMessage(mContext.getString(R.string.content_is_empty));
             return;
         }
-        issueInteractor.sendAnIssue(owner, repo).compose(RxJavaCustomTransformer.defaultSchedulers())
+        issueInteractor.sendAnIssue(title, content).compose(RxJavaCustomTransformer.defaultSchedulers())
                 .subscribe(new DefaultUiSubscriber<Response<GitIssue>, BaseUIView>(mView, mContext.getString(R.string.network_error)) {
                     @Override
                     public void onNext(Response<GitIssue> response) {
