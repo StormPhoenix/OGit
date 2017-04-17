@@ -1,0 +1,133 @@
+package com.stormphoenix.ogit.cache;
+
+import android.support.annotation.NonNull;
+
+import com.stormphoenix.ogit.OGitApplication;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+
+import static com.stormphoenix.ogit.cache.FileCache.CacheType.ORG_EVENTS;
+import static com.stormphoenix.ogit.cache.FileCache.CacheType.ORG_LIST;
+import static com.stormphoenix.ogit.cache.FileCache.CacheType.ORG_MEMBERS;
+import static com.stormphoenix.ogit.cache.FileCache.CacheType.REPO_CONTRIBUTORS;
+import static com.stormphoenix.ogit.cache.FileCache.CacheType.REPO_TREE;
+import static com.stormphoenix.ogit.cache.FileCache.CacheType.TREND_REPOS;
+import static com.stormphoenix.ogit.cache.FileCache.CacheType.USER_COMMITS;
+import static com.stormphoenix.ogit.cache.FileCache.CacheType.USER_FOLLERINGS;
+import static com.stormphoenix.ogit.cache.FileCache.CacheType.USER_FOLLERS;
+import static com.stormphoenix.ogit.cache.FileCache.CacheType.USER_PERFORMED_EVENT;
+import static com.stormphoenix.ogit.cache.FileCache.CacheType.USER_RECEIVED_EVENT;
+import static com.stormphoenix.ogit.cache.FileCache.CacheType.USER_REPOSITORIES;
+import static com.stormphoenix.ogit.cache.FileCache.CacheType.USER_STARED_REPOS;
+
+/**
+ * Created by StormPhoenix on 17-4-17.
+ * StormPhoenix is a intelligent Android developer.
+ */
+
+public class FileCache {
+
+    public enum CacheType {
+        USER_PERFORMED_EVENT,
+        USER_RECEIVED_EVENT,
+        USER_REPOSITORIES,
+        USER_STARED_REPOS,
+        USER_FOLLERS,
+        USER_FOLLERINGS,
+        USER_COMMITS,
+        ORG_EVENTS,
+        ORG_MEMBERS,
+        REPO_CONTRIBUTORS,
+        ORG_LIST,
+        TREND_REPOS,
+        REPO_TREE
+    }
+
+    private static final HashMap<CacheType, String> typeNameMap = new HashMap<>();
+
+    static {
+        typeNameMap.put(USER_PERFORMED_EVENT, "user_performed_event.json");
+        typeNameMap.put(ORG_LIST, "org_list.json");
+        typeNameMap.put(REPO_TREE, "repo_tree.json");
+        typeNameMap.put(TREND_REPOS, "trend_repos.json");
+        typeNameMap.put(USER_RECEIVED_EVENT, "user_received_event.json");
+        typeNameMap.put(USER_REPOSITORIES, "user_repos.json");
+        typeNameMap.put(USER_STARED_REPOS, "user_stared_repos.json");
+        typeNameMap.put(USER_FOLLERS, "user_follers.json");
+        typeNameMap.put(USER_FOLLERINGS, "user_follering.json");
+        typeNameMap.put(USER_COMMITS, "user_commits.json");
+        typeNameMap.put(REPO_CONTRIBUTORS, "repo_contributors.json");
+        typeNameMap.put(ORG_EVENTS, "org_events.json");
+        typeNameMap.put(ORG_MEMBERS, "org_members.json");
+    }
+
+
+    public static String getCachedFile(CacheType cacheType) {
+        String filename = getFileName(cacheType);
+        StringBuilder builder = new StringBuilder();
+        File cachedFile = new File(OGitApplication.instance.getCacheDir(), filename);
+        if (!cachedFile.exists()) {
+            return null;
+        } else {
+            return getCharFormatFileContent(builder, cachedFile);
+        }
+    }
+
+    @NonNull
+    private static String getCharFormatFileContent(StringBuilder builder, File cachedFile) {
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(cachedFile), "utf-8"));
+            String temp;
+            while ((temp = reader.readLine()) != null) {
+                builder.append(temp);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            return builder.toString();
+        }
+    }
+
+    public static void saveCacheFile(CacheType cacheType, String content) {
+        if (cacheType == null) {
+            return;
+        }
+        String filename = getFileName(cacheType);
+        File cachedFile = new File(OGitApplication.instance.getCacheDir(), filename);
+        saveCharFormatFile(content, cachedFile);
+    }
+
+    private static String getFileName(CacheType cacheType) {
+        return typeNameMap.get(cacheType);
+    }
+
+    private static void saveCharFormatFile(String charsContent, File cachedFile) {
+        try {
+            if (!cachedFile.exists()) {
+                cachedFile.getParentFile().mkdir();
+                cachedFile.createNewFile();
+            }
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(cachedFile), "utf-8"));
+            writer.write(charsContent);
+            writer.flush();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}

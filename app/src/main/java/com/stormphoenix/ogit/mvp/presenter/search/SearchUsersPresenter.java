@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.stormphoenix.httpknife.github.GitSearchResult;
 import com.stormphoenix.httpknife.github.GitUser;
+import com.stormphoenix.ogit.cache.FileCache;
 import com.stormphoenix.ogit.mvp.presenter.search.SearchPresenter;
 
 import javax.inject.Inject;
@@ -21,6 +22,11 @@ public class SearchUsersPresenter extends SearchPresenter<GitUser> {
     @Inject
     public SearchUsersPresenter(Context context) {
         super(context);
+    }
+
+    @Override
+    protected FileCache.CacheType getCacheType() {
+        return null;
     }
 
     @Override

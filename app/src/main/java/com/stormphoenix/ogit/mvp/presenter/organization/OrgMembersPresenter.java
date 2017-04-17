@@ -3,8 +3,10 @@ package com.stormphoenix.ogit.mvp.presenter.organization;
 import android.content.Context;
 
 import com.stormphoenix.httpknife.github.GitUser;
+import com.stormphoenix.ogit.cache.FileCache;
 import com.stormphoenix.ogit.mvp.model.interactor.OrgInteractor;
 import com.stormphoenix.ogit.mvp.presenter.base.OwnerPresenter;
+import com.stormphoenix.ogit.utils.NetworkUtils;
 
 import java.util.List;
 
@@ -26,9 +28,17 @@ public class OrgMembersPresenter extends OwnerPresenter {
     }
 
     @Override
+    protected FileCache.CacheType getCacheType() {
+        return FileCache.CacheType.ORG_EVENTS;
+    }
+
+    @Override
     protected Observable<Response<List<GitUser>>> load(int page) {
         if (orgName == null) {
             return null;
+        }
+        if (!NetworkUtils.isNetworkConnected(mContext)) {
+            return super.load(page);
         }
         return mInteractor.loadMembers(orgName, page);
     }

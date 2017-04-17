@@ -4,14 +4,17 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 
+import com.google.gson.Gson;
 import com.stormphoenix.httpknife.github.GitCommit;
 import com.stormphoenix.httpknife.github.GitRepository;
 import com.stormphoenix.ogit.adapters.base.BaseRecyclerAdapter;
+import com.stormphoenix.ogit.cache.FileCache;
 import com.stormphoenix.ogit.mvp.model.interactor.commits.CommitsInteractor;
 import com.stormphoenix.ogit.mvp.presenter.base.ListItemPresenter;
 import com.stormphoenix.ogit.mvp.ui.activities.ToolbarActivity;
 import com.stormphoenix.ogit.mvp.view.base.ListItemView;
 import com.stormphoenix.ogit.shares.OGitConstants;
+import com.stormphoenix.ogit.shares.rx.RxJavaCustomTransformer;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -23,6 +26,8 @@ import javax.inject.Inject;
 
 import retrofit2.Response;
 import rx.Observable;
+import rx.Subscriber;
+import rx.functions.Action1;
 
 /**
  * Created by StormPhoenix on 17-3-18.
@@ -57,6 +62,27 @@ public class CommitsPresenter extends ListItemPresenter<GitCommit, List<GitCommi
     @Override
     protected List<GitCommit> transformBody(List<GitCommit> body) {
         return body;
+    }
+
+    @Override
+    protected void makeDataCached(List<GitCommit> data) {
+        Observable.create(new Observable.OnSubscribe<String>() {
+            @Override
+            public void call(Subscriber<? super String> subscriber) {
+                Gson gson = new Gson();
+                subscriber.onNext(gson.toJson(data));
+            }
+        }).compose(RxJavaCustomTransformer.defaultSchedulers()).subscribe(new Action1<String>() {
+            @Override
+            public void call(String s) {
+                FileCache.saveCacheFile(getCacheType(), s);
+            }
+        });
+    }
+
+    @Override
+    protected FileCache.CacheType getCacheType() {
+        return FileCache.CacheType.USER_COMMITS;
     }
 
     @Override

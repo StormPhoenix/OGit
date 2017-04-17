@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.stormphoenix.ogit.cache.FileCache;
 import com.stormphoenix.ogit.mvp.view.base.BaseUIView;
 import com.stormphoenix.ogit.mvp.view.base.ListItemView;
 import com.stormphoenix.ogit.shares.rx.RxHttpLog;
@@ -50,7 +51,9 @@ public abstract class ListItemPresenter<T, R, V extends ListItemView<T>> extends
                     public void onNext(Response<R> response) {
                         RxHttpLog.logResponse(response);
                         if (response.isSuccessful()) {
-                            mView.loadNewlyListItem(transformBody(response.body()));
+                            List<T> body = transformBody(response.body());
+                            makeDataCached(body);
+                            mView.loadNewlyListItem(body);
                         } else if (response.code() == 401) {
                             Log.e(TAG, "onNext: " + response.code());
                             mView.reLogin();
@@ -89,6 +92,11 @@ public abstract class ListItemPresenter<T, R, V extends ListItemView<T>> extends
     }
 
     protected abstract List<T> transformBody(R body);
+
+    // 这个操作最好要放到 Service　里面进行
+    protected abstract void makeDataCached(List<T> data);
+
+    protected abstract FileCache.CacheType getCacheType();
 
     protected abstract Observable<Response<R>> load(int page);
 }

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.text.TextUtils;
 
 import com.stormphoenix.httpknife.github.GitEvent;
+import com.stormphoenix.ogit.cache.FileCache;
 import com.stormphoenix.ogit.mvp.model.interactor.user.UserInteractor;
 import com.stormphoenix.ogit.mvp.presenter.base.EventsPresenter;
 import com.stormphoenix.ogit.mvp.ui.activities.RepositoryActivity;
@@ -33,6 +34,16 @@ public class UserPerformedEventsPresenter extends EventsPresenter {
     public UserPerformedEventsPresenter(Context context) {
         super(context);
         mInfoInfoInteractor = new UserInteractor(mContext);
+    }
+
+    @Override
+    protected void makeDataCached(List<GitEvent> data) {
+//        FileCache.saveCacheFile(FileCache.CacheType.USER_PERFORMED_EVENT);
+    }
+
+    @Override
+    protected FileCache.CacheType getCacheType() {
+        return FileCache.CacheType.USER_PERFORMED_EVENT;
     }
 
     @Override

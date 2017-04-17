@@ -4,10 +4,12 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.stormphoenix.httpknife.github.GitRepository;
 import com.stormphoenix.httpknife.github.GitTree;
 import com.stormphoenix.httpknife.github.GitTreeItem;
 import com.stormphoenix.ogit.R;
+import com.stormphoenix.ogit.cache.FileCache;
 import com.stormphoenix.ogit.mvp.model.interactor.repository.RepoInteractor;
 import com.stormphoenix.ogit.mvp.presenter.base.ListItemPresenter;
 import com.stormphoenix.ogit.mvp.ui.activities.BreadcrumbTreeActivity;
@@ -28,6 +30,7 @@ import javax.inject.Inject;
 import retrofit2.Response;
 import rx.Observable;
 import rx.Subscriber;
+import rx.functions.Action1;
 
 /**
  * Created by StormPhoenix on 17-3-2.
@@ -63,6 +66,27 @@ public class RepoTreePresenter extends ListItemPresenter<GitTreeItem, List<GitTr
     @Override
     protected List<GitTreeItem> transformBody(List<GitTreeItem> body) {
         return body;
+    }
+
+    @Override
+    protected void makeDataCached(List<GitTreeItem> data) {
+        Observable.create(new Observable.OnSubscribe<String>() {
+            @Override
+            public void call(Subscriber<? super String> subscriber) {
+                Gson gson = new Gson();
+                subscriber.onNext(gson.toJson(data));
+            }
+        }).compose(RxJavaCustomTransformer.defaultSchedulers()).subscribe(new Action1<String>() {
+            @Override
+            public void call(String s) {
+                FileCache.saveCacheFile(getCacheType(), s);
+            }
+        });
+    }
+
+    @Override
+    protected FileCache.CacheType getCacheType() {
+        return FileCache.CacheType.TREND_REPOS;
     }
 
     @Override

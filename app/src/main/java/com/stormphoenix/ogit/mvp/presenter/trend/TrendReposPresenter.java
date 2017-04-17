@@ -3,16 +3,21 @@ package com.stormphoenix.ogit.mvp.presenter.trend;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.google.gson.Gson;
 import com.stormphoenix.httpknife.github.GitTrendRepository;
+import com.stormphoenix.ogit.cache.FileCache;
 import com.stormphoenix.ogit.mvp.model.interactor.trend.TrendInteractor;
 import com.stormphoenix.ogit.mvp.presenter.base.ListItemPresenter;
 import com.stormphoenix.ogit.mvp.view.base.ListItemView;
 import com.stormphoenix.ogit.shares.JsoupParser;
+import com.stormphoenix.ogit.shares.rx.RxJavaCustomTransformer;
 
 import java.util.List;
 
 import retrofit2.Response;
 import rx.Observable;
+import rx.Subscriber;
+import rx.functions.Action1;
 
 /**
  * Created by StormPhoenix on 17-4-10.
@@ -52,6 +57,27 @@ public class TrendReposPresenter extends ListItemPresenter<GitTrendRepository, S
     @Override
     protected List<GitTrendRepository> transformBody(String body) {
         return JsoupParser.parseTrendRepositories(body);
+    }
+
+    @Override
+    protected void makeDataCached(List<GitTrendRepository> data) {
+        Observable.create(new Observable.OnSubscribe<String>() {
+            @Override
+            public void call(Subscriber<? super String> subscriber) {
+                Gson gson = new Gson();
+                subscriber.onNext(gson.toJson(data));
+            }
+        }).compose(RxJavaCustomTransformer.defaultSchedulers()).subscribe(new Action1<String>() {
+            @Override
+            public void call(String s) {
+                FileCache.saveCacheFile(getCacheType(), s);
+            }
+        });
+    }
+
+    @Override
+    protected FileCache.CacheType getCacheType() {
+        return FileCache.CacheType.TREND_REPOS;
     }
 
     @Override

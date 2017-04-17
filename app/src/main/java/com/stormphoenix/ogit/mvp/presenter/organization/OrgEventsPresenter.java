@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.stormphoenix.httpknife.github.GitEvent;
+import com.stormphoenix.ogit.cache.FileCache;
 import com.stormphoenix.ogit.mvp.model.interactor.OrgInteractor;
 import com.stormphoenix.ogit.mvp.presenter.base.EventsPresenter;
 import com.stormphoenix.ogit.utils.PreferenceUtils;
@@ -41,6 +42,11 @@ public class OrgEventsPresenter extends EventsPresenter {
     @Override
     public void startOwnerProfileActivity() {
 
+    }
+
+    @Override
+    protected FileCache.CacheType getCacheType() {
+        return FileCache.CacheType.ORG_EVENTS;
     }
 
     @Override

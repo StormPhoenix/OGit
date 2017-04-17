@@ -4,8 +4,10 @@ import android.content.Context;
 
 import com.stormphoenix.httpknife.github.GitRepository;
 import com.stormphoenix.httpknife.github.GitUser;
+import com.stormphoenix.ogit.cache.FileCache;
 import com.stormphoenix.ogit.mvp.model.interactor.repository.RepoInteractor;
 import com.stormphoenix.ogit.mvp.presenter.base.OwnerPresenter;
+import com.stormphoenix.ogit.utils.NetworkUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -36,8 +38,16 @@ public class ContributorsPresenter extends OwnerPresenter {
     }
 
     @Override
+    protected FileCache.CacheType getCacheType() {
+        return FileCache.CacheType.REPO_CONTRIBUTORS;
+    }
+
+    @Override
     protected Observable<Response<List<GitUser>>> load(int page) {
         if (mRepository != null) {
+            if (!NetworkUtils.isNetworkConnected(mContext)) {
+                return super.load(page);
+            }
             return mInteractor.loadContributors(mRepository.getOwner().getLogin(), mRepository.getName(), String.valueOf(page));
         } else {
             return null;

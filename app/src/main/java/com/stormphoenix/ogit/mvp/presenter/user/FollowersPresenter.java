@@ -3,11 +3,11 @@ package com.stormphoenix.ogit.mvp.presenter.user;
 import android.content.Context;
 
 import com.stormphoenix.httpknife.github.GitUser;
+import com.stormphoenix.ogit.cache.FileCache;
 import com.stormphoenix.ogit.mvp.model.interactor.user.UserInteractor;
 import com.stormphoenix.ogit.mvp.presenter.base.OwnerPresenter;
+import com.stormphoenix.ogit.utils.NetworkUtils;
 import com.stormphoenix.ogit.utils.PreferenceUtils;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -32,7 +32,15 @@ public class FollowersPresenter extends OwnerPresenter {
     }
 
     @Override
+    protected FileCache.CacheType getCacheType() {
+        return FileCache.CacheType.USER_FOLLERS;
+    }
+
+    @Override
     protected Observable<Response<List<GitUser>>> load(int page) {
+        if (!NetworkUtils.isNetworkConnected(mContext)) {
+            return super.load(page);
+        }
         return mInteractor.loadFollowers(PreferenceUtils.getUsername(mContext), String.valueOf(page));
     }
 }
