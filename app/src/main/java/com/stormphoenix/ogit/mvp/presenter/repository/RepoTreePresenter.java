@@ -86,7 +86,7 @@ public class RepoTreePresenter extends ListItemPresenter<GitTreeItem, List<GitTr
 
     @Override
     protected FileCache.CacheType getCacheType() {
-        return FileCache.CacheType.TREND_REPOS;
+        return FileCache.CacheType.REPO_TREE;
     }
 
     @Override

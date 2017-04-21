@@ -90,9 +90,10 @@ public class OrgProfilePresenter extends OwnerProfilePresenter<OrgDetailsView> {
     }
 
     private void refreshViewInfo() {
-        mView.loadOrgHeaderImage(organization.getAvatarUrl());
+        mView.loadHeaderImage(organization.getAvatarUrl());
+        mView.setOwnerDescription(organization.getHtmlUrl());
         mView.setFollowersCount(String.valueOf(organization.getFollowers()));
-        mView.setFolloweringCount(String.valueOf(organization.getFollowing()));
+        mView.setFollowingCount(String.valueOf(organization.getFollowing()));
         String key = null;
         String value = null;
 
@@ -153,7 +154,7 @@ public class OrgProfilePresenter extends OwnerProfilePresenter<OrgDetailsView> {
     public void onMainEvent(GitOrganization organization) {
         this.organization = organization;
         EventBus.getDefault().unregister(this);
-        mView.setTitle(this.organization.getLogin());
+        mView.setUpToolbar(this.organization.getLogin());
         loadOrganizationDetails(organization.getLogin());
         loadMembersCount(organization.getLogin());
     }

@@ -18,7 +18,6 @@ import com.stormphoenix.ogit.mvp.view.base.BaseUIView;
 import com.stormphoenix.ogit.shares.rx.RxHttpLog;
 import com.stormphoenix.ogit.shares.rx.RxJavaCustomTransformer;
 import com.stormphoenix.ogit.shares.rx.subscribers.DefaultUiSubscriber;
-import com.stormphoenix.ogit.utils.ImageUtils;
 import com.stormphoenix.ogit.utils.TextTools;
 import com.stormphoenix.ogit.utils.TimeUtils;
 import com.stormphoenix.ogit.widget.ImageVerticalKeyValueLabel;
@@ -51,8 +50,10 @@ public class UserProfilePresenter extends OwnerProfilePresenter<UserDetailsView>
         mInteractor = new UserInteractor(mContext);
     }
 
-    public void loadUserInfo() {
+    public void refreshViewInfo() {
+        mView.loadHeaderImage(mUser.getAvatarUrl());
         mView.showProgress();
+        mView.setOwnerDescription(mUser.getHtmlUrl());
         mInteractor.loadUser(mUser.getLogin())
                 .compose(RxJavaCustomTransformer.defaultSchedulers())
                 .subscribe(new Subscriber<Response<GitUser>>() {
@@ -166,8 +167,8 @@ public class UserProfilePresenter extends OwnerProfilePresenter<UserDetailsView>
     }
 
     private void setUpUserInfo() {
-        mView.setFollowers(String.valueOf(mUser.getFollowers()));
-        mView.setFollowings(String.valueOf(mUser.getFollowing()));
+        mView.setFollowersCount(String.valueOf(mUser.getFollowers()));
+        mView.setFollowingCount(String.valueOf(mUser.getFollowing()));
         String key, value;
 
         if (!TextUtils.isEmpty(mUser.getBlog())) {
@@ -230,8 +231,7 @@ public class UserProfilePresenter extends OwnerProfilePresenter<UserDetailsView>
         this.mUser = user;
         EventBus.getDefault().unregister(this);
         mView.setUpToolbar(mUser.getLogin());
-        loadUserInfo();
-        ImageUtils.getInstance().displayImage(mUser.getAvatarUrl(), mView.getHeadImageView());
+        refreshViewInfo();
         hasFollowed();
     }
 

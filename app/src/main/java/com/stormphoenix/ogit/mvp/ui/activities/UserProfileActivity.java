@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.dagger2.component.DaggerActivityComponent;
@@ -13,6 +12,7 @@ import com.stormphoenix.ogit.dagger2.module.ContextModule;
 import com.stormphoenix.ogit.mvp.presenter.user.UserProfilePresenter;
 import com.stormphoenix.ogit.mvp.ui.activities.base.OwnerProfileActivity;
 import com.stormphoenix.ogit.mvp.view.UserDetailsView;
+import com.stormphoenix.ogit.utils.ImageUtils;
 import com.stormphoenix.ogit.utils.ViewUtils;
 
 import javax.inject.Inject;
@@ -56,16 +56,6 @@ public class UserProfileActivity extends OwnerProfileActivity implements UserDet
     }
 
     @Override
-    public void setUpToolbar(String title) {
-        mToolbar.setTitle(title);
-        mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
-        setSupportActionBar(mToolbar);
-        mToolbar.setNavigationOnClickListener((v) -> {
-            onBackPressed();
-        });
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
@@ -77,12 +67,12 @@ public class UserProfileActivity extends OwnerProfileActivity implements UserDet
     }
 
     @Override
-    public void setFollowers(String followers) {
+    public void setFollowersCount(String followers) {
         mLabel2.setValueName(followers);
     }
 
     @Override
-    public void setFollowings(String followings) {
+    public void setFollowingCount(String followings) {
         mLabel3.setValueName(followings);
     }
 
@@ -95,18 +85,19 @@ public class UserProfileActivity extends OwnerProfileActivity implements UserDet
     }
 
     @Override
+    public void loadHeaderImage(String url) {
+        ImageUtils.getInstance().displayImage(url, mImageAppBar);
+        ImageUtils.getInstance().displayImage(url, circleHeadImage);
+    }
+
+    @Override
     public void hideProgress() {
 
     }
 
     @Override
     public void showMessage(String message) {
-        ViewUtils.showMessage(mImgAppBar, message);
-    }
-
-    @Override
-    public ImageView getHeadImageView() {
-        return mImgAppBar;
+        ViewUtils.showMessage(mImageAppBar, message);
     }
 
     @Override

@@ -78,20 +78,19 @@ public class OrgProfileActivity extends OwnerProfileActivity implements OrgDetai
     }
 
     @Override
-    public void setFolloweringCount(String followeringCount) {
+    public void setFollowingCount(String followeringCount) {
         mLabel3.setValueName(followeringCount);
     }
 
     @Override
-    public void setTitle(String title) {
-        mToolbar.setTitle(title);
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    public void stopProgress() {
+
     }
 
     @Override
-    public void loadOrgHeaderImage(String url) {
-        ImageUtils.getInstance().displayImage(url, mImgAppBar);
+    public void loadHeaderImage(String url) {
+        ImageUtils.getInstance().displayImage(url, mImageAppBar);
+        ImageUtils.getInstance().displayImage(url, circleHeadImage);
     }
 
     @Override

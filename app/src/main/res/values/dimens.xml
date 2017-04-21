@@ -13,4 +13,9 @@
     <dimen name="repo_contributor_avatar_size">24dp</dimen>
     <dimen name="repo_contributor_avatar_margin">8dp</dimen>
     <dimen name="feedback_tools_text_size">15sp</dimen>
+
+    <!-- dimensions -->
+    <dimen name="image_width">100dp</dimen>
+    <dimen name="image_final_width">32dp</dimen>
+    <dimen name="spacing_normal">16dp</dimen>
 </resources>

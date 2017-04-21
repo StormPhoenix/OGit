@@ -21,7 +21,16 @@ import static com.stormphoenix.ogit.cache.FileCache.CacheType.ORG_LIST;
 import static com.stormphoenix.ogit.cache.FileCache.CacheType.ORG_MEMBERS;
 import static com.stormphoenix.ogit.cache.FileCache.CacheType.REPO_CONTRIBUTORS;
 import static com.stormphoenix.ogit.cache.FileCache.CacheType.REPO_TREE;
-import static com.stormphoenix.ogit.cache.FileCache.CacheType.TREND_REPOS;
+import static com.stormphoenix.ogit.cache.FileCache.CacheType.TREND_DEVELOPER;
+import static com.stormphoenix.ogit.cache.FileCache.CacheType.TREND_REPOS_All_Lang;
+import static com.stormphoenix.ogit.cache.FileCache.CacheType.TREND_REPOS_Css;
+import static com.stormphoenix.ogit.cache.FileCache.CacheType.TREND_REPOS_Go;
+import static com.stormphoenix.ogit.cache.FileCache.CacheType.TREND_REPOS_Html;
+import static com.stormphoenix.ogit.cache.FileCache.CacheType.TREND_REPOS_Java;
+import static com.stormphoenix.ogit.cache.FileCache.CacheType.TREND_REPOS_JavaScript;
+import static com.stormphoenix.ogit.cache.FileCache.CacheType.TREND_REPOS_Objective_C;
+import static com.stormphoenix.ogit.cache.FileCache.CacheType.TREND_REPOS_Python;
+import static com.stormphoenix.ogit.cache.FileCache.CacheType.TREND_REPOS_Swift;
 import static com.stormphoenix.ogit.cache.FileCache.CacheType.USER_COMMITS;
 import static com.stormphoenix.ogit.cache.FileCache.CacheType.USER_FOLLERINGS;
 import static com.stormphoenix.ogit.cache.FileCache.CacheType.USER_FOLLERS;
@@ -49,8 +58,17 @@ public class FileCache {
         ORG_MEMBERS,
         REPO_CONTRIBUTORS,
         ORG_LIST,
-        TREND_REPOS,
-        REPO_TREE
+        REPO_TREE,
+        TREND_REPOS_All_Lang,
+        TREND_REPOS_JavaScript,
+        TREND_REPOS_Java,
+        TREND_REPOS_Go,
+        TREND_REPOS_Css,
+        TREND_REPOS_Objective_C,
+        TREND_REPOS_Python,
+        TREND_REPOS_Swift,
+        TREND_REPOS_Html,
+        TREND_DEVELOPER
     }
 
     private static final HashMap<CacheType, String> typeNameMap = new HashMap<>();
@@ -59,7 +77,16 @@ public class FileCache {
         typeNameMap.put(USER_PERFORMED_EVENT, "user_performed_event.json");
         typeNameMap.put(ORG_LIST, "org_list.json");
         typeNameMap.put(REPO_TREE, "repo_tree.json");
-        typeNameMap.put(TREND_REPOS, "trend_repos.json");
+        typeNameMap.put(TREND_REPOS_All_Lang, "trend_repos_all_lang.json");
+        typeNameMap.put(TREND_REPOS_JavaScript, "trend_repos_javascript.json");
+        typeNameMap.put(TREND_REPOS_Java, "trend_repos_java.json");
+        typeNameMap.put(TREND_REPOS_Go, "trend_repos_go.json");
+        typeNameMap.put(TREND_REPOS_Css, "trend_repos_css.json");
+        typeNameMap.put(TREND_REPOS_Objective_C, "trend_repos_objective_c.json");
+        typeNameMap.put(TREND_REPOS_Python, "trend_repos_python.json");
+        typeNameMap.put(TREND_REPOS_Swift, "trend_repos_swift.json");
+        typeNameMap.put(TREND_REPOS_Html, "trend_repos_html.json");
+        typeNameMap.put(TREND_DEVELOPER, "trend_developer.json");
         typeNameMap.put(USER_RECEIVED_EVENT, "user_received_event.json");
         typeNameMap.put(USER_REPOSITORIES, "user_repos.json");
         typeNameMap.put(USER_STARED_REPOS, "user_stared_repos.json");
@@ -74,17 +101,17 @@ public class FileCache {
 
     public static String getCachedFile(CacheType cacheType) {
         String filename = getFileName(cacheType);
-        StringBuilder builder = new StringBuilder();
         File cachedFile = new File(OGitApplication.instance.getCacheDir(), filename);
         if (!cachedFile.exists()) {
             return null;
         } else {
-            return getCharFormatFileContent(builder, cachedFile);
+            return getCharFormatFileContent(cachedFile);
         }
     }
 
     @NonNull
-    private static String getCharFormatFileContent(StringBuilder builder, File cachedFile) {
+    private static String getCharFormatFileContent(File cachedFile) {
+        StringBuilder builder = new StringBuilder();
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(cachedFile), "utf-8"));
             String temp;

@@ -11,11 +11,7 @@ import android.support.v4.view.ViewCompat;
 import android.util.DisplayMetrics;
 import android.view.TouchDelegate;
 import android.view.View;
-
-import android.graphics.Rect;
-import android.util.DisplayMetrics;
-import android.view.TouchDelegate;
-import android.view.View;
+import android.view.animation.AlphaAnimation;
 
 public class ViewUtils {
 
@@ -38,12 +34,12 @@ public class ViewUtils {
     }
 
     public static <V extends View> V setGone(V view, boolean gone) {
-        if(view != null) {
-            if(gone) {
-                if(View.GONE != view.getVisibility()) {
+        if (view != null) {
+            if (gone) {
+                if (View.GONE != view.getVisibility()) {
                     view.setVisibility(View.GONE);
                 }
-            } else if(View.VISIBLE != view.getVisibility()) {
+            } else if (View.VISIBLE != view.getVisibility()) {
                 view.setVisibility(View.VISIBLE);
             }
         }
@@ -51,12 +47,12 @@ public class ViewUtils {
     }
 
     public static <V extends View> V setInvisible(V view, boolean invisible) {
-        if(view != null) {
-            if(invisible) {
-                if(View.INVISIBLE != view.getVisibility()) {
+        if (view != null) {
+            if (invisible) {
+                if (View.INVISIBLE != view.getVisibility()) {
                     view.setVisibility(View.INVISIBLE);
                 }
-            } else if(View.VISIBLE != view.getVisibility()) {
+            } else if (View.VISIBLE != view.getVisibility()) {
                 view.setVisibility(View.VISIBLE);
             }
         }
@@ -69,11 +65,11 @@ public class ViewUtils {
     }
 
     public static void increaseHitRectBy(final int top, final int left, final int bottom, final int right, final View delegate) {
-        final View parent = (View)delegate.getParent();
-        if(parent != null && delegate.getContext() != null) {
+        final View parent = (View) delegate.getParent();
+        if (parent != null && delegate.getContext() != null) {
             parent.post(new Runnable() {
                 public void run() {
-                    float densityDpi = (float)delegate.getContext().getResources().getDisplayMetrics().densityDpi;
+                    float densityDpi = (float) delegate.getContext().getResources().getDisplayMetrics().densityDpi;
                     Rect r = new Rect();
                     delegate.getHitRect(r);
                     r.top -= ViewUtils.transformToDensityPixel(top, densityDpi);
@@ -88,11 +84,21 @@ public class ViewUtils {
     }
 
     public static int transformToDensityPixel(int regularPixel, DisplayMetrics displayMetrics) {
-        return transformToDensityPixel(regularPixel, (float)displayMetrics.densityDpi);
+        return transformToDensityPixel(regularPixel, (float) displayMetrics.densityDpi);
     }
 
     public static int transformToDensityPixel(int regularPixel, float densityDpi) {
-        return (int)((float)regularPixel * densityDpi);
+        return (int) ((float) regularPixel * densityDpi);
+    }
+
+    public static void startAlphaAnimation(View v, long duration, int visibility) {
+        AlphaAnimation alphaAnimation = (visibility == View.VISIBLE)
+                ? new AlphaAnimation(0f, 1f)
+                : new AlphaAnimation(1f, 0f);
+
+        alphaAnimation.setDuration(duration);
+        alphaAnimation.setFillAfter(true);
+        v.startAnimation(alphaAnimation);
     }
 
     private ViewUtils() {
