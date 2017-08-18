@@ -9,7 +9,6 @@ import com.stormphoenix.httpknife.GitEventParser;
 import com.stormphoenix.httpknife.github.GitEvent;
 import com.stormphoenix.httpknife.github.GitUser;
 import com.stormphoenix.ogit.cache.FileCache;
-import com.stormphoenix.ogit.mvp.presenter.base.ListItemPresenter;
 import com.stormphoenix.ogit.mvp.view.base.ListItemView;
 import com.stormphoenix.ogit.shares.rx.RxJavaCustomTransformer;
 

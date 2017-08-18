@@ -98,7 +98,6 @@ public class FileCache {
         typeNameMap.put(ORG_MEMBERS, "org_members.json");
     }
 
-
     public static String getCachedFile(CacheType cacheType) {
         String filename = getFileName(cacheType);
         File cachedFile = new File(OGitApplication.instance.getCacheDir(), filename);
