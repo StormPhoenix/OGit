@@ -27,6 +27,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import us.feras.mdv.MarkdownView;
 
 public class RepositoryActivity extends BaseActivity implements RepositoryView {
     @Inject
@@ -43,7 +44,7 @@ public class RepositoryActivity extends BaseActivity implements RepositoryView {
     @BindView(R.id.text_num_contributor)
     TextView mTextNumContributor;
     @BindView(R.id.text_readme)
-    AppCompatTextView mTextReadme;
+    MarkdownView mTextReadme;
     @BindView(R.id.label_star)
     KeyValueLabel mLabelStar;
     @BindView(R.id.label_fork)
@@ -138,12 +139,14 @@ public class RepositoryActivity extends BaseActivity implements RepositoryView {
     @Override
     public void loadReadmeHtml(String readmeText, String repoHtmlUrl, String defaultBranch) {
         if (TextUtils.isEmpty(readmeText)) {
-            mTextReadme.setText(getString(R.string.no_readme));
+            mTextReadme.loadMarkdown(getString(R.string.no_readme));
             return;
+        } else {
+            mTextReadme.loadMarkdown(readmeText);
         }
-        HtmlImageGetter imageGetter = new HtmlImageGetter(mTextReadme, this,
-                repoHtmlUrl + "/raw/" + defaultBranch);
-        TextTools.showReadmeHtml(mTextReadme, readmeText, imageGetter);
+//        HtmlImageGetter imageGetter = new HtmlImageGetter(mTextReadme, this,
+//                repoHtmlUrl + "/raw/" + defaultBranch);
+//        TextTools.showReadmeHtml(mTextReadme, readmeText, imageGetter);
     }
 
     @Override

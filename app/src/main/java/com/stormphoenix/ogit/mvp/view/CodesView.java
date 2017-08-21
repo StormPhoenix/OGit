@@ -7,7 +7,7 @@ import com.stormphoenix.ogit.mvp.view.base.BaseUIView;
  * Created by StormPhoenix on 17-3-4.
  * StormPhoenix is a intelligent Android developer.
  */
-public interface CodeView extends BaseUIView {
+public interface CodesView extends BaseUIView {
     void initWebView();
 
     void setMarkdown(boolean isMarkdown);

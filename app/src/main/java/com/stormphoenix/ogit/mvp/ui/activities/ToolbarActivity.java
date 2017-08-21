@@ -12,7 +12,7 @@ import com.stormphoenix.ogit.mvp.presenter.commits.CommitsPresenter;
 import com.stormphoenix.ogit.mvp.presenter.repository.ContributorsPresenter;
 import com.stormphoenix.ogit.mvp.presenter.user.NotifyPresenter;
 import com.stormphoenix.ogit.mvp.ui.activities.base.BaseActivity;
-import com.stormphoenix.ogit.mvp.ui.fragments.CodeFragment;
+import com.stormphoenix.ogit.mvp.ui.fragments.CodesFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.commits.CommitDetailsFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.commits.CommitsFragment;
 import com.stormphoenix.ogit.mvp.ui.fragments.users.NotifyFragment;
@@ -83,7 +83,7 @@ public class ToolbarActivity extends BaseActivity {
             String branch = bundle.getString(BRANCH);
             title = repo;
             subTitle = path;
-            currentFragment = CodeFragment.getInstance(owner, repo, path, branch);
+            currentFragment = CodesFragment.getInstance(owner, repo, path, branch);
         } else if (type == TYPE_ORGANIZATION) {
             title = getString(R.string.organization);
             subTitle = PreferenceUtils.getUsername(this);

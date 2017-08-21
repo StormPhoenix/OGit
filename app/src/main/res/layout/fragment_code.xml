@@ -9,10 +9,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <WebView
-            android:id="@+id/webview"
+        <!--<WebView-->
+        <!--android:id="@+id/webview"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dip"-->
+        <!--android:layout_weight="1"></WebView>-->
+        <thereisnospon.codeview.CodeView
+            android:id="@+id/codeview"
             android:layout_width="match_parent"
-            android:layout_height="0dip"
-            android:layout_weight="1"></WebView>
+            android:layout_height="match_parent"></thereisnospon.codeview.CodeView>
     </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>

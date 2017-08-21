@@ -10,7 +10,7 @@ import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.mvp.model.api.BlobFileApi;
 import com.stormphoenix.ogit.mvp.model.interactor.repository.RepoFileInteractor;
 import com.stormphoenix.ogit.mvp.presenter.base.BasePresenter;
-import com.stormphoenix.ogit.mvp.view.CodeView;
+import com.stormphoenix.ogit.mvp.view.CodesView;
 import com.stormphoenix.ogit.mvp.view.base.BaseUIView;
 import com.stormphoenix.ogit.shares.rx.RxJavaCustomTransformer;
 import com.stormphoenix.ogit.shares.rx.creator.RetrofitCreator;
@@ -24,11 +24,11 @@ import retrofit2.Retrofit;
  * Created by StormPhoenix on 17-3-4.
  * StormPhoenix is a intelligent Android developer.
  * <p>
- * CodePresenter 负责 CodeFragment 中的逻辑交互，主要逻辑是：
+ * CodePresenter 负责 CodesFragment 中的逻辑交互，主要逻辑是：
  * 1、利用预先提供的 owner、repo、path、branch 数据获取 GitBlob信息。
  * 2、利用 GitBlob 中的信息下载代码文件。
  */
-public class CodePresenter extends BasePresenter<CodeView> {
+public class CodePresenter extends BasePresenter<CodesView> {
     public static final String TAG = CodePresenter.class.getName();
     // 代码文件的信息对象
     private GitBlob mBlob = null;
