@@ -2,7 +2,8 @@ apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
 apply plugin: 'org.greenrobot.greendao'
-
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 25
@@ -36,7 +37,6 @@ dependencies {
     })
     //    compile 'com.github.tiagohm:CodeView:0.1.4'
     compile project(':httpknife')
-    compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'
@@ -72,4 +72,5 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.0-beta5'
     testCompile 'junit:junit:4.12'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
+    compile project(':uilibrary')
 }

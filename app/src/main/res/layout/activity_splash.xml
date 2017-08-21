@@ -1,30 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_splash"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
+    android:background="@color/colorPrimary"
     android:clipToPadding="true"
-    android:background="@android:color/white"
+    android:fitsSystemWindows="true"
     tools:context=".mvp.ui.activities.SplashActivity">
+    <!--android:gravity="center"-->
 
     <ImageView
         android:id="@+id/img_logo"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_centerInParent="true"
         android:background="@android:color/white"
-        android:layout_width="210dp"
-        android:layout_height="210dp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_default_header_img_black_32dp"
-        app:layout_constraintHorizontal_bias="0.52"
-        app:layout_constraintVertical_bias="0.35000002" />
+        app:srcCompat="@drawable/ic_default_header_img_black_32dp" />
 
-</android.support.constraint.ConstraintLayout>
+    <org.stormphoenix.uicomponent.FlashImageView
+        android:id="@+id/flash_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent" />
+</RelativeLayout>

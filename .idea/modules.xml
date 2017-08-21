@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/OGit.iml" filepath="$PROJECT_DIR$/OGit.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/httpknife/httpknife.iml" filepath="$PROJECT_DIR$/httpknife/httpknife.iml" />
+      <module fileurl="file://$PROJECT_DIR$/uilibrary/uilibrary.iml" filepath="$PROJECT_DIR$/uilibrary/uilibrary.iml" />
     </modules>
   </component>
 </project>
