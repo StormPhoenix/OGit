@@ -119,6 +119,12 @@ public class MainActivity extends TabPagerActivity<FragmentsAdapter> implements 
         configureTabPager();
     }
 
+    @Override
+    protected void onStart() {
+        SplashActivity.finishSplash();
+        super.onStart();
+    }
+
     /**
      * 初始化用户头像、用户名视图
      */
@@ -130,7 +136,8 @@ public class MainActivity extends TabPagerActivity<FragmentsAdapter> implements 
 
     @Override
     protected FragmentsAdapter createAdapter() {
-        String[] titleList = {"Event", "Starred", "Repos", "Followers", "Followings"};
+        String[] titleList = {"Event", "Starred", "Repos"};
+//        String[] titleList = {"Event", "Starred", "Repos", "Followers", "Followings"};
         List<BaseFragment> fragmentList = new ArrayList<>();
 
         EventsFragment receiveEventsFragment = EventsFragment.newInstance(new UserReceivedEventsPresenter(this));
@@ -151,8 +158,8 @@ public class MainActivity extends TabPagerActivity<FragmentsAdapter> implements 
         fragmentList.add(receiveEventsFragment);
         fragmentList.add(staredReposFragment);
         fragmentList.add(reposListFragment);
-        fragmentList.add(followersFragment);
-        fragmentList.add(followingsFragment);
+//        fragmentList.add(followersFragment);
+//        fragmentList.add(followingsFragment);
 
         mAdapter = new FragmentsAdapter(this.getSupportFragmentManager());
         mAdapter.setFragmentList(fragmentList, titleList);

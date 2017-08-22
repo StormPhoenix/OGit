@@ -19,6 +19,8 @@ class FlashImageView : AppCompatImageView {
     private val mFlashPaint: Paint
     private val mMaskPaint: Paint
 
+    private var isFirstFlash: Boolean = true
+
     private var velocity: Int = 100;
     private var length: Int = 0
     private var angle: Double = Math.PI / 4
@@ -48,11 +50,14 @@ class FlashImageView : AppCompatImageView {
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-        length = (w / Math.tan(angle)).toInt() / 2
+        length = (w / Math.tan(angle)).toInt()
     }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
+        if (!isFirstFlash) {
+            return
+        }
         drawFlash(canvas)
         length += velocity
         if (length < height + width / Math.tan(angle)
@@ -60,6 +65,8 @@ class FlashImageView : AppCompatImageView {
                 + mSecondFlashLineWidth
                 + mLinesInterval) / Math.sin(angle)) {
             postInvalidate()
+        } else {
+            isFirstFlash = false
         }
     }
 

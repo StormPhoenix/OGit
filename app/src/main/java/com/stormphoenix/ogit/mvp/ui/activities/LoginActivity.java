@@ -89,6 +89,12 @@ public class LoginActivity extends BaseActivity implements LoginView {
     }
 
     @Override
+    protected void onStart() {
+        SplashActivity.finishSplash();
+        super.onStart();
+    }
+
+    @Override
     public void finishView() {
         finish();
     }

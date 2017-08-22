@@ -12,13 +12,14 @@ import com.stormphoenix.ogit.utils.ImageUtils;
  */
 
 public class OGitApplication extends Application {
-    public static Context instance = null;
+    public static OGitApplication instance = null;
+    // 是重新启动了应用吗？
+    public boolean isFirstIn = true;
 
     @Override
     public void onCreate() {
         super.onCreate();
         instance = this;
-
         initImageLoader();
     }
 

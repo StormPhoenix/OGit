@@ -1,7 +1,9 @@
 package com.stormphoenix.ogit.mvp.ui.activities;
 
+import android.app.Activity;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -24,16 +26,37 @@ public class SplashActivity extends BaseActivity {
     @BindView(R.id.activity_splash)
     RelativeLayout mActivitySplash;
 
+    private static Activity instance = null;
+
+    public static void finishSplash() {
+        if (instance != null) {
+            instance.finish();
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        hideNavigationBar();
+        instance = this;
 //        mActivitySplash.setBackgroundColor(this.getResources().getColor(R.color.colorPrimary));
         mImgLogo.setColorFilter(this.getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_OUT);
-        timer();
+//        if (OGitApplication.instance.isFirstIn) {
+//            OGitApplication.instance.isFirstIn = false;
+        timer(3000);
+//        } else {
+//            timer(0);
+//        }
     }
 
-    private void timer() {
-        Observable.timer(4000, TimeUnit.MILLISECONDS)
+    private void hideNavigationBar() {
+        View decorView = getWindow().getDecorView();
+        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+        decorView.setSystemUiVisibility(uiOptions);
+    }
+
+    private void timer(long duration) {
+        Observable.timer(duration, TimeUnit.MILLISECONDS)
                 .compose(RxJavaCustomTransformer.<Long>defaultSchedulers())
                 .subscribe(new Subscriber<Long>() {
                     @Override
@@ -43,7 +66,6 @@ public class SplashActivity extends BaseActivity {
                         } else {
                             startActivity(LoginActivity.newIntent(SplashActivity.this));
                         }
-                        finish();
                     }
 
                     @Override
