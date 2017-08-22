@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.stormphoenix.httpknife.github.GitEmpty;
 import com.stormphoenix.httpknife.github.GitToken;
@@ -17,6 +18,7 @@ import com.stormphoenix.ogit.shares.rx.RxJavaCustomTransformer;
 import com.stormphoenix.ogit.shares.rx.subscribers.DefaultUiSubscriber;
 import com.stormphoenix.ogit.utils.PreferenceUtils;
 
+import java.net.SocketTimeoutException;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -109,6 +111,9 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                     @Override
                     public void onError(Throwable e) {
                         mView.hideProgress();
+                        if (e instanceof SocketTimeoutException) {
+                            Toast.makeText(mContext, mContext.getString(R.string.network_error), Toast.LENGTH_SHORT).show();
+                        }
                     }
 
                     @Override
