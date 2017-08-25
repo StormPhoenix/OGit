@@ -7,7 +7,7 @@ import android.text.TextUtils;
 import com.stormphoenix.httpknife.github.GitCommit;
 import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.mvp.model.interactor.commits.CommitDetailsInteractor;
-import com.stormphoenix.ogit.mvp.presenter.base.BasePresenter;
+import com.stormphoenix.ogit.mvp.presenter.BasePresenter;
 import com.stormphoenix.ogit.mvp.view.CommitDetailsView;
 import com.stormphoenix.ogit.mvp.view.base.BaseUIView;
 import com.stormphoenix.ogit.shares.rx.RxJavaCustomTransformer;

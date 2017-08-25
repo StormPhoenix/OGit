@@ -1,42 +1,30 @@
-package com.stormphoenix.ogit.mvp.presenter.base;
+package com.stormphoenix.ogit.mvp.presenter;
 
 import android.os.Bundle;
 import android.support.annotation.IntDef;
 
-import com.stormphoenix.ogit.mvp.view.base.BaseView;
-
+import com.stormphoenix.ogit.mvp.contract.BaseContract;
 
 /**
- * Created by Developer on 17-1-21.
- * Wang Cheng is a intelligent Android developer.
+ * Created by StormPhoenix on 17-8-23.
+ * StormPhoenix is a intelligent Android developer.
  */
 
-public abstract class BasePresenter<T extends BaseView> {
-    protected T mView = null;
+public abstract class BasePresenter<V extends BaseContract.View> implements BaseContract.Presenter<V> {
+    protected V mView = null;
 
-    public void onAttachView(T view) {
+    @Override
+    public void onAttachView(V view) {
         mView = view;
     }
 
+    @Override
     public void onCreate(Bundle onSavedInstanceState) {
     }
 
-    public void onStart() {
-    }
-
-    public void onPause() {
-    }
-
-    public void onResume() {
-    }
-
-    public void onStop() {
-    }
-
+    @Override
     public void onDestory() {
-    }
 
-    public void onSaveInstanceState(Bundle outState) {
     }
 
     public static class NotifyEvent<T> {
@@ -53,7 +41,7 @@ public abstract class BasePresenter<T extends BaseView> {
             return type;
         }
 
-        public void setType(@Type int type) {
+        public void setType(@NotifyEvent.Type int type) {
             this.type = type;
         }
 

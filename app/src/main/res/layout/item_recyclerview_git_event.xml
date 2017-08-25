@@ -1,135 +1,155 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="@dimen/item_event_card_margin"
-    android:foreground="?android:attr/selectableItemBackground"
-    android:minHeight="72dp"
-    android:paddingLeft="16dp">
+    app:cardCornerRadius="@dimen/cardview_default_radius"
+    app:cardElevation="@dimen/cardview_default_elevation"
+    app:cardUseCompatPadding="true">
 
-    <View
-        android:id="@+id/divider_line"
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="72dp"
-        android:background="@color/colorDivider" />
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/header_image"
-        android:layout_width="@dimen/header_image_size"
-        android:layout_height="@dimen/header_image_size"
-        android:layout_alignParentLeft="true"
-        android:layout_marginTop="16dp"
-        tools:src="@drawable/ic_default_header_img_black_32dp" />
 
     <LinearLayout
+        android:padding="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="80dp"
-        android:orientation="vertical"
-        android:paddingBottom="16dp"
-        android:paddingRight="16dp"
-        android:paddingTop="16dp">
+        android:foreground="?android:attr/selectableItemBackground"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/text_event_info"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:minLines="1"
-            android:textColor="@color/colorPrimaryText"
-            android:textSize="16sp"
-            tools:text="evee2nt content event content" />
-
-        <TextView
-            android:id="@+id/text_commit_nums"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            tools:text="2 new commits"
-            tools:visibility="visible" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
-            <!--android:weightSum="5"-->
+            android:layout_centerVertical="true"
+            android:orientation="vertical"
+            android:paddingRight="16dp">
 
             <TextView
-                android:id="@+id/text_commit1_ref"
-                android:layout_width="55dp"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:visibility="gone"
-                tools:text="57c4cf4"
-                tools:visibility="visible" />
-
-            <TextView
-                android:id="@+id/text_commit1_content"
+                android:id="@+id/text_event_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:visibility="gone"
-                tools:text="Update README.Mddfjsdlkfjsdlkjflkdsjlfksdkfjlsdkjflssdjflkdsjl"
-                tools:visibility="visible" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
-            <!--android:weightSum="5"-->
+                android:minLines="1"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="16sp"
+                tools:text="evee2nt content event content" />
 
             <TextView
-                android:id="@+id/text_commit2_ref"
-                android:layout_width="55dp"
+                android:id="@+id/text_commit_nums"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
                 android:visibility="gone"
-                tools:text="57c4cf4"
+                tools:text="2 new commits"
                 tools:visibility="visible" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <!--android:weightSum="5"-->
+
+                <TextView
+                    android:id="@+id/text_commit1_ref"
+                    android:layout_width="55dp"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:visibility="gone"
+                    tools:text="57c4cf4"
+                    tools:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/text_commit1_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:visibility="gone"
+                    tools:text="Update README.Mddfjsdlkfjsdlkjflkdsjlfksdkfjlsdkjflssdjflkdsjl"
+                    tools:visibility="visible" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <!--android:weightSum="5"-->
+
+                <TextView
+                    android:id="@+id/text_commit2_ref"
+                    android:layout_width="55dp"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:visibility="gone"
+                    tools:text="57c4cf4"
+                    tools:visibility="visible" />
                 <!--android:layout_weight="1"-->
 
-            <TextView
-                android:id="@+id/text_commit2_content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:visibility="gone"
-                tools:text="Update README.Mddfjsdlkfjsdlkjflkdsjlfksdkfjlsdkjflssdjflkdsjl"
-                tools:visibility="visible" />
+                <TextView
+                    android:id="@+id/text_commit2_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:visibility="gone"
+                    tools:text="Update README.Mddfjsdlkfjsdlkjflkdsjlfksdkfjlsdkjflssdjflkdsjl"
+                    tools:visibility="visible" />
+            </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_marginTop="4dp"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:layout_marginTop="8dp">
 
-            <ImageView
-                android:id="@+id/event_image"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_alignParentRight="true"
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/header_image"
+                android:layout_width="@dimen/header_image_size"
+                android:layout_height="@dimen/header_image_size"
+                android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/ic_starred_event_black_24dp" />
+                tools:src="@drawable/ic_default_header_img_black_32dp" />
 
-            <TextView
-                android:id="@+id/text_event_happen_time"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
-                android:maxLines="1"
-                android:textSize="14sp"
-                tools:text="刚刚" />
-        </LinearLayout>
+                android:layout_marginLeft="16dp"
+                android:layout_toRightOf="@id/header_image"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/text_user_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:maxLines="1"
+                    android:textSize="14sp"
+                    tools:text="phoenix" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_toRightOf="@id/header_image"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:id="@+id/text_event_happen_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:maxLines="1"
+                        android:textSize="14sp"
+                        tools:text="刚刚" />
+
+                    <ImageView
+                        android:id="@+id/event_image"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_alignParentRight="true"
+                        android:src="@drawable/ic_starred_event_black_24dp" />
+                </RelativeLayout>
+            </LinearLayout>
+        </RelativeLayout>
     </LinearLayout>
-</RelativeLayout>
+</android.support.v7.widget.CardView>

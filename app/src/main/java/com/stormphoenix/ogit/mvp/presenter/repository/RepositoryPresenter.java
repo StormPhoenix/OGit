@@ -9,7 +9,7 @@ import com.stormphoenix.httpknife.github.GitEmpty;
 import com.stormphoenix.httpknife.github.GitRepository;
 import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.mvp.model.interactor.repository.RepoInteractor;
-import com.stormphoenix.ogit.mvp.presenter.base.BasePresenter;
+import com.stormphoenix.ogit.mvp.presenter.BasePresenter;
 import com.stormphoenix.ogit.mvp.ui.activities.BreadcrumbTreeActivity;
 import com.stormphoenix.ogit.mvp.ui.activities.ToolbarActivity;
 import com.stormphoenix.ogit.mvp.view.RepositoryView;

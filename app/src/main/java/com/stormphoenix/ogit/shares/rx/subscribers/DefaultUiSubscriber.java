@@ -2,6 +2,7 @@ package com.stormphoenix.ogit.shares.rx.subscribers;
 
 import android.util.Log;
 
+import com.stormphoenix.ogit.mvp.contract.BaseContract;
 import com.stormphoenix.ogit.mvp.view.base.BaseUIView;
 
 import rx.Subscriber;
@@ -11,7 +12,7 @@ import rx.Subscriber;
  * StormPhoenix is a intelligent Android developer.
  */
 
-public abstract class DefaultUiSubscriber<T, V extends BaseUIView> extends Subscriber<T> {
+public abstract class DefaultUiSubscriber<T, V extends BaseContract.View> extends Subscriber<T> {
     public static final String TAG = DefaultUiSubscriber.class.getSimpleName();
 
     private V ui;

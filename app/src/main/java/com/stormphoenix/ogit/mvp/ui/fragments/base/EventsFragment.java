@@ -34,7 +34,7 @@ public class EventsFragment extends ListWithPresenterFragment<GitEvent> {
 
     @Override
     public BaseRecyclerAdapter<GitEvent, RecyclerView.ViewHolder> getAdapter() {
-        mAdapter = new GitEventsAdapter(getActivity(), new ArrayList<GitEvent>());
+        mAdapter = new GitEventsAdapter(getActivity(), new ArrayList());
         mAdapter.addOnViewClickListener(R.id.header_image, new BaseRecyclerAdapter.OnInternalViewClickListener<GitEvent>() {
             @Override
             public void onClick(View parentV, View v, Integer position, GitEvent values) {

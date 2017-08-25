@@ -11,7 +11,7 @@ import com.stormphoenix.httpknife.github.GitToken;
 import com.stormphoenix.httpknife.github.GitUser;
 import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.mvp.model.interactor.user.TokenInteractor;
-import com.stormphoenix.ogit.mvp.presenter.base.BasePresenter;
+import com.stormphoenix.ogit.mvp.presenter.BasePresenter;
 import com.stormphoenix.ogit.mvp.view.LoginView;
 import com.stormphoenix.ogit.mvp.view.base.BaseUIView;
 import com.stormphoenix.ogit.shares.rx.RxJavaCustomTransformer;

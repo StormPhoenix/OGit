@@ -17,10 +17,6 @@ import java.util.List;
 public abstract class TypeAdapter<T, VH extends RecyclerView.ViewHolder> extends BaseRecyclerAdapter<T, VH> {
     protected final ViewUpdater updater = new ViewUpdater();
 
-    public TypeAdapter(List<T> list) {
-        super(list);
-    }
-
     public TypeAdapter(Context context, List<T> list) {
         super(context, list);
     }

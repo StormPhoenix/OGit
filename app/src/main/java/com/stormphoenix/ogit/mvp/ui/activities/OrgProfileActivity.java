@@ -46,7 +46,7 @@ public class OrgProfileActivity extends OwnerProfileActivity implements OrgDetai
         initViews();
     }
 
-    private void initViews() {
+    public void initViews() {
         mLabel1.setKeyName(getString(R.string.member));
         mLabel2.setKeyName(getString(R.string.followers));
         mLabel3.setKeyName(getString(R.string.followings));

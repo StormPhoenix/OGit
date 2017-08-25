@@ -99,7 +99,7 @@ public class CommitsPresenter extends ListItemPresenter<GitCommit, List<GitCommi
         bundle.putInt(ToolbarActivity.TYPE, ToolbarActivity.TYPE_COMMIT_DETAILS);
         bundle.putString(OGitConstants.REPO_NAME, repository.getName());
         bundle.putString(OGitConstants.OWNER_NAME, repository.getOwner().getLogin());
-//        bundle.putString(ToolbarActivity.SUB_TITLE, mContext.getString(R.string.commit_details));
+//        bundle.putString(ToolbarActivity.SUB_TITLE, context.getString(R.string.commit_details));
         bundle.putString(OGitConstants.SHA, values.getSha());
         mContext.startActivity(ToolbarActivity.newIntent(mContext, bundle));
     }

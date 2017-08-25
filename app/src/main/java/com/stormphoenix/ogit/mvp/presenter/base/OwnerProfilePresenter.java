@@ -2,8 +2,8 @@ package com.stormphoenix.ogit.mvp.presenter.base;
 
 import android.content.Context;
 
-import com.stormphoenix.ogit.mvp.presenter.base.BasePresenter;
-import com.stormphoenix.ogit.mvp.view.base.BaseView;
+import com.stormphoenix.ogit.mvp.contract.BaseContract;
+import com.stormphoenix.ogit.mvp.presenter.BasePresenter;
 import com.stormphoenix.ogit.widget.ImageHorizontalKeyValueLabel;
 import com.stormphoenix.ogit.widget.ImageVerticalKeyValueLabel;
 
@@ -12,7 +12,7 @@ import com.stormphoenix.ogit.widget.ImageVerticalKeyValueLabel;
  * StormPhoenix is a intelligent Android developer.
  */
 
-public class OwnerProfilePresenter<T extends BaseView> extends BasePresenter<T> {
+public class OwnerProfilePresenter<V extends BaseContract.View> extends BasePresenter<V> {
     protected Context mContext;
 
     public OwnerProfilePresenter(Context context) {

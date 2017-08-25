@@ -47,6 +47,7 @@ public abstract class ListWithPresenterFragment<T> extends ListFragment<T> imple
     @Override
     public void loadMoreListItem(List<T> listItems) {
         mAdapter.addAll(listItems);
+        mAdapter.notifyDataSetChanged();
     }
 
     public abstract ListItemPresenter getListItemPresetner();
@@ -61,7 +62,11 @@ public abstract class ListWithPresenterFragment<T> extends ListFragment<T> imple
         mRefreshLayout.setRefreshing(false);
     }
 
-    @Override
+    public void initViews() {
+        initListItemView();
+        initRefreshLayout();
+    }
+
     public void initListItemView() {
         if (mAdapter == null) {
             mAdapter = getAdapter();
@@ -96,13 +101,13 @@ public abstract class ListWithPresenterFragment<T> extends ListFragment<T> imple
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, rootView);
+        initViews();
         getListItemPresetner().onAttachView(this);
         getListItemPresetner().onCreate(savedInstanceState);
         return rootView;
     }
 
-    @Override
-    public void initRefreshLayout() {
+    private void initRefreshLayout() {
         mRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorAccent);
         mRefreshLayout.setOnRefreshListener(() -> getListItemPresetner().loadNewlyListItem());
 

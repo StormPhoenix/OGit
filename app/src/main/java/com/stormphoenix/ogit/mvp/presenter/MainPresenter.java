@@ -6,7 +6,6 @@ import android.util.Log;
 
 import com.stormphoenix.httpknife.github.GitNotification;
 import com.stormphoenix.ogit.mvp.model.interactor.user.NotifyInteractor;
-import com.stormphoenix.ogit.mvp.presenter.base.BasePresenter;
 import com.stormphoenix.ogit.mvp.view.MainView;
 import com.stormphoenix.ogit.shares.rx.RxJavaCustomTransformer;
 

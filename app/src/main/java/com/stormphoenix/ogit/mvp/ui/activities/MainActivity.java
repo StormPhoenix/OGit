@@ -105,7 +105,7 @@ public class MainActivity extends TabPagerActivity<FragmentsAdapter> implements 
         loadPagerData();
     }
 
-    private void initViews() {
+    public void initViews() {
         initToolbar();
         initDrawerView();
         initUserView();

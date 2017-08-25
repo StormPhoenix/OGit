@@ -54,21 +54,21 @@ public class GitEventParser implements JsonDeserializer<GitEvent> {
             }
             // 关键，根据type类型来确定Payload类型
             Class payloadClass = null;
-            if (event.getType().equals(GitEvent.GIT_MEMBER_EVENT)) {
+            if (event.getType().equals(GitEvent.Companion.getGIT_MEMBER_EVENT())) {
                 payloadClass = GitMemberPayload.class;
-            } else if (event.getType().equals(GitEvent.GIT_ISSUES_EVENT)) {
+            } else if (event.getType().equals(GitEvent.Companion.getGIT_ISSUES_EVENT())) {
                 payloadClass = GitIssuePayload.class;
-            } else if (event.getType().equals(GitEvent.GIT_PUSH_EVENT)) {
+            } else if (event.getType().equals(GitEvent.Companion.getGIT_PUSH_EVENT())) {
                 payloadClass = GitPushPayload.class;
-            } else if (event.getType().equals(GitEvent.GIT_RELEASE_EVENT)) {
+            } else if (event.getType().equals(GitEvent.Companion.getGIT_RELEASE_EVENT())) {
                 payloadClass = GitReleasePayload.class;
-            } else if (event.getType().equals(GitEvent.GIT_CREATE_EVENT)) {
+            } else if (event.getType().equals(GitEvent.Companion.getGIT_CREATE_EVENT())) {
                 payloadClass = GitCreatePayload.class;
-            } else if (event.getType().equals(GitEvent.GIT_ISSUE_COMMENT_EVENT)) {
+            } else if (event.getType().equals(GitEvent.Companion.getGIT_ISSUE_COMMENT_EVENT())) {
                 payloadClass = GitIssueCommentPayload.class;
-            } else if (event.getType().equals(GitEvent.GIT_PULL_REQUEST_EVENT)) {
+            } else if (event.getType().equals(GitEvent.Companion.getGIT_PULL_REQUEST_EVENT())) {
                 payloadClass = GitPullRequestPayload.class;
-            } else if (event.getType().equals(GitEvent.GIT_COMMIT_COMMENT_EVENT)) {
+            } else if (event.getType().equals(GitEvent.Companion.getGIT_COMMIT_COMMENT_EVENT())) {
                 payloadClass = GitCommitCommentPayload.class;
             } else {
                 payloadClass = GitPayload.class;

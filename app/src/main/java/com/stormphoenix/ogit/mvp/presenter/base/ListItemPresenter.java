@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.stormphoenix.ogit.cache.FileCache;
+import com.stormphoenix.ogit.mvp.contract.BaseContract;
+import com.stormphoenix.ogit.mvp.presenter.BasePresenter;
 import com.stormphoenix.ogit.mvp.view.base.BaseUIView;
 import com.stormphoenix.ogit.mvp.view.base.ListItemView;
 import com.stormphoenix.ogit.shares.rx.RxHttpLog;
@@ -33,8 +35,6 @@ public abstract class ListItemPresenter<T, R, V extends ListItemView<T>> extends
     @Override
     public void onCreate(Bundle onSavedInstanceState) {
         super.onCreate(onSavedInstanceState);
-        mView.initListItemView();
-        mView.initRefreshLayout();
         loadNewlyListItem();
     }
 
@@ -46,7 +46,7 @@ public abstract class ListItemPresenter<T, R, V extends ListItemView<T>> extends
         }
         mView.clearAllItems();
         load(0).compose(RxJavaCustomTransformer.defaultSchedulers())
-                .subscribe(new DefaultUiSubscriber<Response<R>, BaseUIView>(mView, "network error") {
+                .subscribe(new DefaultUiSubscriber<Response<R>, BaseContract.View>(mView, "network error") {
                     @Override
                     public void onNext(Response<R> response) {
                         RxHttpLog.logResponse(response);
@@ -81,7 +81,7 @@ public abstract class ListItemPresenter<T, R, V extends ListItemView<T>> extends
             return;
         }
         observable.compose(RxJavaCustomTransformer.defaultSchedulers())
-                .subscribe(new DefaultUiSubscriber<Response<R>, BaseUIView>(mView, "network error") {
+                .subscribe(new DefaultUiSubscriber<Response<R>, BaseContract.View>(mView, "network error") {
                     @Override
                     public void onNext(Response<R> response) {
                         RxHttpLog.logResponse(response);

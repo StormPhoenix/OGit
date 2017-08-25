@@ -103,6 +103,6 @@ public abstract class BaseRepoListPresenter extends ListItemPresenter<GitReposit
      * 讲GitRepository对象传递给此Activity的代码请参见 onItemClick 方法
      */
 //    private void startRepositoryActivity() {
-//        ActivityUtils.startActivity(mContext, RepositoryActivity.getIntent(mContext));
+//        ActivityUtils.startActivity(context, RepositoryActivity.getIntent(context));
 //    }
 }

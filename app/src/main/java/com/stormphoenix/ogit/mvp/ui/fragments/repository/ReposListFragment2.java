@@ -2,13 +2,9 @@ package com.stormphoenix.ogit.mvp.ui.fragments.repository;
 
 import android.support.v7.widget.RecyclerView;
 
-import com.stormphoenix.httpknife.github.GitRepository;
 import com.stormphoenix.httpknife.github.GitTrendRepository;
-import com.stormphoenix.ogit.R;
-import com.stormphoenix.ogit.adapters.GitReposAdapter;
 import com.stormphoenix.ogit.adapters.GitReposAdapter2;
 import com.stormphoenix.ogit.adapters.base.BaseRecyclerAdapter;
-import com.stormphoenix.ogit.mvp.presenter.base.BaseRepoListPresenter;
 import com.stormphoenix.ogit.mvp.presenter.base.ListItemPresenter;
 import com.stormphoenix.ogit.mvp.presenter.trend.TrendReposPresenter;
 import com.stormphoenix.ogit.mvp.ui.fragments.base.ListWithPresenterFragment;

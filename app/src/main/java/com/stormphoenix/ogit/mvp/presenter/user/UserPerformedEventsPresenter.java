@@ -56,8 +56,8 @@ public class UserPerformedEventsPresenter extends EventsPresenter {
     }
 
     public void startOwnerProfileActivity() {
-//        Intent intent = new Intent(mContext, UserProfileActivity.class);
-//        ActivityUtils.startActivity(mContext, intent);
+//        Intent intent = new Intent(context, UserProfileActivity.class);
+//        ActivityUtils.startActivity(context, intent);
     }
 
     public void startRepoDetailsActivity() {

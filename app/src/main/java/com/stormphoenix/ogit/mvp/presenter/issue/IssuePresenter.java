@@ -6,7 +6,7 @@ import android.text.TextUtils;
 import com.stormphoenix.httpknife.github.GitIssue;
 import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.mvp.model.interactor.IssueInteractor;
-import com.stormphoenix.ogit.mvp.presenter.base.BasePresenter;
+import com.stormphoenix.ogit.mvp.presenter.BasePresenter;
 import com.stormphoenix.ogit.mvp.view.IssueView;
 import com.stormphoenix.ogit.mvp.view.base.BaseUIView;
 import com.stormphoenix.ogit.shares.rx.RxJavaCustomTransformer;

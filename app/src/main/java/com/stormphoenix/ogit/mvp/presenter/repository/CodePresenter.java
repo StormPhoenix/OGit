@@ -9,7 +9,7 @@ import com.stormphoenix.httpknife.github.GitBlob;
 import com.stormphoenix.ogit.R;
 import com.stormphoenix.ogit.mvp.model.api.BlobFileApi;
 import com.stormphoenix.ogit.mvp.model.interactor.repository.RepoFileInteractor;
-import com.stormphoenix.ogit.mvp.presenter.base.BasePresenter;
+import com.stormphoenix.ogit.mvp.presenter.BasePresenter;
 import com.stormphoenix.ogit.mvp.view.CodesView;
 import com.stormphoenix.ogit.mvp.view.base.BaseUIView;
 import com.stormphoenix.ogit.shares.rx.RxJavaCustomTransformer;

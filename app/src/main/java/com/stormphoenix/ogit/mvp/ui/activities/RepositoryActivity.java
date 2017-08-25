@@ -144,9 +144,6 @@ public class RepositoryActivity extends BaseActivity implements RepositoryView {
         } else {
             mTextReadme.loadMarkdown(readmeText);
         }
-//        HtmlImageGetter imageGetter = new HtmlImageGetter(mTextReadme, this,
-//                repoHtmlUrl + "/raw/" + defaultBranch);
-//        TextTools.showReadmeHtml(mTextReadme, readmeText, imageGetter);
     }
 
     @Override
