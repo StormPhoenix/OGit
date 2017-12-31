@@ -1,10 +1,8 @@
 package com.stormphoenix.ogit.mvp.ui.activities;
 
 import android.app.Activity;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.stormphoenix.ogit.R;
@@ -12,6 +10,8 @@ import com.stormphoenix.ogit.mvp.ui.activities.base.BaseActivity;
 import com.stormphoenix.ogit.shares.rx.RxJavaCustomTransformer;
 import com.stormphoenix.ogit.utils.ActivityUtils;
 import com.stormphoenix.ogit.utils.PreferenceUtils;
+import com.stormphoenix.ogit.widget.splash.WowSplashView;
+import com.stormphoenix.ogit.widget.splash.WowView;
 
 import java.util.concurrent.TimeUnit;
 
@@ -22,11 +22,15 @@ import rx.Subscriber;
 public class SplashActivity extends BaseActivity {
 
     @BindView(R.id.img_logo)
-    ImageView mImgLogo;
+    WowView mImgLogo;
     @BindView(R.id.activity_splash)
     RelativeLayout mActivitySplash;
 
     private static Activity instance = null;
+    @BindView(R.id.wowSplash)
+    WowSplashView mWowSplash;
+
+    private static long mDuration = 2000;
 
     public static void finishSplash() {
         if (instance != null) {
@@ -39,11 +43,22 @@ public class SplashActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         hideNavigationBar();
         instance = this;
+
+        mWowSplash.startAnimate();
+        mWowSplash.setOnEndListener(new WowSplashView.OnEndListener() {
+            @Override
+            public void onEnd(WowSplashView wowSplashView) {
+//                mWowSplash.setVisibility(View.GONE);
+//                mImgLogo.setDuration(mDuration);
+//                mImgLogo.setVisibility(View.VISIBLE);
+//                mImgLogo.startAnimate(wowSplashView.getDrawingCache());
+                timer(0);
+            }
+        });
 //        mActivitySplash.setBackgroundColor(this.getResources().getColor(R.color.colorPrimary));
-        mImgLogo.setColorFilter(this.getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_OUT);
+//        mImgLogo.setColorFilter(this.getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_OUT);
 //        if (OGitApplication.instance.isFirstIn) {
 //            OGitApplication.instance.isFirstIn = false;
-        timer(3000);
 //        } else {
 //            timer(0);
 //        }

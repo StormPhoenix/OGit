@@ -11,9 +11,17 @@
 
     <!--<color name="colorPrimary">#009688</color>-->
     <!--<color name="colorPrimaryDark">#62b900</color>-->
-    <color name="colorAccent">#4CAF50</color>
-    <color name="colorPrimaryDark">#00796B</color>
-    <color name="colorPrimary">#62b900</color>
+
+    <!-- 绿色配色方案 -->
+    <!--<color name="colorAccent">#4CAF50</color>-->
+    <!--<color name="colorPrimaryDark">#00796B</color>-->
+    <!--<color name="colorPrimary">#62b900</color>-->
+
+    <!-- 蓝色配色方案 -->
+    <color name="colorPrimary">#2d2c4b</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
     <color name="diff_marker_bg">#EAF2F5</color>
     <color name="diff_add">#DDFFDD</color>
     <color name="diff_remove">#FFDDDD</color>

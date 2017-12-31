@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/repository_card_wrapper"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="6dp"
+    android:layout_margin="4dp"
     android:clickable="true"
-    android:foreground="?android:attr/selectableItemBackground">
+    android:foreground="?android:attr/selectableItemBackground"
+    app:cardCornerRadius="@dimen/cardview_default_radius"
+    app:cardElevation="@dimen/cardview_default_elevation">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,73 +17,19 @@
         android:orientation="vertical"
         android:padding="12dp">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:padding="8dp">
 
-            <ImageView
-                android:id="@+id/iconType"
+            <TextView
+                android:id="@+id/repoName"
+                style="@style/Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="12dip"
-                android:layout_marginTop="2dip"
-                tools:src="@drawable/ic_created_event_black_24dp" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="15dip"
-                android:layout_toRightOf="@id/iconType"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/repoName"
-                    style="@style/Title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="3dip"
-                    android:singleLine="true"
-                    tools:text="RepoName" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/iconStar"
-                        android:layout_width="@dimen/repo_icon_size"
-                        android:layout_height="@dimen/repo_icon_size"
-                        android:layout_marginRight="5dip"
-                        android:src="@drawable/ic_starred_event_black_24dp" />
-
-                    <TextView
-                        android:id="@+id/starSum"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginRight="15dip" />
-
-                    <ImageView
-                        android:id="@+id/iconFork"
-                        android:layout_width="@dimen/repo_icon_size"
-                        android:layout_height="@dimen/repo_icon_size"
-                        android:layout_marginRight="5dip"
-                        android:src="@drawable/ic_forked_event_black_24dp" />
-
-                    <TextView
-                        android:id="@+id/forkSum"
-
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical" />
-
-                </LinearLayout>
-
-            </LinearLayout>
+                android:singleLine="true"
+                tools:text="RepoName" />
 
             <TextView
                 android:id="@+id/language"
@@ -89,14 +38,65 @@
                 android:layout_alignParentRight="true"
                 android:layout_gravity="top"
                 android:text="Java" />
-        </LinearLayout>
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dip"
             android:ellipsize="end"
-            android:maxLines="5" />
+            android:maxLines="5"
+            android:paddingBottom="8dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            tools:text="hello world" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="3dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/iconStar"
+                    android:layout_width="@dimen/repo_icon_size"
+                    android:layout_height="@dimen/repo_icon_size"
+                    android:layout_marginRight="5dip"
+                    android:src="@drawable/ic_starred_event_black_24dp" />
+
+                <TextView
+                    android:id="@+id/starSum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="15dip" />
+
+                <ImageView
+                    android:id="@+id/iconFork"
+                    android:layout_width="@dimen/repo_icon_size"
+                    android:layout_height="@dimen/repo_icon_size"
+                    android:layout_marginRight="5dip"
+                    android:src="@drawable/ic_forked_event_black_24dp" />
+
+                <TextView
+                    android:id="@+id/forkSum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical" />
+
+            </LinearLayout>
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/iconType"
+                android:layout_width="@dimen/repo_icon_size"
+                android:layout_height="@dimen/repo_icon_size"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="2dip"
+                tools:src="@drawable/ic_created_event_black_24dp" />
+        </RelativeLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>

@@ -77,13 +77,14 @@ class GitEventsAdapter(context: Context, dataList: MutableList<GitEvent>) : Base
             mTextCommit2 = itemView.findViewById(R.id.text_commit2_ref) as TextView?
             mTextCommit2Content = itemView.findViewById(R.id.text_commit2_content) as TextView?
             mTextUserName = itemView.findViewById(R.id.text_user_name) as TextView?
+            mEventImage!!.alpha = 0.7f
         }
 
         fun bind(model: GitEvent) {
             val eventType = model.type
-            mTextUserName?.text = model.actor?.name
+            mTextUserName?.text = model.actor?.login
             if (eventType == GitEvent.GIT_WATCH_EVENT) {
-                mTextEventInfo?.text = Html.fromHtml(HtmlUtils.bold(model.actor?.login) + " stared " + HtmlUtils.bold(model.repo?.name))
+                mTextEventInfo?.text = Html.fromHtml(HtmlUtils.bold(model.actor?.login) + "<font color=\"blue\"> stared </font>" + HtmlUtils.bold(model.repo?.name))
                 mEventImage?.setImageResource(R.drawable.ic_starred_event_black_24dp)
                 //                BitmapUtils.setIconFont(context, img, OctIcon.STAR, R.color.theme_color);
             } else if (eventType == GitEvent.GIT_COMMIT_COMMENT_EVENT) {

@@ -11,7 +11,7 @@
         <item name="android:windowAllowEnterTransitionOverlap">false</item>
         <item name="android:windowAllowReturnTransitionOverlap">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="android:navigationBarColor">#62b900</item>
+        <item name="android:navigationBarColor">#2d2c4b</item>
     </style>
 
     <style name="Widget.RepositoryOptionsCardStyle" parent="android:Widget">
@@ -20,7 +20,7 @@
     </style>
 
     <style name="Title" parent="Text">
-        <item name="android:textSize">24sp</item>
+        <item name="android:textSize">15sp</item>
         <!--<item name="android:textStyle">bold</item>-->
     </style>
 

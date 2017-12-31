@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_splash"
     android:layout_width="match_parent"
@@ -11,17 +10,14 @@
     tools:context=".mvp.ui.activities.SplashActivity">
     <!--android:gravity="center"-->
 
-    <ImageView
-        android:id="@+id/img_logo"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_centerInParent="true"
-        android:background="@android:color/white"
-        app:srcCompat="@drawable/ic_default_header_img_black_32dp" />
+    <com.stormphoenix.ogit.widget.splash.WowSplashView
+        android:id="@+id/wowSplash"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-    <org.stormphoenix.uicomponent.FlashImageView
-        android:id="@+id/flash_view"
+    <com.stormphoenix.ogit.widget.splash.WowView
+        android:id="@+id/img_logo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/transparent" />
+        android:visibility="gone" />
 </RelativeLayout>

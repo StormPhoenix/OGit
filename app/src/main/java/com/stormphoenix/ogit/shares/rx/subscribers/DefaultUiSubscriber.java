@@ -3,7 +3,6 @@ package com.stormphoenix.ogit.shares.rx.subscribers;
 import android.util.Log;
 
 import com.stormphoenix.ogit.mvp.contract.BaseContract;
-import com.stormphoenix.ogit.mvp.view.base.BaseUIView;
 
 import rx.Subscriber;
 

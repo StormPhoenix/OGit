@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions
@@ -39,13 +40,12 @@ class GitUserAdapter(context: Context, dataList: MutableList<GitUser>) : BaseRec
     }
 
     class GitUserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        @BindView(R.id.header_image)
         internal var mHeaderImage: CircleImageView? = null
-        @BindView(R.id.text_user_name)
         internal var mTextUserName: TextView? = null
 
         init {
-            ButterKnife.bind(this, itemView)
+            mHeaderImage = itemView.findViewById(R.id.header_image) as CircleImageView?
+            mTextUserName = itemView.findViewById(R.id.text_user_name) as TextView?
         }
 
         fun bind(model: GitUser) {

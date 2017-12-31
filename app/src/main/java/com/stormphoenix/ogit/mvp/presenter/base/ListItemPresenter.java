@@ -45,7 +45,7 @@ public abstract class ListItemPresenter<T, R, V extends ListItemView<T>> extends
             return;
         }
         mView.clearAllItems();
-        load(0).compose(RxJavaCustomTransformer.defaultSchedulers())
+        observable.compose(RxJavaCustomTransformer.defaultSchedulers())
                 .subscribe(new DefaultUiSubscriber<Response<R>, BaseContract.View>(mView, "network error") {
                     @Override
                     public void onNext(Response<R> response) {
